@@ -11,6 +11,6 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/hello/<string:name>")
-def hello(name):
-    return f"Hello {name}"
+@app.route("/100days")
+def route100days():
+    return render_template("100days.html")
