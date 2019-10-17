@@ -1,3 +1,4 @@
+from flask import render_template
 
 # Flask is already imported in the __init__.py
 from program import app  # This is in the __init__.py
@@ -7,7 +8,7 @@ from program import app  # This is in the __init__.py
 @app.route("/")
 @app.route("/index")
 def index():
-    return "Hello Pythonistas"
+    return render_template("index.html")
 
 
 @app.route("/hello/<string:name>")
