@@ -8,9 +8,9 @@ from program import app  # This is in the __init__.py
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("index.html")
+    return render_template("index.html.j2")
 
 
 @app.route("/100days")
 def route100days():
-    return render_template("100days.html")
+    return render_template("100days.html.j2")
