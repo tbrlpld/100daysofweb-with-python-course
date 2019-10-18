@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% if self.pagetitle %}{{ self.pagetitle() }} | {% endif %}Tibor's #100DaysOfCode Log</title>
+</head>
+<body>
+	<nav>
+		<a href="/home">Home</a>
+		<a href="/rules.md">Rules</a>
+		<a href="/log.md">Log</a>
+	</nav>
+	<article>
+		{% block content %}{% endblock %}
+	</article>
+</body>
+</html>
