@@ -1,3 +1,5 @@
+from flask import render_template
+
 from log100days import app
 
 
@@ -5,4 +7,4 @@ from log100days import app
 @app.route("/home")
 @app.route("/index")
 def index():
-    return "Hello"
+    return render_template("home.html.j2")
