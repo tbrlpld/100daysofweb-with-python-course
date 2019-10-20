@@ -36,7 +36,10 @@ def render_log_repo_markdown_file_in_site(markdownfile):
     request = requests.get(file_URL)
     rendered_content = safely_render_markdown(request.content.decode("utf8"))
     return render_template(
-        "rendered_content.html.j2", rendered_content=rendered_content)
+        "rendered_content.html.j2",
+        rendered_content=rendered_content,
+        pagetitle=markdownfile.title()
+    )
 
 
 # @app.route("/rules")
