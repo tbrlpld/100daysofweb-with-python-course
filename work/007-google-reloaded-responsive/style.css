@@ -1,0 +1,122 @@
+* {
+	box-sizing: border-box;
+	/*border: 1px slategrey dotted;*/
+	margin: 0;
+	padding: 0;
+}
+
+/*body {
+	background-color: yellow;
+}
+
+@media screen and (min-width: 500px) {
+	body {
+		background-color: blue;
+	}
+}*/
+
+button {
+	min-height: 42px;
+	min-width: 42px;
+	padding: 0.5em;
+}
+
+input {
+	line-height: 2em;
+	margin: 0.5em 0;
+}
+
+img {
+	display: block;
+}
+
+.border-white {
+	border: 2px solid white;
+}
+
+.container {
+	margin: 0 auto;
+	max-width: 700px;
+	width: 100%
+}
+
+@media screen and (min-width: 500px) {
+	.container {
+		width: 90%
+	}
+}
+
+.bg-gray1 {
+	background-color: #EEE
+}
+.bg-gray2 {
+	background-color: #DDD
+}
+.bg-gray3 {
+	background-color: #CCC
+}
+.bg-gray4 {
+	background-color: #BBB
+}
+
+.d-flex {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.d-flex > * {
+	flex: 1 0 100%;
+}
+
+@media screen and (min-width: 500px) {
+	.d-flex {
+		flex-wrap: nowrap;
+	}
+
+	.d-flex > * {
+		flex: 1 0 33%;
+	}
+}
+
+.m-center {
+	margin: 0 auto;
+}
+
+.my-1 {
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+.p-1 {
+	padding: 0.5em;
+}
+
+.text-smaller {
+	font-size: smaller;
+}
+
+.text-center {
+	text-align: center
+}
+
+.search-container {
+	margin-bottom: 0;
+}
+
+@media screen and (min-width: 500px) {
+	.search-container {
+		margin-bottom: 2px;
+	}
+}
+
+.support-section-middle {
+	flex-basis: 15%;
+}
+
+@media screen and (min-width: 500px) {
+	.support-section-middle {
+		margin-left: 2px;
+		margin-right: 2px;
+	}
+}
