@@ -21,6 +21,15 @@ button {
 	padding: 0.5em;
 }
 
+header > nav {
+	text-align: right;
+	min-height: 42px;
+	min-width: 42px;
+	padding: 0.5em;
+	align-items: center;
+}
+
+
 input {
 	line-height: 2em;
 	margin: 0.5em 0;
