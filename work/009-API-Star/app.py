@@ -20,6 +20,7 @@ cars = _load_car_data()
 
 # Response status codes.
 STATUS_OK = 200
+STATUS_CREATED = 201
 STATUS_NOT_FOUND = 404
 
 # Error messages
@@ -48,6 +49,18 @@ def get_cars() -> JSONResponse:
     return JSONResponse(list_of_car_objs, STATUS_OK)
 
 
+def create_car(car: Car) -> JSONResponse:
+    """Create car in 'presistent' storage."""
+    # Generating increased id. This is not concurrency proof and would usually
+    # happen in the DB automatically.
+    new_car_id = len(cars) + 1
+    # Adding generated id to car object (passed in from request)
+    car.id = new_car_id
+    # Saving the car in the storage variable
+    cars[car.id] = car
+    return JSONResponse(car, STATUS_CREATED)
+
+
 def get_car(car_id: int) -> JSONResponse:
     """Return car with given id."""
     car = cars.get(car_id)
@@ -58,6 +71,7 @@ def get_car(car_id: int) -> JSONResponse:
 
 routes = [
     Route("/", method="get", handler=get_cars),
+    Route("/", method="post", handler=create_car),
     Route("/{car_id}", method="get", handler=get_car),
 ]
 
