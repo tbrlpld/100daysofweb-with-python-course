@@ -3,7 +3,6 @@
 """Simple car data API."""
 
 import json
-from typing import List
 
 from apistar import App, Route, types, validators
 from apistar.http import JSONResponse
@@ -21,10 +20,12 @@ cars = _load_car_data()
 # Response status codes.
 STATUS_OK = 200
 STATUS_CREATED = 201
+STATUS_FORBIDDEN = 403
 STATUS_NOT_FOUND = 404
 
 # Error messages
 ERROR_CAR_NOT_FOUND = "Car not found."
+ERROR_CAR_EXISTS = "Car already exists."
 
 # Creating set of valid make names.
 VALID_MAKES = list({car["make"] for car in cars.values()})
@@ -39,6 +40,19 @@ class Car(types.Type):
     model = validators.String(min_length=1, max_length=50)
     year = validators.Integer(minimum=1900, maximum=2050)
     vin = validators.String(max_length=50, default="")
+
+
+def _car_exists(car: Car) -> bool:
+    """Check if car already exists in storage."""
+    for existing_car in cars.values():
+        found = (
+            existing_car["make"] == car.make
+            and existing_car["model"] == car.model
+            and existing_car["year"] == car.year
+        )
+        if found:
+            return True
+    return False
 
 
 def get_cars() -> JSONResponse:
@@ -56,6 +70,9 @@ def create_car(car: Car) -> JSONResponse:
     new_car_id = len(cars) + 1
     # Adding generated id to car object (passed in from request)
     car.id = new_car_id
+    # Error if car is duplicate
+    if _car_exists(car):
+        return JSONResponse(ERROR_CAR_EXISTS, STATUS_FORBIDDEN)
     # Saving the car in the storage variable
     cars[car.id] = car
     return JSONResponse(car, STATUS_CREATED)
