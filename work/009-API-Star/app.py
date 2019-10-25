@@ -2,8 +2,8 @@
 
 """Simple car data API."""
 
-from collections import namedtuple
 import json
+from typing import List
 
 from apistar import App, Route, types, validators
 from apistar.http import JSONResponse
@@ -21,6 +21,9 @@ cars = _load_car_data()
 # Response status codes.
 STATUS_OK = 200
 STATUS_NOT_FOUND = 404
+
+# Error messages
+ERROR_CAR_NOT_FOUND = "Car not found."
 
 # Creating set of valid make names.
 VALID_MAKES = list({car["make"] for car in cars.values()})
@@ -45,8 +48,17 @@ def get_cars() -> JSONResponse:
     return JSONResponse(list_of_car_objs, STATUS_OK)
 
 
+def get_car(car_id: int) -> JSONResponse:
+    """Return car with given id."""
+    car = cars.get(car_id)
+    if not car:
+        return JSONResponse(ERROR_CAR_NOT_FOUND, STATUS_NOT_FOUND)
+    return JSONResponse(Car(car), STATUS_OK)
+
+
 routes = [
     Route("/", method="get", handler=get_cars),
+    Route("/{car_id}", method="get", handler=get_car),
 ]
 
 app = App(routes=routes)
