@@ -19,8 +19,8 @@ def test_get_users():
     assert len(users) == 1000
 
     first_user = users[0]
-    assert first_user["id"] == 1
+    assert first_user["userid"] == 1
     assert first_user["username"] == "hyurikov0"
     last_user = users[-1]
-    assert last_user["id"] == 1000
+    assert last_user["userid"] == 1000
     assert last_user["username"] == "bokeevanrr"
