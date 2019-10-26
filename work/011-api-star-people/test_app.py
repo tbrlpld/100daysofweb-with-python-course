@@ -42,3 +42,4 @@ def test_get_user_notfound():
     """Test get user with id out of range."""
     response = client.get("/111111")
     assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json()["error"] == "User not found."
