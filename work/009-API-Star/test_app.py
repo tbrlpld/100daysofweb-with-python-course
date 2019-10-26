@@ -38,8 +38,33 @@ def test_get_car_invalid_id():
     assert response.status_code == STATUS_NOT_FOUND
 
 
-@pytest.mark.parametrize("car_id", [1, 10, 1000])
-def test_get_car_valid_id(car_id):
+@pytest.mark.parametrize(
+    ("car_id, expected_car"), [
+        (1, {
+            "id": 1,
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 1998,
+            "vin": "JH4CU2F60AC794232",
+        }),
+        (10, {
+            "id": 10,
+            "make": "Mitsubishi",
+            "model": "Eclipse",
+            "year": 2007,
+            "vin": "WAULFAFH3AN549756",
+        }),
+        (1000, {
+            "id": 1000,
+            "make": "Lexus",
+            "model": "IS",
+            "year": 2001,
+            "vin": "WA1CMBFP8EA251118",
+        }),
+    ],
+)
+def test_get_car_valid_id(car_id, expected_car):
     """Test get of car with valid ids."""
     response = client.get("/{0}".format(car_id))
     assert response.status_code == STATUS_OK
+    assert response.json() == expected_car
