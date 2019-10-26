@@ -5,7 +5,13 @@
 import pytest
 from apistar import test
 #
-from app import STATUS_CREATED, STATUS_NOT_FOUND, STATUS_OK, app
+from app import (
+    STATUS_CREATED,
+    STATUS_NO_CONTENT,
+    STATUS_NOT_FOUND,
+    STATUS_OK,
+    app,
+)
 
 client = test.TestClient(app)
 
@@ -151,3 +157,19 @@ def test_update_car_valid_id():
     # Checking data persistence with get
     response = client.get("/1")
     assert response.json() == car_data
+
+
+def test_delete_car_invalid_id():
+    """Test deletion of car with invalid id."""
+    response = client.delete("/11111")
+    assert response.status_code == STATUS_NOT_FOUND
+
+
+def test_delete_car_valid_id():
+    """Test deletion of car."""
+    initial_number_of_cars = len(client.get("/").json())
+
+    response = client.delete("/1")
+    assert response.status_code == STATUS_NO_CONTENT
+
+    assert len(client.get("/").json()) == initial_number_of_cars - 1
