@@ -20,11 +20,12 @@ cars = _load_car_data()
 # Response status codes.
 STATUS_OK = 200
 STATUS_CREATED = 201
+STATUS_NO_CONTENT = 204
 STATUS_FORBIDDEN = 403
 STATUS_NOT_FOUND = 404
 
 # Error messages
-ERROR_CAR_NOT_FOUND = {"error", "Car not found."}
+ERROR_CAR_NOT_FOUND = {"error": "Car not found."}
 ERROR_CAR_EXISTS = {"error": "Car already exists."}
 
 # Creating set of valid make names.
@@ -88,19 +89,28 @@ def get_car(car_id: int) -> JSONResponse:
 
 def update_car(car_id: int, car: Car) -> JSONResponse:
     """Update stored car with new data."""
-    if not car_id in cars:
+    if car_id not in cars:
         return JSONResponse(ERROR_CAR_NOT_FOUND, STATUS_NOT_FOUND)
     car_obj = Car(car)
     car_obj.id = car_id
-    cars[car_id] = car_obj
+    cars[car_id].update(car_obj)
     return JSONResponse(car_obj)
+
+
+def delete_car(car_id: int) -> JSONResponse:
+    """Delete stored car."""
+    if car_id not in cars:
+        return JSONResponse(ERROR_CAR_NOT_FOUND, STATUS_NOT_FOUND)
+    cars.pop(car_id)
+    return JSONResponse({}, STATUS_NO_CONTENT)
 
 
 routes = [
     Route("/", method="get", handler=get_cars),
     Route("/", method="post", handler=create_car),
     Route("/{car_id}", method="get", handler=get_car),
-    Route("/update/{car_id}", method="put", handler=update_car),
+    Route("/{car_id}", method="put", handler=update_car),
+    Route("/{car_id}", method="delete", handler=delete_car),
 ]
 
 app = App(routes=routes)
