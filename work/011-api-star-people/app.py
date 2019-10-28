@@ -2,6 +2,7 @@
 
 """Simple API to return user information."""
 
+import datetime
 import json
 from http import HTTPStatus
 
@@ -32,7 +33,7 @@ class User(types.Type):
     userhash = validators.String(min_length=32, max_length=32)
     username = validators.String(max_length=50)
     fullname = validators.String(max_length=100)
-    joined = validators.Date()
+    joined = validators.Date(allow_null=True)
     timezone = validators.String(enum=VALID_TIMEZONES)
 
 
@@ -55,6 +56,7 @@ def create_user(new_user: User) -> JSONResponse:
     """Create new user in persistent storage."""
     new_userid = len(users) + 1
     new_user.userid = new_userid
+    new_user.joined = datetime.date.today()
     users[new_userid] = new_user
     return JSONResponse(users[new_userid], HTTPStatus.CREATED)
 

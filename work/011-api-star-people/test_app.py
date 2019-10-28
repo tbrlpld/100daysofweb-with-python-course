@@ -81,6 +81,17 @@ def test_create_new_user_with_no_data():
     empty_data = {}
     response = client.post("/", data=empty_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
+    error_data = response.json()
+    assert "May not be null." in error_data
+
+    wrong_data = {"somekey": "somevalue"}
+    response = client.post("/", data=wrong_data)
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    error_data = response.json()
+    assert 'The \"userhash\" field is required.' in error_data["userhash"]
+    assert 'The \"username\" field is required.' in error_data["username"]
+    assert 'The \"fullname\" field is required.' in error_data["fullname"]
+    assert 'The \"timezone\" field is required.' in error_data["timezone"]
 
 
 def test_create_new_user_with_invalid_data():
@@ -89,8 +100,12 @@ def test_create_new_user_with_invalid_data():
         "userhash": "123",
         "username": "x" * 51,
         "fullname": "A" * 101,
-        "joined": "2001-10-17",
         "timezone": "Moon/City",
     }
     response = client.post("/", data=invalid_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
+    error_data = response.json()
+    assert "Must have at least 32 characters." in error_data["userhash"]
+    assert "Must have no more than 50 characters." in error_data["username"]
+    assert "Must have no more than 100 characters." in error_data["fullname"]
+    assert "Must be one of" in error_data["timezone"]
