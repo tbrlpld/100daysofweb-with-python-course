@@ -54,7 +54,6 @@ def test_create_new_user():
         "userhash": "12345678901234567890123456789012",
         "username": "newuser",
         "fullname": "Some Body",
-        "joined": "2019-10-27",
         "timezone": "Europe/Stockholm",
     }
     response = client.post("/", data=new_user_data)
@@ -62,8 +61,8 @@ def test_create_new_user():
     new_user = response.json()
     assert new_user["userid"] == 1001
     assert new_user["username"] == new_user_data["username"]
+    assert new_user["userhash"] == new_user_data["userhash"]
     assert new_user["fullname"] == new_user_data["fullname"]
-    assert new_user["joined"] == new_user_data["joined"]
 
     new_user_count = len(client.get("/").json())
     assert new_user_count == initial_user_count + 1
@@ -72,12 +71,12 @@ def test_create_new_user():
     assert response.status_code == HTTPStatus.OK
     persistent_user = response.json()
     assert persistent_user["username"] == new_user_data["username"]
+    assert persistent_user["userhash"] == new_user_data["userhash"]
     assert persistent_user["fullname"] == new_user_data["fullname"]
-    assert persistent_user["joined"] == new_user_data["joined"]
 
 
-def test_create_new_user_with_no_data():
-    """Create new user without passing any data."""
+def test_create_new_user_with_wrong_data():
+    """Create new user with passing no or wrong data."""
     empty_data = {}
     response = client.post("/", data=empty_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
@@ -103,6 +102,77 @@ def test_create_new_user_with_invalid_data():
         "timezone": "Moon/City",
     }
     response = client.post("/", data=invalid_data)
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    error_data = response.json()
+    assert "Must have at least 32 characters." in error_data["userhash"]
+    assert "Must have no more than 50 characters." in error_data["username"]
+    assert "Must have no more than 100 characters." in error_data["fullname"]
+    assert "Must be one of" in error_data["timezone"]
+
+
+def test_update_user():
+    """Test update user."""
+    response = client.get("/1")
+    assert response.status_code == HTTPStatus.OK
+    initial_user_data = response.json()
+    assert initial_user_data["username"] == "hyurikov0"
+
+    new_user_data = {
+        "userhash": "12345678901234567890123456789012",
+        "username": "newuser",
+        "fullname": "Some Body",
+        "timezone": "Europe/Stockholm",
+    }
+    response = client.put("/1", data=new_user_data)
+    assert response.status_code == HTTPStatus.OK
+    returned_user_data = response.json()
+    assert returned_user_data["username"] == new_user_data["username"]
+
+    response = client.get("/1")
+    assert response.status_code == HTTPStatus.OK
+    persistent_user_data = response.json()
+    assert persistent_user_data["username"] == new_user_data["username"]
+
+
+def test_update_user_not_found():
+    """Test updating not existing user."""
+    new_user_data = {
+        "userhash": "12345678901234567890123456789012",
+        "username": "newuser",
+        "fullname": "Some Body",
+        "timezone": "Europe/Stockholm",
+    }
+    response = client.put("/11111", data=new_user_data)
+    assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_create_new_user_with_wrong_data():
+    """Update user with passing no or wrong data."""
+    empty_data = {}
+    response = client.put("/", data=empty_data)
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    error_data = response.json()
+    assert "May not be null." in error_data
+
+    wrong_data = {"somekey": "somevalue"}
+    response = client.put("/", data=wrong_data)
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    error_data = response.json()
+    assert 'The \"userhash\" field is required.' in error_data["userhash"]
+    assert 'The \"username\" field is required.' in error_data["username"]
+    assert 'The \"fullname\" field is required.' in error_data["fullname"]
+    assert 'The \"timezone\" field is required.' in error_data["timezone"]
+
+
+def test_update_user_with_invalid_data():
+    """Update new user with invalid data."""
+    invalid_data = {
+        "userhash": "123",
+        "username": "x" * 51,
+        "fullname": "A" * 101,
+        "timezone": "Moon/City",
+    }
+    response = client.put("/", data=invalid_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
     error_data = response.json()
     assert "Must have at least 32 characters." in error_data["userhash"]
