@@ -58,10 +58,19 @@ def test_create_new_user():
         "timezone": "Europe/Stockholm",
     }
     response = client.post("/", data=new_user_data)
-    assert respone.status_code == HTTPStatus.CREATED
+    assert response.status_code == HTTPStatus.CREATED
+    new_user = response.json()
+    assert new_user["userid"] == 1001
+    assert new_user["username"] == new_user_data["username"]
+    assert new_user["fullname"] == new_user_data["fullname"]
+    assert new_user["joined"] == new_user_data["joined"]
 
-    assert len(client.get("/").json()) == initial_user_count + 1
-    persistent_user = client.get("/1001")
+    new_user_count = len(client.get("/").json())
+    assert new_user_count == initial_user_count + 1
+    assert new_user_count == 1001
+    response = client.get("/1001")
+    assert response.status_code == HTTPStatus.OK
+    persistent_user = response.json()
     assert persistent_user["username"] == new_user_data["username"]
     assert persistent_user["fullname"] == new_user_data["fullname"]
     assert persistent_user["joined"] == new_user_data["joined"]
@@ -70,18 +79,18 @@ def test_create_new_user():
 def test_create_new_user_with_no_data():
     """Create new user without passing any data."""
     empty_data = {}
-    response = client.get("/", data=empty_data)
+    response = client.post("/", data=empty_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
 
 
 def test_create_new_user_with_invalid_data():
     """Create new user with invalid data."""
     invalid_data = {
-        "userhash":"123",
+        "userhash": "123",
         "username": "x" * 51,
         "fullname": "A" * 101,
         "joined": "2001-10-17",
         "timezone": "Moon/City",
     }
-    response = client.get("/", data=invalid_data)
+    response = client.post("/", data=invalid_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST

@@ -51,10 +51,19 @@ def get_user(userid: int) -> JSONResponse:
     return JSONResponse(User(user), HTTPStatus.OK)
 
 
+def create_user(new_user: User) -> JSONResponse:
+    """Create new user in persistent storage."""
+    new_userid = len(users) + 1
+    new_user.userid = new_userid
+    users[new_userid] = new_user
+    return JSONResponse(users[new_userid], HTTPStatus.CREATED)
+
+
 # -----------------------------------------------------------------------------
 routes = [
     Route("/", method="get", handler=get_users),
     Route("/{userid}", method="get", handler=get_user),
+    Route("/", method="post", handler=create_user),
 ]
 
 app = App(routes=routes)
