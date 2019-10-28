@@ -75,14 +75,17 @@ def test_create_new_user():
     assert persistent_user["fullname"] == new_user_data["fullname"]
 
 
-def test_create_new_user_with_wrong_data():
-    """Create new user with passing no or wrong data."""
+def test_create_new_user_with_no_data():
+    """Create new user without passing data."""
     empty_data = {}
     response = client.post("/", data=empty_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
     error_data = response.json()
     assert "May not be null." in error_data
 
+
+def test_create_new_user_with_wrong_data():
+    """Create new user with passing wrong data."""
     wrong_data = {"somekey": "somevalue"}
     response = client.post("/", data=wrong_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
@@ -126,12 +129,14 @@ def test_update_user():
     response = client.put("/1", data=new_user_data)
     assert response.status_code == HTTPStatus.OK
     returned_user_data = response.json()
+    assert returned_user_data["userid"] == initial_user_data["userid"]
     assert returned_user_data["username"] == new_user_data["username"]
 
     response = client.get("/1")
     assert response.status_code == HTTPStatus.OK
     persistent_user_data = response.json()
     assert persistent_user_data["username"] == new_user_data["username"]
+    assert persistent_user_data["joined"] == initial_user_data["joined"]
 
 
 def test_update_user_not_found():
@@ -146,16 +151,19 @@ def test_update_user_not_found():
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_create_new_user_with_wrong_data():
-    """Update user with passing no or wrong data."""
+def test_update_user_with_no_data():
+    """Update user without passing data."""
     empty_data = {}
-    response = client.put("/", data=empty_data)
+    response = client.put("/1", data=empty_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
     error_data = response.json()
     assert "May not be null." in error_data
 
+
+def test_update_user_with_wrong_data():
+    """Update user with passing  wrong data."""
     wrong_data = {"somekey": "somevalue"}
-    response = client.put("/", data=wrong_data)
+    response = client.put("/1", data=wrong_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
     error_data = response.json()
     assert 'The \"userhash\" field is required.' in error_data["userhash"]
@@ -172,7 +180,7 @@ def test_update_user_with_invalid_data():
         "fullname": "A" * 101,
         "timezone": "Moon/City",
     }
-    response = client.put("/", data=invalid_data)
+    response = client.put("/1", data=invalid_data)
     assert response.status_code == HTTPStatus.BAD_REQUEST
     error_data = response.json()
     assert "Must have at least 32 characters." in error_data["userhash"]

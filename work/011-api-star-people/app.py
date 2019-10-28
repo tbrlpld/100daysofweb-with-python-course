@@ -25,6 +25,7 @@ VALID_TIMEZONES = list({user["timezone"] for user in users.values()})
 # -----------------------------------------------------------------------------
 ERROR_USER_NOT_FOUND = {"error": "User not found."}
 
+
 # -----------------------------------------------------------------------------
 class User(types.Type):
     """Simple User class."""
@@ -46,10 +47,9 @@ def get_users() -> JSONResponse:
 
 def get_user(userid: int) -> JSONResponse:
     """Return user by id."""
-    user = users.get(userid)
-    if not user:
+    if userid not in users:
         return JSONResponse(ERROR_USER_NOT_FOUND, HTTPStatus.NOT_FOUND)
-    return JSONResponse(User(user), HTTPStatus.OK)
+    return JSONResponse(User(users[userid]), HTTPStatus.OK)
 
 
 def create_user(new_user: User) -> JSONResponse:
@@ -58,7 +58,17 @@ def create_user(new_user: User) -> JSONResponse:
     new_user.userid = new_userid
     new_user.joined = datetime.date.today()
     users[new_userid] = new_user
-    return JSONResponse(users[new_userid], HTTPStatus.CREATED)
+    return JSONResponse(User(users[new_userid]), HTTPStatus.CREATED)
+
+
+def update_user(userid: int, user: User) -> JSONResponse:
+    """Update existing user with new data."""
+    if userid not in users:
+        return JSONResponse(ERROR_USER_NOT_FOUND, HTTPStatus.NOT_FOUND)
+    user.userid = userid
+    user.joined = users[userid]["joined"]
+    users[userid] = user
+    return JSONResponse(User(user), HTTPStatus.OK)
 
 
 # -----------------------------------------------------------------------------
@@ -66,6 +76,7 @@ routes = [
     Route("/", method="get", handler=get_users),
     Route("/{userid}", method="get", handler=get_user),
     Route("/", method="post", handler=create_user),
+    Route("/{userid}", method="put", handler=update_user),
 ]
 
 app = App(routes=routes)
