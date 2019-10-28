@@ -187,3 +187,28 @@ def test_update_user_with_invalid_data():
     assert "Must have no more than 50 characters." in error_data["username"]
     assert "Must have no more than 100 characters." in error_data["fullname"]
     assert "Must be one of" in error_data["timezone"]
+
+
+def test_delete_user():
+    """Test deletion of user."""
+    # Get initial number of users
+    response = client.get("/")
+    assert response.status_code == HTTPStatus.OK
+    initial_user_count = len(response.json())
+
+    response = client.delete("/1")
+    assert response.status_code == HTTPStatus.NO_CONTENT
+    assert response.json() == {}
+
+    # Check persitence of deletion
+    response = client.get("/1")
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    response = client.get("/")
+    assert response.status_code == HTTPStatus.OK
+    assert len(response.json()) == initial_user_count - 1
+
+
+def test_delete_user_not_found():
+    """Test deletion of not existing user."""
+    response = client.delete("/111111")
+    assert response.status_code == HTTPStatus.NOT_FOUND
