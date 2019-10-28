@@ -71,12 +71,21 @@ def update_user(userid: int, user: User) -> JSONResponse:
     return JSONResponse(User(user), HTTPStatus.OK)
 
 
+def delete_user(userid: int) -> JSONResponse:
+    """Delete existing user."""
+    if userid not in users:
+        return JSONResponse(ERROR_USER_NOT_FOUND, HTTPStatus.NOT_FOUND)
+    users.pop(userid)
+    return JSONResponse({}, HTTPStatus.NO_CONTENT)
+
+
 # -----------------------------------------------------------------------------
 routes = [
     Route("/", method="get", handler=get_users),
     Route("/{userid}", method="get", handler=get_user),
     Route("/", method="post", handler=create_user),
     Route("/{userid}", method="put", handler=update_user),
+    Route("/{userid}", method="delete", handler=delete_user),
 ]
 
 app = App(routes=routes)
