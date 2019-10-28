@@ -2,6 +2,7 @@
 
 """Simple API to return user information."""
 
+import datetime
 import json
 from http import HTTPStatus
 
@@ -24,6 +25,7 @@ VALID_TIMEZONES = list({user["timezone"] for user in users.values()})
 # -----------------------------------------------------------------------------
 ERROR_USER_NOT_FOUND = {"error": "User not found."}
 
+
 # -----------------------------------------------------------------------------
 class User(types.Type):
     """Simple User class."""
@@ -32,7 +34,7 @@ class User(types.Type):
     userhash = validators.String(min_length=32, max_length=32)
     username = validators.String(max_length=50)
     fullname = validators.String(max_length=100)
-    joined = validators.Date()
+    joined = validators.Date(allow_null=True)
     timezone = validators.String(enum=VALID_TIMEZONES)
 
 
@@ -45,16 +47,45 @@ def get_users() -> JSONResponse:
 
 def get_user(userid: int) -> JSONResponse:
     """Return user by id."""
-    user = users.get(userid)
-    if not user:
+    if userid not in users:
         return JSONResponse(ERROR_USER_NOT_FOUND, HTTPStatus.NOT_FOUND)
+    return JSONResponse(User(users[userid]), HTTPStatus.OK)
+
+
+def create_user(new_user: User) -> JSONResponse:
+    """Create new user in persistent storage."""
+    new_userid = len(users) + 1
+    new_user.userid = new_userid
+    new_user.joined = datetime.date.today()
+    users[new_userid] = new_user
+    return JSONResponse(User(users[new_userid]), HTTPStatus.CREATED)
+
+
+def update_user(userid: int, user: User) -> JSONResponse:
+    """Update existing user with new data."""
+    if userid not in users:
+        return JSONResponse(ERROR_USER_NOT_FOUND, HTTPStatus.NOT_FOUND)
+    user.userid = userid
+    user.joined = users[userid]["joined"]
+    users[userid] = user
     return JSONResponse(User(user), HTTPStatus.OK)
+
+
+def delete_user(userid: int) -> JSONResponse:
+    """Delete existing user."""
+    if userid not in users:
+        return JSONResponse(ERROR_USER_NOT_FOUND, HTTPStatus.NOT_FOUND)
+    users.pop(userid)
+    return JSONResponse({}, HTTPStatus.NO_CONTENT)
 
 
 # -----------------------------------------------------------------------------
 routes = [
     Route("/", method="get", handler=get_users),
     Route("/{userid}", method="get", handler=get_user),
+    Route("/", method="post", handler=create_user),
+    Route("/{userid}", method="put", handler=update_user),
+    Route("/{userid}", method="delete", handler=delete_user),
 ]
 
 app = App(routes=routes)
