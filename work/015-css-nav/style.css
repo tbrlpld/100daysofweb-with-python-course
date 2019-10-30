@@ -22,8 +22,16 @@ nav a {
 	color: inherit;
 }
 
+nav a:hover {
+	color: white;
+}
+
 nav a:active {
 	color: yellow;
+}
+
+nav a:hover .hover-blink {
+	color: green;
 }
 
 nav ul {
@@ -51,8 +59,4 @@ main {
 
 .title-highlight {
 	color: yellow;
-}
-
-nav a:hover .hover-blink {
-	color: green;
 }
