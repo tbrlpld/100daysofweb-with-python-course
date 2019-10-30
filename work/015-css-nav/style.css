@@ -13,7 +13,9 @@ body {
 header {
 	background-color: #222;
 	color: white;
-	line-height: 4rem;
+}
+
+nav {
 	padding: 0 20px;
 }
 
@@ -35,23 +37,44 @@ nav a:hover .hover-blink {
 }
 
 nav ul {
-	list-style: none;
+	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	/*height: 60px;*/
+	border: 0;
 }
 
 nav ul li {
 	color: #999;
 	display: inline-block;
+	height: 60px;
+	margin: 0;
+	padding: 0;
 	padding-right: 10px;
+	vertical-align: middle;
 }
 
 nav ul li:first-child {
 	color: white;
 	font-size: x-large;
 	padding-right: 20px;
+	white-space: nowrap;
 }
 
+
+nav ul li:before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+nav ul li img {
+	border-radius: 50%;
+	max-height: 40px;
+	margin-right: 10px;
+	vertical-align: middle;
+}
 
 main {
 	padding: 20px
