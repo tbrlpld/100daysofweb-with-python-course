@@ -38,3 +38,22 @@ def get_chuck_norris_joke():
 def chuck():
     joke = get_chuck_norris_joke()
     return render_template("chuck.html.j2", joke=joke)
+
+
+def get_beers_ordered_by_ibu():
+    brewerydb_url = "https://sandbox-api.brewerydb.com/v2/"
+    endpoint = "beers/?order=ibu&sort=DESC&withBreweries=Y"
+    sandbox_api_key = "cb1ce0c7f124fd5dd98f2a57d19120c4"
+    response = requests.get(
+        brewerydb_url
+        + endpoint
+        + "&key="
+        + sandbox_api_key,
+    )
+    return response.json()["data"]
+
+
+@app.route("/beer")
+def beer():
+    beer_data = get_beers_ordered_by_ibu()
+    return render_template("beers.html.j2", beers=beer_data)

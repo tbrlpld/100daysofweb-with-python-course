@@ -1,0 +1,23 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+	<h1>Beers Ordered by IBU</h1>
+	<table>
+		<thead>
+			<tr>
+				<th style="text-align: left;">Name</th>
+				<th style="text-align: left;">Brewery</th>
+				<th style="text-align: left;">IBU</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for beer in beers %}
+				<tr>
+					<td>{{ beer["nameDisplay"] }}</td>
+					<td>{{ beer["breweries"][0]["nameShortDisplay"] }}</td>
+					<td>{{ beer["ibu"] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
