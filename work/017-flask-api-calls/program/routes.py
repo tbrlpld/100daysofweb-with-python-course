@@ -11,9 +11,7 @@ from flask import render_template, request
 import requests
 
 # First-Party Imports
-# Flask is already imported in the __init__.py
-from program import app  # This is in the __init__.py
-# Now I have the app
+from program import app
 
 
 @app.route("/")
