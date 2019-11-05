@@ -44,14 +44,10 @@ def chuck():
 
 def get_beers_ordered_by_ibu():
     """Return beer data sorted by descending IBU."""
-    brewerydb_url = "https://sandbox-api.brewerydb.com/v2/"
-    endpoint = "beers/?order=ibu&sort=DESC&withBreweries=Y"
-    sandbox_api_key = "cb1ce0c7f124fd5dd98f2a57d19120c4"
     response = requests.get(
-        brewerydb_url
-        + endpoint
-        + "&key="
-        + sandbox_api_key,
+        "https://sandbox-api.brewerydb.com/v2/"
+        + "beers/?order=ibu&sort=DESC&withBreweries=Y"
+        + "&key=cb1ce0c7f124fd5dd98f2a57d19120c4",
     )
     full_beer_data = response.json()["data"]
     reduced_beer_data = []
