@@ -9,6 +9,12 @@
 	<link rel="stylesheet" type="text/css" href="//cdn.muicss.com/mui-0.9.39/css/mui.min.css">
 	<script type="text/javascript" src="//cdn.muicss.com/mui-0.9.39/js/mui.min.js"></script>
 
+	<style type="text/css">
+		main {
+			padding: 0 20px;
+		}
+	</style>
+
 	<title>This is our Site -- base.html Title</title>
 </head>
 <body>
@@ -18,7 +24,10 @@
 		<a class="mui-btn mui-btn--raised" href="{{ url_for('route100days')}}">100 Days</a>
 		<a class="mui-btn mui-btn--raised" href="{{ url_for('chuck' )}}">Chuck</a>
 		<a class="mui-btn mui-btn--raised" href="{{ url_for('beer' ) }}">Beers</a>
+		<a class="mui-btn mui-btn--raised" href="{{ url_for('pokemon' ) }}">Pokemon</a>
 	</div>
-	{% block content %}{% endblock %}
+	<main>
+		{% block content %}{% endblock %}
+	</main>
 </body>
 </html>
