@@ -18,7 +18,7 @@
 			<table class="mui-table mui-table--bordered">
 				<thead>
 					<tr>
-						<th>Pokemon</th>
+						<th>{{ request.form.get('pokecolor').lower().title() + " " }}Pokemon</th>
 					</tr>
 				</thead>
 				<tbody>
