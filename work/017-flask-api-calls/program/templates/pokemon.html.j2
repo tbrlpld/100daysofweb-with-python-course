@@ -1,0 +1,14 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+	<h1>Pokemon</h1>
+	<h3>Show Pokemon of a certain color</h3>
+	<div>
+		<form action="{{ url_for('pokemon') }}" method="POST">
+			<label for="pokecolor">Pokemon Color</label>
+			<input type="text" name="pokecolor" placeholder="E.g. blue">
+			<br>
+			<button class="mui-btn mui-btn--raised" type="submit">Submit</button>
+		</form>
+	</div>
+{% endblock %}

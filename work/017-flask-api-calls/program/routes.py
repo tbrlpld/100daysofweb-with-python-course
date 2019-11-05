@@ -57,3 +57,8 @@ def get_beers_ordered_by_ibu():
 def beer():
     beer_data = get_beers_ordered_by_ibu()
     return render_template("beers.html.j2", beers=beer_data)
+
+
+@app.route("/pokemon", methods=["POST", "GET"])
+def pokemon():
+    return render_template("pokemon.html.j2")
