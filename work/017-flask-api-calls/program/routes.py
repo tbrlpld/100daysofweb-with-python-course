@@ -6,7 +6,7 @@
 from datetime import datetime
 
 # Thrid-Party Imports
-from flask import render_template
+from flask import render_template, request
 import requests
 
 # First-Party Imports
@@ -59,6 +59,21 @@ def beer():
     return render_template("beers.html.j2", beers=beer_data)
 
 
+def get_pokemon_of_color(color):
+    api_url = "https://pokeapi.co/api/v2/pokemon-color/" + color.lower()
+    response = requests.get(api_url)
+    pokemon = []
+    if response.status_code == 200:
+        response_data = response.json()
+        species = response_data.get("pokemon_species")
+        pokemon = [s["name"] for s in species if species]
+    return pokemon
+
+
 @app.route("/pokemon", methods=["POST", "GET"])
 def pokemon():
-    return render_template("pokemon.html.j2")
+    color = request.form.get("pokecolor")
+    pokemon = []
+    if color:
+        pokemon = get_pokemon_of_color(color)
+    return render_template("pokemon.html.j2", pokemon=pokemon)

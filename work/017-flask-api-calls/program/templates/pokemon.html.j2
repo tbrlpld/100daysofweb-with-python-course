@@ -11,4 +11,24 @@
 			<button class="mui-btn mui-btn--raised" type="submit">Submit</button>
 		</form>
 	</div>
+	<br>
+	<br>
+	<div>
+		{% if pokemon %}
+			<table class="mui-table mui-table--bordered">
+				<thead>
+					<tr>
+						<th>Pokemon</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for p in pokemon %}
+						<tr>
+							<td>{{ p.title() }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
 {% endblock %}
