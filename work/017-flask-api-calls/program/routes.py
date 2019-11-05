@@ -53,7 +53,15 @@ def get_beers_ordered_by_ibu():
         + "&key="
         + sandbox_api_key,
     )
-    return response.json()["data"]
+    full_beer_data = response.json()["data"]
+    reduced_beer_data = []
+    for beer in full_beer_data:
+        new_beer = {}
+        new_beer["name"] = beer["nameDisplay"]
+        new_beer["brewery"] = beer["breweries"][0]["nameShortDisplay"]
+        new_beer["ibu"] = beer["ibu"]
+        reduced_beer_data.append(new_beer)
+    return reduced_beer_data
 
 
 @app.route("/beer")

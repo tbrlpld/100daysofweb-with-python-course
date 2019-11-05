@@ -13,8 +13,8 @@
 		<tbody>
 			{% for beer in beers %}
 				<tr>
-					<td>{{ beer["nameDisplay"] }}</td>
-					<td>{{ beer["breweries"][0]["nameShortDisplay"] }}</td>
+					<td>{{ beer["name"] }}</td>
+					<td>{{ beer["brewery"] }}</td>
 					<td>{{ beer["ibu"] }}</td>
 				</tr>
 			{% endfor %}
