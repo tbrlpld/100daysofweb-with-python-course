@@ -19,12 +19,14 @@
 				<thead>
 					<tr>
 						<th>{{ request.form.get('pokecolor').lower().title() + " " }}Pokemon</th>
+						<th>Forms</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for p in pokemon %}
 						<tr>
-							<td>{{ p.title() }}</td>
+							<td>{{ p["name"].title() }}</td>
+							<td>{% for f in p["forms"] %}{{ f.title() + " " }}{% endfor %}</td>
 						</tr>
 					{% endfor %}
 				</tbody>

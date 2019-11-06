@@ -69,15 +69,31 @@ def beer():
 
 def get_pokemon_of_color(color):
     """Get names of Pokemon with a certain color."""
-    api_url = "https://pokeapi.co/api/v2/pokemon-color/{0}".format(
+    color_url = "https://pokeapi.co/api/v2/pokemon-color/{0}".format(
         color.lower(),
     )
-    response = requests.get(api_url)
+    response = requests.get(color_url)
     if response.status_code == HTTPStatus.OK:
         response_data = response.json()
         species = response_data.get("pokemon_species")
         return [specie["name"] for specie in species if species]
     return []
+
+
+def get_forms_of_pokemon_species(species):
+    """Get possible forms for given species."""
+    form_url = "https://pokeapi.co/api/v2/pokemon-species/{0}".format(
+        species.lower(),
+    )
+    response = requests.get(form_url)
+    forms = []
+    if response.status_code == HTTPStatus.OK:
+        response_data = response.json()
+        for variety in response_data["varieties"]:
+            poke_form_name = variety["pokemon"]["name"]
+            if poke_form_name.lower() != species.lower():
+                forms.append(poke_form_name)
+    return forms
 
 
 @app.route("/pokemon", methods=["POST", "GET"])
@@ -86,6 +102,16 @@ def pokemon():
     # TODO: Add form, nature and habitat to displayed table.
     color = request.form.get("pokecolor")
     pokemon_of_color = []
+    pokemon_with_data = []
     if color:
         pokemon_of_color = get_pokemon_of_color(color)
-    return render_template("pokemon.html.j2", pokemon=pokemon_of_color)
+        # This is not a good implementation, because after getting the Pokemon
+        # with a certain color, now I need to get each species to extract the
+        # forms.
+        for poke in pokemon_of_color:
+            print("Extending Species: {0}".format(poke))
+            extended_poke = {}
+            extended_poke["name"] = poke
+            extended_poke["forms"] = get_forms_of_pokemon_species(species=poke)
+            pokemon_with_data.append(extended_poke)
+    return render_template("pokemon.html.j2", pokemon=pokemon_with_data)
