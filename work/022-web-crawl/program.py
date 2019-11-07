@@ -23,17 +23,20 @@ def get_title(html: str, episode_number: int) -> str:
     return header.text.strip()
 
 
-def main():
-    get_title_range()
-    print("Done.")
-
-
 def get_title_range():
     # Please keep this range pretty small to not DDoS my site. ;)
-    for n in range(150, 170):
+    lower_episode_number = 150
+    higher_episode_number = 170
+
+    for n in range(lower_episode_number, higher_episode_number):
         html = get_html(n)
         title = get_title(html, n)
         print(Fore.WHITE + f"Title found: {title}", flush=True)
+
+
+def main():
+    get_title_range()
+    print("Done.")
 
 
 if __name__ == '__main__':
