@@ -25,6 +25,12 @@ def get_title(html: str, episode_number: int) -> str:
     return header.text.strip()
 
 
+async def process_episode(n):
+    html = await get_html(n)
+    title = get_title(html, n)
+    print(Fore.WHITE + f"Title found: {title}", flush=True)
+
+
 async def get_title_range():
     # Please keep this range pretty small to not DDoS my site. ;)
     lower_episode_number = 150
@@ -32,12 +38,9 @@ async def get_title_range():
 
     tasks = []
     for n in range(lower_episode_number, higher_episode_number):
-        tasks.append((n, asyncio.create_task(get_html(n))))
+        tasks.append(asyncio.create_task(process_episode(n)))
 
-    for n, task in tasks:
-        html = await task
-        title = get_title(html, n)
-        print(Fore.WHITE + f"Title found: {title}", flush=True)
+    await asyncio.gather(*tasks)
 
 
 def main():
