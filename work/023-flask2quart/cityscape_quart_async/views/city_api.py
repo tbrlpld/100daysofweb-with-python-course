@@ -28,7 +28,7 @@ async def weather(zip_code: str, country: str):
 @blueprint.route('/api/sun/<zip_code>/<country>', methods=['GET'])
 async def sun(zip_code: str, country: str):
     lat, long = await location_service.get_lat_long(zip_code, country)
-    sun_data = sun_service.for_today(lat, long)
+    sun_data = await sun_service.for_today(lat, long)
     if not sun_data:
         quart.abort(404)
     return quart.jsonify(sun_data)

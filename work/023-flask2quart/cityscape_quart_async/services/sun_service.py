@@ -2,13 +2,14 @@ import datetime
 import random
 import time
 
-import requests
+# import requests
+import aiohttp
 
 measured_latency_in_sec = [0.399203, 0.7046, 0.422959, 0.741911, 0.404674]
 use_cached_data = False
 
 
-def for_today(latitude: float, longitude: float) -> dict:
+async def for_today(latitude: float, longitude: float) -> dict:
     url = f'https://api.sunrise-sunset.org/json?lat={latitude}&lng={longitude}'
 
     if use_cached_data:  # Set in config/dev.json or config/prod.json
@@ -18,10 +19,12 @@ def for_today(latitude: float, longitude: float) -> dict:
                 'nautical_twilight_begin': '04:49:54 AM', 'nautical_twilight_end': '09:43:03 PM',
                 'astronomical_twilight_begin': '04:03:13 AM', 'astronomical_twilight_end': '10:29:44 PM'}
     else:
-        resp = requests.get(url)
-        resp.raise_for_status()
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                response.raise_for_status()
+                json_data = await response.json()
 
-        sun_data = resp.json().get('results', {})
+        sun_data = json_data.get('results', {})
         for k, v in list(sun_data.items()):
             if 'AM' not in v and 'PM' not in v:
                 continue
