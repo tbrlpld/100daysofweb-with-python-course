@@ -1,0 +1,12 @@
+# Web framework requirements
+quart
+
+# Calling services requirements
+
+aiohttp
+aiodns
+cchardet
+
+
+# dev
+python-dotenv
