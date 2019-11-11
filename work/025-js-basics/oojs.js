@@ -35,3 +35,11 @@ const person1 = new Object({
 });
 console.log(person1.name);
 console.log(person1.greeting());
+
+const person2 = Object.create(person1);
+console.log(person2.name);
+console.log(person2.greeting());
+
+person2.name = "Alice"
+console.log(person2.name);
+console.log(person1.name);
