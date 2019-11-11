@@ -25,6 +25,7 @@ const slava = new Person("Slava");
 console.log(slava.name);
 console.log(slava.greeting());
 
+
 // Directly creating Object from `Object()` constructor
 const person1 = new Object({
   name: "Chris",
@@ -43,3 +44,9 @@ console.log(person2.greeting());
 person2.name = "Alice"
 console.log(person2.name);
 console.log(person1.name);
+
+
+// Creating objects with other objects constructor
+const person3 = new slava.constructor("Peter")
+console.log(person3.name);
+console.log(person3.greeting());
