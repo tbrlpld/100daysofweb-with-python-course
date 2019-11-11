@@ -11,3 +11,15 @@ Person.prototype.greeting = function() {
 
 const person1 = new Person("Alice", 32);
 console.log(person1.greeting())
+
+
+// Defining a derived constructor
+function Teacher(name, age, subject) {
+  Person.call(this, name, age)
+
+  this.subject = subject
+}
+
+const teacher1 = new Teacher("Ms. Alice", 32, "Biology");
+console.log(teacher1.name)
+console.log(teacher1.subject)
