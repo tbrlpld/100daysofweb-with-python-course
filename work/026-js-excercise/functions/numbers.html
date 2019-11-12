@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>JS is Fun!</title>
 </head>
 <body>
@@ -11,6 +12,11 @@
 
   function sum(numbers){
     // you code
+    sum_answer = 0;
+    for (var i = 0; i <= numbers.length - 1; i++) {
+      sum_answer += numbers[i];
+    }
+    return sum_answer;
   }
 
 
