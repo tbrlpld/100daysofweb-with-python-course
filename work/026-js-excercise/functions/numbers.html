@@ -10,7 +10,15 @@
     default summing a range of 1..100 - write a second function
     called range to return that range of integers */
 
-  function sum(numbers){
+  function range(min, max) {
+    numbers = []
+    for (var i = min; i <= max - 1; i++) {
+      numbers.push(i);
+    }
+    return numbers;
+  }
+
+  function sum(numbers = range(1, 101)) {
     // you code
     sum_answer = 0;
     for (var i = 0; i <= numbers.length - 1; i++) {
