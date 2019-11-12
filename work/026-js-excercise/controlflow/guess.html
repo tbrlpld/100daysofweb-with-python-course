@@ -22,14 +22,19 @@
   }
 
   const secretNumber = getRandomInt(1, 15);
+  const maxGuessCount = 5;
+  let guessCount = 0;
 
   // you code
-  alert("Guess the random number!\n\n (q) to quit");
+  alert("Guess the random number!\n\nYou have 5 guesses\n\n(q) to quit");
 
   while (true) {
+    guessCount += 1;
+    console.log("Guess count: " + guessCount);
+
     let rawInput = prompt("What is your guess?");
     let guess = parseInt(rawInput);
-    console.log("Guess is " + guess);
+    console.log("Guess: " + guess);
 
     if (guess === secretNumber) {
       alert("You got it!");
@@ -42,6 +47,10 @@
       alert("Too big!");
     }
     if (rawInput === "q"){
+      break;
+    }
+    if (guessCount >= maxGuessCount) {
+      alert("Maximum number of guesses reached!")
       break;
     }
   }
