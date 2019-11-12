@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Who can drive?</title>
+</head>
+<body>
+  <script type="text/javascript">
+  /* write a small program to loop over a list of names and ages,
+     printing if each person is allowed to drive based on minAge,
+     output should look like:
+
+     tim (14) is not allowed to drive
+     sara (33) is allowed to drive
+     mike (17) is not allowed to drive
+     julian (18) is allowed to drive
+     eva (25) is allowed to drive
+     amy (7) is not allowed to drive
+  */
+
+  const minAge = 18;
+
+  // names and ages are equal length lists (we will make objects (dicts) soon)
+  const names = ['tim', 'sara', 'mike', 'julian', 'eva', 'amy'];
+  const ages = [14, 33, 17, 18, 25, 7];
+
+  // you code
+  for (var i = 0; i <= names.length - 1; i++) {
+    let person = names[i] + " (" + ages[i] + ")";
+    let verdict = " is not allowed to drive";
+    if (ages[i] >= minAge) {
+      let verdict = " is allowed to drive";
+    }
+    console.log(person + verdict);
+  }
+
+  </script>
+</body>
+</html>
