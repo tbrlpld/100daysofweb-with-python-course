@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Can you drive?</title>
+  <meta charset="UTF-8">
+  <title>JS is fun!</title>
 </head>
 <body>
   <script type="text/javascript">
@@ -23,6 +24,27 @@
   const secretNumber = getRandomInt(1, 15);
 
   // you code
+  alert("Guess the random number!\n\n (q) to quit");
+
+  while (true) {
+    let rawInput = prompt("What is your guess?");
+    let guess = parseInt(rawInput);
+    console.log("Guess is " + guess);
+
+    if (guess === secretNumber) {
+      alert("You got it!");
+      break;
+    }
+    if (guess < secretNumber) {
+      alert("Too small!");
+    }
+    if (guess > secretNumber) {
+      alert("Too big!");
+    }
+    if (rawInput === "q"){
+      break;
+    }
+  }
 
   </script>
 </body>
