@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Who can drive?</title>
 </head>
 <body>
@@ -14,7 +15,7 @@
      mike (17) is not allowed to drive
      julian (18) is allowed to drive
      eva (25) is allowed to drive
-     amy (7) is not allowed to drive    
+     amy (7) is not allowed to drive
   */
 
   const minAge = 18;
@@ -24,6 +25,14 @@
   const ages = [14, 33, 17, 18, 25, 7];
 
   // you code
+  for (var i = names.length - 1; i >= 0; i--) {
+    let person = names[i] + " (" + ages[i] + ")";
+    let verdict = " is not allowed to drive";
+    if (ages[i] >= minAge) {
+      let verdict = " is allowed to drive";
+    }
+    console.log(person + verdict);
+  }
 
   </script>
 </body>
