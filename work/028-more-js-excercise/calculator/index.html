@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>JS is Fun!</title>
   <style>
     body {
@@ -39,6 +40,32 @@
   <script type="text/javascript">
   function doCalculation(){
     // you code
+    let resultElement = document.getElementById("result");
+    resultElement.style.color = "black";
+    resultElement.innerHTML = "Test";
+    let operator = document.getElementById("operator").value;
+
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+
+    let calcResult = null;
+    if (operator === "+") {
+      calcResult = num1 + num2;
+    } else if (operator === "-") {
+      calcResult = num1 - num2;
+    } else  if (operator === "*") {
+      calcResult = num1 * num2;
+    } else if (operator === "/") {
+      calcResult = num1 / num2;
+    }
+    console.log(calcResult);
+    resultElement.innerHTML = calcResult;
+
+    if (isNaN(calcResult) || calcResult === Infinity) {
+      console.log("Bad result!")
+      resultElement.style.color = "red";
+    }
+
   }
   </script>
 
