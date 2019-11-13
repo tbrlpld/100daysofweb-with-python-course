@@ -26,30 +26,65 @@
 
   <script type="text/javascript">
   // 1a. get the p tag with id "more"
+  let moreParagraph = document.getElementById("more")
+  console.log(moreParagraph);
 
   // 1b. get all p tags
+  console.log(document.getElementsByTagName("p"));
 
   // ... and get all li tags
+  let quotes_HTML_collection = document.getElementsByTagName("li")
+  console.log(quotes_HTML_collection);
 
   // 1c. get a tag by class name
-
+  console.log(document.getElementsByClassName("churchill"));
 
   // 2. write the quotes back in order
+  let quotes = Array.from(quotes_HTML_collection);
+  let quotes_reversed = quotes.reverse()
+  console.log(quotes_reversed);
+
+  let quotesUl = document.getElementById("quotes");
+  console.log(quotesUl);
+  quotesUl.innerHTML = null;
+  for (quote of quotes_reversed) {
+    quotesUl.appendChild(quote)
+  }
 
   // 3. add a new quote
-  // '11. "Fortunately, JavaScript has some extraordinarily good parts. ' +
-  //                                        'In JavaScript, there is a beautiful, elegant, highly expressive language ' +
-  //                                        'that is buried under a steaming pile of good intentions and blunders."' +
-  //                                        ' - Douglas Crockford'
+  let newQuote = document.createTextNode('11. "Fortunately, JavaScript has some extraordinarily good parts. ' +
+                                         'In JavaScript, there is a beautiful, elegant, highly expressive language ' +
+                                         'that is buried under a steaming pile of good intentions and blunders."' +
+                                         ' - Douglas Crockford');
+  let newQuoteItem = document.createElement("li");
+  newQuoteItem.appendChild(newQuote);
+  quotesUl.appendChild(newQuoteItem);
 
   // 4. rm last quote
+  quotesUl.removeChild(quotesUl.lastChild);
 
   // 5. color the even quotes
+  quotes = quotesUl.childNodes;
+  console.log(quotes.length)
+  for (var i = 0; i < quotes.length; i++) {
+    console.log(i)
+    if ((i + 1) % 2 === 0) {
+      quotes[i].style.backgroundColor = "lightgray";
+    }
+  }
 
   // 6. add behavior / event listener
+  for (quote of quotes) {
+    console.log(quote);
+    quote.addEventListener("click", function (event) {
+      let clickedElement = event.target;
+      let elementText = clickedElement.innerHTML;
+      let tweetUrl = 'https://twitter.com/intent/tweet?text='+encodeURI(elementText);
+      window.open(tweetUrl, "_blank");
+    });
+  }
 
-  // let tweetUrl = 'https://twitter.com/intent/tweet?text='+encodeURI(targetElement.innerHTML);
-
+  moreParagraph.innerHTML = "Click a quote to share it on twitter."
 
   </script>
 </body>
