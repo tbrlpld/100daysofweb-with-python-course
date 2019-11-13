@@ -1,6 +1,7 @@
 const foodBalanceWrapper = document.getElementById("foodBalanceWrapper")
 foodBalanceWrapper.style.display = "none";
 
+// provided: vanilla JS autocomplete
 // https://goodies.pixabay.com/javascript/auto-complete/demo.html
 new autoComplete({
   selector: 'input[name="foodPicker"]',
@@ -25,14 +26,13 @@ new autoComplete({
 });
 
 
-// handle form submission (best to not do it in the mark-up)
+// provided: handle form submission to not do it as inline JS
 // https://stackoverflow.com/a/5384732
 function processForm(e) {
     if (e.preventDefault) e.preventDefault();
     updateFoodLog();
     return false;
 }
-
 var form = document.getElementById('foodPickerForm');
 if (form.attachEvent) {
     form.attachEvent("submit", processForm);
@@ -43,75 +43,25 @@ if (form.attachEvent) {
 
 // helpers
 function recalculateTotal(){
-  let tds = document.getElementsByTagName("td");
-  let sum = 0, len = tds.length;
-  for (var i = 0; i<len; i++) {
-    if (tds[i].className == "kcal") {
-      sum += parseFloat(tds[i].innerText);
-    }
-  }
-  return sum;
+  // get all table cells (tds) and sum the calories = td with kcal
 }
 
 function updateTotalKcal(){
-  let sum = recalculateTotal();
-  document.getElementById("total").innerHTML = parseInt(sum);
-
-  // if 0 kcal hide kcal div
-  if(sum == 0){
-    foodBalanceWrapper.style.display = "none";
-  } else {
-    foodBalanceWrapper.style.display = "block";
-  }
+  // write the total kcal count into  the total id, if 0 hide the
+  // foodBalanceWrapper div
 }
 
 function emptyFoodPicker(){
-  document.getElementById("foodPicker").value = '';
+  // reset the foodPicker ID value
 }
 
 function removeRow(){
+  // remove a table row and update the total kcal
   // https://stackoverflow.com/a/53085148
-  let td = event.target.parentNode;
-  let tr = td.parentNode; // the row to be removed
-  tr.parentNode.removeChild(tr);
-  updateTotalKcal();
 }
 
 function updateFoodLog(){
-  let selectedFood = document.getElementById("foodPicker").value;
-  selectedFood = selectedFood.substr(0, selectedFood.lastIndexOf("(")).trim();
-  let kcals = foodDb[selectedFood];
-
-  if(kcals === undefined){
-    alert('Unknown food, please try again');
-    emptyFoodPicker();
-    return;
-  }
-
-  let tbody = document.getElementById("foodBalanceBody");
-  let newTableRow = document.createElement("tr");
-
-  let col1 = document.createElement("td");
-  let col2 = document.createElement("td");
-  let col3 = document.createElement("td");
-
-  col1.textContent = selectedFood;
-
-  col2.textContent = parseInt(kcals);
-  col2.className = "kcal";  // for calculation
-
-  let deleteBtn = document.createElement("input");
-  deleteBtn.onclick = removeRow;
-  deleteBtn.type = 'button';
-  deleteBtn.className = 'delete';
-  col3.appendChild(deleteBtn);
-
-  newTableRow.appendChild(col1);
-  newTableRow.appendChild(col2);
-  newTableRow.appendChild(col3);
-
-  tbody.appendChild(newTableRow);
-
-  updateTotalKcal();
-  emptyFoodPicker();
+  // udate the food table with the new food, building up the inner dom
+  // elements, including adding a delete button / onclick handler
+  // finally call updateTotalKcal and emptyFoodPicker
 }
