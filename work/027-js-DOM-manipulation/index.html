@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <title>My top 10 quotes on living life better | Virgin</title>
+</head>
+</body>
+  <div class="content">
+
+    <p>Here are my top 10 quotes on living life better for some New Year inspiration:</p>
+
+    <ul id="quotes">
+      <li>10. "The beautiful thing about learning is nobody can take it away from you." - B.B King</li>
+      <li>9. "Inexperience is an asset. Embrace it." - Wendy Kopp</li>
+      <li>8. "Change will not come if we wait for some other person, or if we wait for some other time. We are the ones we’ve been waiting for. We are the change that we seek." - Barack Obama</li>
+      <li>7. "The sky is not my limit… I am." - T.F. Hodge</li>
+      <li>6. "Life is either a daring adventure or nothing at all." - Helen Keller</li>
+      <li>5. "It does not matter how slowly you go as long as you do not stop." - Confucius</li>
+      <li>4. "Too many of us are not living our dreams because we are living our fears." - Les Brown</li>
+      <li class="churchill">3. "Continuous efforts – not strength or intelligence – is the key to unlocking our potential." - Winston Churchill</li>
+      <li>2. "Believe you can and you’re halfway there." - Theodore Roosevelt</li>
+      <li>1. "Success means doing the best we can with what we have. Success is the doing, not the getting, in the trying, not the triumph. Success is a personal standard, reaching for the highest that is in us, becoming all that we can be." - Zig Ziglar</li>
+    </ul>
+
+    <p id="more">-</p>
+  </div>
+
+  <script type="text/javascript">
+  // 1a. get the p tag with id "more"
+  let moreParagraph = document.getElementById("more")
+  console.log(moreParagraph);
+
+  // 1b. get all p tags
+  console.log(document.getElementsByTagName("p"));
+
+  // ... and get all li tags
+  let quotes_HTML_collection = document.getElementsByTagName("li")
+  console.log(quotes_HTML_collection);
+
+  // 1c. get a tag by class name
+  console.log(document.getElementsByClassName("churchill"));
+
+  // 2. write the quotes back in order
+  let quotes = Array.from(quotes_HTML_collection);
+  let quotes_reversed = quotes.reverse()
+  console.log(quotes_reversed);
+
+  let quotesUl = document.getElementById("quotes");
+  console.log(quotesUl);
+  quotesUl.innerHTML = null;
+  for (quote of quotes_reversed) {
+    quotesUl.appendChild(quote)
+  }
+
+  // 3. add a new quote
+  let newQuote = document.createTextNode('11. "Fortunately, JavaScript has some extraordinarily good parts. ' +
+                                         'In JavaScript, there is a beautiful, elegant, highly expressive language ' +
+                                         'that is buried under a steaming pile of good intentions and blunders."' +
+                                         ' - Douglas Crockford');
+  let newQuoteItem = document.createElement("li");
+  newQuoteItem.appendChild(newQuote);
+  quotesUl.appendChild(newQuoteItem);
+
+  // 4. rm last quote
+  quotesUl.removeChild(quotesUl.lastChild);
+
+  // 5. color the even quotes
+  quotes = quotesUl.childNodes;
+  console.log(quotes.length)
+  for (var i = 0; i < quotes.length; i++) {
+    console.log(i)
+    if ((i + 1) % 2 === 0) {
+      quotes[i].style.backgroundColor = "lightgray";
+    }
+  }
+
+  // 6. add behavior / event listener
+  for (quote of quotes) {
+    console.log(quote);
+    quote.addEventListener("click", function (event) {
+      let clickedElement = event.target;
+      let elementText = clickedElement.innerHTML;
+      let tweetUrl = 'https://twitter.com/intent/tweet?text='+encodeURI(elementText);
+      window.open(tweetUrl, "_blank");
+    });
+  }
+
+  moreParagraph.innerHTML = "Click a quote to share it on twitter."
+
+  </script>
+</body>
+</html>
+
