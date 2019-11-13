@@ -26,74 +26,30 @@
 
   <script type="text/javascript">
   // 1a. get the p tag with id "more"
-  // document.getElementById("more").innerHTML = "How do you try and live a healthier, happier life?";
 
   // 1b. get all p tags
-  // let paragraphs = document.getElementsByTagName('p');
-  // console.log(paragraphs);
-  // console.log(paragraphs.length);
-  // alert(paragraphs[0].innerHTML);
 
-  // ... and get all li tags 
-  // let quotes = document.getElementsByTagName('li');
-  // console.log(quotes.length);
-  // alert(quotes[0].innerHTML);
+  // ... and get all li tags
 
   // 1c. get a tag by class name
-  // console.log(document.getElementsByClassName('churchill')[0].innerHTML);
-   
+
+
   // 2. write the quotes back in order
-  // let quoteUl = document.getElementById('quotes');
-  // console.log("quoteUl");
-  // quoteUl.innerHTML = "New text!";
 
-  //quotes = Array.from(quotes).reverse();  // need to cast htmlCollection
-
-  /*
-  for(let i=0; i < quotes.length; i++){
-    // console.log(quotes[i].innerHTML);
-    quoteUl.appendChild(quotes[i]);
-  }
-  */
-  
   // 3. add a new quote
-  /*let newQuote = document.createTextNode('11. "Fortunately, JavaScript has some extraordinarily good parts. ' +
-                                         'In JavaScript, there is a beautiful, elegant, highly expressive language ' +
-                                         'that is buried under a steaming pile of good intentions and blunders."' +
-                                         ' - Douglas Crockford');
-  let newLi = document.createElement("li");
-  newLi.appendChild(newQuote);
-  quoteUl.appendChild(newLi);
-  quotes.push(newLi); // let's also update the quotes array for next section
-  console.log(quotes.length);
-  */
+  // '11. "Fortunately, JavaScript has some extraordinarily good parts. ' +
+  //                                        'In JavaScript, there is a beautiful, elegant, highly expressive language ' +
+  //                                        'that is buried under a steaming pile of good intentions and blunders."' +
+  //                                        ' - Douglas Crockford'
 
   // 4. rm last quote
-  // quoteUl.removeChild(newLi);
 
   // 5. color the even quotes
-  /*
-  for (let i=0; i < quotes.length; i++){
-      // console.log(quotes[i]);
-      if(i % 2 === 0){
-        quotes[i].style.color = "#B03A2E";
-      } else {
-        quotes[i].style.color = "#AF7AC5";
-      }
-  }
-  */
 
   // 6. add behavior / event listener
-  /*
-  for (let i=0; i < quotes.length; i++){
-    quotes[i].addEventListener("click", function(event){
-      let targetElement = event.target || event.srcElement;
-      let tweetUrl = 'https://twitter.com/intent/tweet?text='+encodeURI(targetElement.innerHTML);
-      window.open(tweetUrl, '_blank');
-    });
-  }
-  document.getElementById("more").innerHTML += ' Click on the quotes to share them out to Twitter!';
-  */
+
+  // let tweetUrl = 'https://twitter.com/intent/tweet?text='+encodeURI(targetElement.innerHTML);
+
 
   </script>
 </body>
