@@ -1,5 +1,5 @@
 const foodBalanceWrapper = document.getElementById("foodBalanceWrapper")
-foodBalanceWrapper.style.display = "none";
+// foodBalanceWrapper.style.display = "none";
 
 // provided: vanilla JS autocomplete
 // https://goodies.pixabay.com/javascript/auto-complete/demo.html
@@ -60,8 +60,44 @@ function removeRow(){
   // https://stackoverflow.com/a/53085148
 }
 
+function removeCalFromName(fullString) {
+  // The input values also include the calories. This is different from the keys
+  // in the foodDb. Here I am removing everything after the last "]".
+  let bracketIndex = fullString.lastIndexOf("]");
+  return fullString.substring(0, bracketIndex + 1);
+}
+
+function addFoodRowToTable() {
+  let food =  document.getElementById("foodPicker").value;
+  console.log(food)
+
+  parsedFood = removeCalFromName(food);
+  console.log(parsedFood);
+  let calories = foodDb[parsedFood];
+  if (calories === undefined) {
+    alert("Unknown food! Please select an available option.");
+  } else {
+    let newNameCell = document.createElement("td");
+    newNameCell.innerHTML = parsedFood;
+    let newCalorieCell = document.createElement("td");
+    newCalorieCell.innerHTML = calories;
+
+    let newRow = document.createElement("tr");
+    newRow.appendChild(newNameCell);
+    newRow.appendChild(newCalorieCell);
+
+    let foodBalanceBody = document.getElementById("foodBalanceBody");
+    foodBalanceBody.appendChild(newRow);
+
+    return newRow
+  }
+}
+
 function updateFoodLog(){
   // udate the food table with the new food, building up the inner dom
   // elements, including adding a delete button / onclick handler
   // finally call updateTotalKcal and emptyFoodPicker
+  let newRow = addFoodRowToTable()
 }
+
+
