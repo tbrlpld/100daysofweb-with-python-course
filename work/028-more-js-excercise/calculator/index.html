@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS is Fun!</title>
+  <style>
+    body {
+      width: 800px;
+      margin: 0 auto;
+    }
+    #result {
+      font-size: 200%;
+      font-weight: bold;
+    }
+    #result, #calculateForm {
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Basic JS Calculator</h1>
+
+  <form id="calculateForm">
+    <input id="num1">
+    <select id="operator">
+      <option name="+">+</option>
+      <option name="-">-</option>
+      <option name="*">*</option>
+      <option name="/">/</option>
+    </select>
+    <input id="num2">
+    <button type="button" id="calculate" onclick="doCalculation();">Calculate!</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script type="text/javascript">
+  function doCalculation(){
+    // you code
+    let resultElement = document.getElementById("result");
+    resultElement.style.color = "black";
+    resultElement.innerHTML = "Test";
+    let operator = document.getElementById("operator").value;
+
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+
+    let calcResult = null;
+    if (operator === "+") {
+      calcResult = num1 + num2;
+    } else if (operator === "-") {
+      calcResult = num1 - num2;
+    } else  if (operator === "*") {
+      calcResult = num1 * num2;
+    } else if (operator === "/") {
+      calcResult = num1 / num2;
+    }
+    console.log(calcResult);
+    resultElement.innerHTML = calcResult;
+
+    if (isNaN(calcResult) || calcResult === Infinity) {
+      console.log("Bad result!")
+      resultElement.style.color = "red";
+    }
+
+  }
+  </script>
+
+</body>
+</html>
