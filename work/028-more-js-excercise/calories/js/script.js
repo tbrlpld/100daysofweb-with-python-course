@@ -1,5 +1,5 @@
 const foodBalanceWrapper = document.getElementById("foodBalanceWrapper")
-// foodBalanceWrapper.style.display = "none";
+foodBalanceWrapper.style.display = "none";
 
 // provided: vanilla JS autocomplete
 // https://goodies.pixabay.com/javascript/auto-complete/demo.html
@@ -44,11 +44,25 @@ if (form.attachEvent) {
 // helpers
 function recalculateTotal(){
   // get all table cells (tds) and sum the calories = td with kcal
+  let kcalElements = document.getElementsByClassName("kcal");
+  total = 0;
+  for (item of kcalElements) {
+    total += parseFloat(item.innerHTML);
+  }
+  return total;
 }
 
 function updateTotalKcal(){
   // write the total kcal count into  the total id, if 0 hide the
   // foodBalanceWrapper div
+  let total = recalculateTotal();
+  console.log(total);
+  if (total === 0) {
+    foodBalanceWrapper.style.display = "none";
+  } else {
+    foodBalanceWrapper.style.display = "initial";
+  }
+
 }
 
 function emptyFoodPicker(){
@@ -81,6 +95,7 @@ function addFoodRowToTable() {
     newNameCell.innerHTML = parsedFood;
     let newCalorieCell = document.createElement("td");
     newCalorieCell.innerHTML = calories;
+    newCalorieCell.classList.add('kcal')
 
     let newRow = document.createElement("tr");
     newRow.appendChild(newNameCell);
@@ -97,7 +112,8 @@ function updateFoodLog(){
   // udate the food table with the new food, building up the inner dom
   // elements, including adding a delete button / onclick handler
   // finally call updateTotalKcal and emptyFoodPicker
-  let newRow = addFoodRowToTable()
+  let newRow = addFoodRowToTable();
+  updateTotalKcal();
 }
 
 
