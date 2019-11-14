@@ -62,7 +62,8 @@ function updateTotalKcal(){
   } else {
     foodBalanceWrapper.style.display = "initial";
   }
-
+  let totalElement = document.getElementById("total");
+  totalElement.innerHTML = total;
 }
 
 function emptyFoodPicker(){
