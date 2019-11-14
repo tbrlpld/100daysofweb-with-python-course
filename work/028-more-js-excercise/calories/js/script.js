@@ -68,6 +68,8 @@ function updateTotalKcal(){
 
 function emptyFoodPicker(){
   // reset the foodPicker ID value
+  let foodPicker = document.getElementById("foodPicker");
+  foodPicker.value = "";
 }
 
 function removeRow(){
@@ -115,6 +117,7 @@ function updateFoodLog(){
   // finally call updateTotalKcal and emptyFoodPicker
   let newRow = addFoodRowToTable();
   updateTotalKcal();
+  emptyFoodPicker();
 }
 
 
