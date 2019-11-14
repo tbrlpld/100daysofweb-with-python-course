@@ -72,9 +72,15 @@ function emptyFoodPicker(){
   foodPicker.value = "";
 }
 
-function removeRow(){
+function removeRow(event){
   // remove a table row and update the total kcal
   // https://stackoverflow.com/a/53085148
+  console.log("clicked delete button");
+  let deleteButton = event.target
+  console.log(deleteButton);
+  let rowOfClickedButton = deleteButton.parentElement.parentElement;
+  rowOfClickedButton.remove();
+  updateTotalKcal();
 }
 
 function removeCalFromName(fullString) {
@@ -100,9 +106,17 @@ function addFoodRowToTable() {
     newCalorieCell.innerHTML = calories;
     newCalorieCell.classList.add('kcal')
 
+    let newRowDeleteButton = document.createElement("input");
+    newRowDeleteButton.type = "button";
+    newRowDeleteButton.className = "delete";
+    newRowDeleteButton.addEventListener("click", removeRow);
+    let newRowDeleteCell = document.createElement("td");
+    newRowDeleteCell.appendChild(newRowDeleteButton);
+
     let newRow = document.createElement("tr");
     newRow.appendChild(newNameCell);
     newRow.appendChild(newCalorieCell);
+    newRow.appendChild(newRowDeleteCell);
 
     let foodBalanceBody = document.getElementById("foodBalanceBody");
     foodBalanceBody.appendChild(newRow);
