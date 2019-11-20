@@ -1,9 +1,10 @@
 import datetime
 import sys
 from typing import List
+
 from infrastructure.numbers import try_int
 from infrastructure.switchlang import switch
-
+from data import session_factory
 
 user = None
 
@@ -29,7 +30,9 @@ def setup_db():
     pass
     # todo setup the setup_db
     # 1. initialize the connection / engine
+    session_factory.init("hoover.sqlite")
     # 2. create the tables
+    session_factory.create_tables()
     # 3. import data
     # 4. set default user
 
