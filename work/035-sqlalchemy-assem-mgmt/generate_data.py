@@ -9,7 +9,7 @@ from models.parts import Part, StockPart
 
 def add_iventory():
     """Add parts to DB."""
-    session = Session.create()
+    session = Session()
 
     inventory = (
         StockPart(
