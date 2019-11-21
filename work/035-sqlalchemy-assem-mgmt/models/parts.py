@@ -14,9 +14,17 @@ class Part(Base):
     __tablename__ = "parts"
 
     id_ = sa.Column("id", sa.Integer, primary_key=True, autoincrement=True)
-    name = sa.Column(sa.String(30))  # noqa: WPS432
+    name = sa.Column(sa.String(30), unique=True)  # noqa: WPS432
 
-    stock_part = orm.relation("StockPart", back_populates="part", uselist=False)
+    stock_part = orm.relation(
+        "StockPart",
+        back_populates="part",
+        uselist=False,
+    )
+
+    def __repr__(self):
+        """Representation string."""
+        return "<Part {0}: '{1}'>".format(self.id_, self.name)
 
 
 class StockPart(Base):
@@ -27,6 +35,18 @@ class StockPart(Base):
     id_ = sa.Column("id", sa.Integer, primary_key=True, autoincrement=True)
 
     part_id = sa.Column(sa.ForeignKey("parts.id"), nullable=False)
-    part = orm.relation("Part", back_populates="stock_part", uselist=False)
+    part = orm.relation(
+        "Part",
+        back_populates="stock_part",
+        uselist=False,
+    )
 
     count = sa.Column(sa.Integer, default=0)
+
+    def __repr__(self):
+        """Representation string."""
+        return "<StockPart {0}: '{1}', {2} pcs.>".format(
+            self.id_,
+            self.part.name,
+            self.count,
+        )

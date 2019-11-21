@@ -10,7 +10,7 @@ def main():
     """Run main program function."""
     setup_db()
     # TODO: Add some data
-    generate_data.add_parts()
+    generate_data.add_iventory()
     # TODO: Add functionality to modify data
 
 
