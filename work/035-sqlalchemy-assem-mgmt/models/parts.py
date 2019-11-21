@@ -16,7 +16,7 @@ class Part(Base):
     id_ = sa.Column("id", sa.Integer, primary_key=True, autoincrement=True)
     name = sa.Column(sa.String(30))  # noqa: WPS432
 
-    stock_part = orm.relation("StockPart", back_populates=True, uselist=False)
+    stock_part = orm.relation("StockPart", back_populates="part", uselist=False)
 
 
 class StockPart(Base):
@@ -27,6 +27,6 @@ class StockPart(Base):
     id_ = sa.Column("id", sa.Integer, primary_key=True, autoincrement=True)
 
     part_id = sa.Column(sa.ForeignKey("parts.id"), nullable=False)
-    part = orm.relation("Part", back_populates=True, uselist=False)
+    part = orm.relation("Part", back_populates="stock_part", uselist=False)
 
     count = sa.Column(sa.Integer, default=0)

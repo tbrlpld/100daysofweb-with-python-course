@@ -41,7 +41,7 @@ class _Factory(object):
                 "Database not initialized!"
                 + " Run `_SessionFactory.init_db()`",
             )
-        return self.factory
+        return self.factory()
 
 
 Session = _Factory()

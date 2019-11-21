@@ -3,12 +3,15 @@
 """Main program to run the assembly management."""
 
 from db.session import Session
+import generate_data
 
 
 def main():
     """Run main program function."""
     setup_db()
-    session = Session.create()
+    # TODO: Add some data
+    generate_data.add_parts()
+    # TODO: Add functionality to modify data
 
 
 def setup_db():
