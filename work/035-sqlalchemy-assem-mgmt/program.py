@@ -8,7 +8,7 @@ from db.session import Session
 import ui
 
 
-def main():
+def main() -> None:
     """Run main program function."""
     setup_db()
     # TODO: Add some data
@@ -19,7 +19,7 @@ def main():
     ui.loop()
 
 
-def setup_db():
+def setup_db() -> None:
     """Set up database."""
     Session.init_db()
 

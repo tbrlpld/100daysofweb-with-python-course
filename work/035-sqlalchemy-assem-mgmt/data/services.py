@@ -10,14 +10,14 @@ from models.parts import Part, StockPart
 
 def get_inventory() -> List[StockPart]:
     """Return list of all parts in the inventory."""
-    session = Session()
+    session: Session = Session()
     return session.query(StockPart).all()
 
 
-def create_new_stock_part(name: str, count: int):
+def create_new_stock_part(name: str, count: int) -> None:
     """Create new part in stock."""
-    session = Session()
-    new_part = StockPart(
+    session: Session = Session()
+    new_part: StockPart = StockPart(
         part=Part(name=name),
         count=count,
     )
