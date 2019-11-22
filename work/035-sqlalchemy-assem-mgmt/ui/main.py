@@ -51,13 +51,16 @@ def list_inventory() -> None:
 def add_part() -> None:
     """Get user input for new part."""
     part_name: str = input("Name for new part:\n>>> ")
-    part_count_str: str = input("Count of new part in inventory:\n>>> ")
+    if not part_name:
+        print("Part name can not be empty!")
+        return None
 
+    part_count_str: str = input("Count of new part in inventory:\n>>> ")
     try:
         part_count: int = int(part_count_str)
     except ValueError:
         print("Count can only be integer!")
-        return
+        return None
 
     services.create_new_stock_part(name=part_name, count=part_count)
 

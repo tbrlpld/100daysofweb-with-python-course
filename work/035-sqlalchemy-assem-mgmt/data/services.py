@@ -42,6 +42,7 @@ def increase_count_of_stock_part(part_id: int, increase: int) -> None:
 
 def reduce_count_of_stock_part(part_id: int, reduction: int) -> None:
     """Increase count of a part in stock."""
+    # TODO: prevent reduction below 0.
     session: Session = Session()
     part = session.query(StockPart).filter(StockPart.id_ == part_id).one()
     part.count -= reduction
