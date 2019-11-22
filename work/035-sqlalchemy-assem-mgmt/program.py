@@ -3,6 +3,7 @@
 """Main program to run the assembly management."""
 
 from data.generate import add_iventory
+from data.services import create_new_stock_part
 from db.session import Session
 
 
@@ -12,6 +13,7 @@ def main():
     # TODO: Add some data
     add_iventory()
     # TODO: Add functionality to interact and modify data
+    create_new_stock_part(name="Hole", count=10)
 
 
 def setup_db():
