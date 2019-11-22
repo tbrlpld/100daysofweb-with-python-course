@@ -1,11 +1,12 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 """Defines components and functions for the user interface."""
 
 import sys
-from typing import Dict, Callable, Tuple
+from typing import Dict, Callable, Tuple, List
 
 from data import services
+from models import StockPart
 
 
 def loop():
@@ -39,7 +40,7 @@ def prompt_function_select():
 
 def list_inventory():
     """Print parts in inventory."""
-    inventory = services.get_inventory()
+    inventory: List[StockPart] = services.get_inventory()
     inventory_strings: List[str] = [str(i) for i in inventory]
     output: str = "\n".join(inventory_strings)
     print(output)
