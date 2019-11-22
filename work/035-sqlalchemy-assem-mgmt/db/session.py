@@ -35,7 +35,22 @@ class _Factory(object):
 
         self.factory = orm.sessionmaker(bind=engine)
 
-    def create(self):
+    def __call__(self):
+        """
+        Run when instance is called directly.
+
+        Say there is an instance created like so
+
+            Session = _Factory()
+
+        then this calls the `__init__` method. Now I can run
+
+            session = Session()
+
+        and that executed this (`__call__`) method. This makes the use of the
+        public instance a little more natural. It looks more like you are
+        creating a class instance.
+        """
         if self.factory is None:
             raise Exception(
                 "Database not initialized!"
