@@ -5,7 +5,7 @@
 from data.generate import add_iventory
 from data.services import create_new_stock_part
 from db.session import Session
-from ui import loop
+import ui
 
 
 def main():
@@ -17,8 +17,7 @@ def main():
     create_new_stock_part(name="Hole", count=10)
 
     # TODO: Create user interface
-    loop()
-
+    ui.loop()
 
 
 def setup_db():

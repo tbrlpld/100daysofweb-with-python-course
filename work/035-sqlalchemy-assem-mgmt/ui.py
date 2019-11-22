@@ -4,7 +4,7 @@
 
 import sys
 
-from typing import Dict, Callable
+from typing import Dict, Callable, Tuple
 
 
 def loop():
@@ -17,16 +17,20 @@ def loop():
 
 def prompt_function_select():
     """Prompt user to select interactive function. Execute function."""
-    FUNCTIONS: Dict[str, Callable] = {
-        "x": end_program,
+    FUNCTIONS: Dict[str, Tuple(str, Callable)] = {
+        "x": ("e(x)it program", end_program),
     }
+    options_string: str = ""
+    for key in FUNCTIONS:
+        options_string = "{0}, ".format(FUNCTIONS[key][0])
+    options_string = options_string[:-2]
 
-    user_input: str = input("Select option: e(x)it program\n>>> ")
+    user_input: str = input("Select option: {0}\n>>> ".format(options_string))
     if user_input not in FUNCTIONS.keys():
         print("'{0}' is not a valid option.\n".format(user_input))
         return
     else:
-        selected_function = FUNCTIONS[user_input]
+        selected_function: Callable = FUNCTIONS[user_input][1]
         selected_function()
 
 
