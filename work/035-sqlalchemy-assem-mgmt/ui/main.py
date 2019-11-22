@@ -5,9 +5,7 @@
 import sys
 from typing import Dict, Callable, Tuple, List
 
-from data import services
-from models.parts import StockPart
-from ui import manage_parts
+from ui import manage_parts, inventory
 
 
 def loop():
@@ -21,8 +19,8 @@ def loop():
 def prompt_function_select() -> None:
     """Prompt user to select interactive function. Execute function."""
     FUNCTIONS: Dict[str, Tuple[str, Callable]] = {
-        "a": ("(a)dd part", add_part),
-        "l": ("(l)ist inventory", list_inventory),
+        "a": ("(a)dd part", inventory.add_part),
+        "l": ("(l)ist inventory", inventory.display),
         "m": ("(m)anage parts", manage_parts.main),
         "x": ("e(x)it program", end_program),
     }
@@ -39,31 +37,6 @@ def prompt_function_select() -> None:
     else:
         selected_function: Callable = FUNCTIONS[user_input][1]
         selected_function()
-
-
-def list_inventory() -> None:
-    """Print parts in inventory."""
-    inventory: List[StockPart] = services.get_inventory()
-    inventory_strings: List[str] = [str(i) for i in inventory]
-    output: str = "\n".join(inventory_strings)
-    print(output)
-
-
-def add_part() -> None:
-    """Get user input for new part."""
-    part_name: str = input("Name for new part:\n>>> ")
-    if not part_name:
-        print("Part name can not be empty!")
-        return None
-
-    part_count_str: str = input("Count of new part in inventory:\n>>> ")
-    try:
-        part_count: int = int(part_count_str)
-    except ValueError:
-        print("Count can only be integer!")
-        return None
-
-    services.create_new_stock_part(name=part_name, count=part_count)
 
 
 def end_program():
