@@ -20,6 +20,7 @@ def prompt_function_select():
     """Prompt user to select interactive function. Execute function."""
     FUNCTIONS: Dict[str, Tuple(str, Callable)] = {
         "a": ("(a)dd part", add_part),
+        "l": ("(l)ist inventory", list_inventory),
         "x": ("e(x)it program", end_program),
     }
     options_string: str = ""
@@ -36,7 +37,16 @@ def prompt_function_select():
         selected_function()
 
 
+def list_inventory():
+    """Print parts in inventory."""
+    inventory = services.get_inventory()
+    inventory_strings: List[str] = [str(i) for i in inventory]
+    output: str = "\n".join(inventory_strings)
+    print(output)
+
+
 def add_part():
+    """Get user input for new part."""
     part_name: str = input("Name for new part:\n>>> ")
     part_count_str: str = input("Count of new part in inventory:\n>>> ")
 

@@ -2,8 +2,16 @@
 
 """Define services to interact with data through function calls."""
 
+from typing import List
+
 from db.session import Session
 from models.parts import Part, StockPart
+
+
+def get_inventory() -> List[StockPart]:
+    """Return list of all parts in the inventory."""
+    session = Session()
+    return session.query(StockPart).all()
 
 
 def create_new_stock_part(name: str, count: int):
