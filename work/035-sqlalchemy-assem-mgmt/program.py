@@ -2,16 +2,16 @@
 
 """Main program to run the assembly management."""
 
+from data.generate import add_iventory
 from db.session import Session
-import generate_data
 
 
 def main():
     """Run main program function."""
     setup_db()
     # TODO: Add some data
-    generate_data.add_iventory()
-    # TODO: Add functionality to modify data
+    add_iventory()
+    # TODO: Add functionality to interact and modify data
 
 
 def setup_db():
