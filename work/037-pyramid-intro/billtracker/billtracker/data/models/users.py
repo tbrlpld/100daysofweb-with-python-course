@@ -38,6 +38,10 @@ class User(SqlAlchemyBase):
 
     def check_password(self, password):
         # Just a stub that accepts anything as the password.
-        # TODO: actually check password.
         print("Password to check: {0}".format(password))
-        return True
+        print("Password to match: {0}".format(self.hashed_password))
+        if password == self.hashed_password:
+            print("Passwords match.")
+            return True
+        print("Passwords do not match.")
+        return False
