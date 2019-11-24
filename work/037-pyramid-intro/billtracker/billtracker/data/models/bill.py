@@ -20,3 +20,9 @@ class Bill(SqlAlchemyBase):
     @property
     def is_paid(self):
         return self.total <= self.paid
+
+    @property
+    def open(self):
+        """Return the open amount."""
+        return self.total - self.paid
+
