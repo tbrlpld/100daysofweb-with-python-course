@@ -29,4 +29,5 @@ def bill_detail_get(request: Request) -> Dict:
     return {
         "bill": bill,
         "user": user,
+        "error": "",
     }
