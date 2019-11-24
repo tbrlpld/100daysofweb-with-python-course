@@ -15,6 +15,7 @@ def main(global_config, **settings):
     with Configurator(settings=settings) as config:
         config.include("pyramid_chameleon")
         config.include(".routes")
+        config.include(".security")
         config.scan()
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
