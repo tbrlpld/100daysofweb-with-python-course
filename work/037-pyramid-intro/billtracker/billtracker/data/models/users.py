@@ -35,3 +35,9 @@ class User(SqlAlchemyBase):
     @property
     def total_paid_off(self) -> float:
         return sum(b.total for b in self.paid_bills)
+
+    def check_password(self, password):
+        # Just a stub that accepts anything as the password.
+        # TODO: actually check password.
+        print("Password to check: {0}".format(password))
+        return True

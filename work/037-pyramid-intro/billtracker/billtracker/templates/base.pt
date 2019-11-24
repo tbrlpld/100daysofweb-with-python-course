@@ -20,6 +20,14 @@
     <![endif]-->
   </head>
   <body>
+    <header>
+        <p tal:condition="request.user is None" class="pull-right">
+          <a href="${ request.route_url('login') }">Login</a>
+        </p>
+        <p tal:condition="request.user is not None" class="pull-right">
+          ${request.user.name} <a href="${request.route_url('logout')}">Logout</a>
+        </p>
+    </header>
     <div id="main-content">
       <div metal:define-slot="content">No content</div>
     </div>
