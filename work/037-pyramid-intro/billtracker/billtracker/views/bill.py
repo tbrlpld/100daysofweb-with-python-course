@@ -27,11 +27,11 @@ def bill_detail_get(request: Request) -> Dict:
     try:
         bill_id: int = int(request.matchdict.get("bill_id"))
     except ValueError:
-        raise HTTPNotFound
+        raise HTTPNotFound()
     else:
         bill: Optional[Bill] = repository.get_bill_by_id(bill_id)
         if bill is None:
-            raise HTTPNotFound
+            raise HTTPNotFound()
 
     return {
         "bill": bill,
