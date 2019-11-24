@@ -14,11 +14,11 @@ from billtracker.data import repository
 
 @view_config(
     route_name="login",
-    renderer="../templates/login.pt"
+    renderer="../templates/login.pt",
 )
 def login(request):
     next_url = request.params.get("next", request.referrer)
-    if not next_url:
+    if not next_url or next_url == "/login":
         next_url = "/"
     message = ""
     login = ""
