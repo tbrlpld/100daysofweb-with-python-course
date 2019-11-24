@@ -17,6 +17,9 @@ from billtracker.data import repository
     renderer="../templates/login.pt",
 )
 def login(request):
+    if request.user is not None:
+        raise HTTPFound(location="/")
+
     next_url = request.params.get("next", request.referrer)
     if not next_url or next_url == "/login":
         next_url = "/"
