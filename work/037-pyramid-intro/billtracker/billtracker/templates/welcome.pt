@@ -1,0 +1,17 @@
+<div metal:use-macro="load: base.pt">
+  <div metal:fill-slot="content">
+    <div id="hero">
+      <div class="heading-wrapper">
+        <h3>Welcome to</h3>
+        <h1><span class="font-semi-bold">Bill Tracker Pro</span> <span class="smaller">Demo</span></h1>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-12" style="margin-top: 50px;">
+            <a href="/login" class="btn btn-success btn-sm">Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

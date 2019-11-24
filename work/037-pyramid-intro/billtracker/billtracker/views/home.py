@@ -4,7 +4,7 @@
 
 from typing import Optional, Dict
 
-from pyramid.httpexceptions import HTTPForbidden
+from pyramid.httpexceptions import HTTPForbidden, HTTPFound
 from pyramid.view import view_config
 
 from billtracker.data import repository
@@ -20,8 +20,16 @@ def home(request) -> Dict:
 
     user = request.user
     if user is None:
-        raise HTTPForbidden()
+        raise HTTPFound(location="/welcome")
 
     return {
         "user": user,
     }
+
+
+@view_config(route_name="welcome", renderer="../templates/welcome.pt")
+def welcome(request) -> Dict:
+    """Render landing page for not logged in visitors."""
+    if request.user is not None:
+        raise HTTPFound(location="/")
+    return {}

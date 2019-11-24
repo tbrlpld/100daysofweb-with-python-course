@@ -1,7 +1,9 @@
 <div metal:use-macro="load: base.pt">
   <div metal:fill-slot="content">
     <div id="hero">
-      <h1><span class="font-semi-bold">Bill Tracker Pro</span> <span class="smaller">Demo</span></h1>
+      <div class="heading-wrapper">
+        <h1><span class="font-semi-bold">Bill Tracker Pro</span> <span class="smaller">Demo</span></h1>
+      </div>
     </div>
     <div class="container">
       <div class="row">

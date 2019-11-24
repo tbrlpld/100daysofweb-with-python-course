@@ -42,12 +42,12 @@ footer a:hover {
     min-height: 400px;
 }
 
-#hero h1 {
+#hero .heading-wrapper {
     padding: 50px;
-    background-color: rgba(0, 0, 0, 0.41);
     display: inline-block;
-    border-radius: 5px;
     font-size: 3em;
+    background-color: rgba(0, 0, 0, 0.41);
+    border-radius: 5px;
 }
 
 .content {
