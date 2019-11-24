@@ -1,15 +1,20 @@
 <div metal:use-macro="load: base.pt">
   <div metal:fill-slot="content">
     <div class="content">
-      <h1><span class="font-semi-bold">Pyramid</span> <span class="smaller">Starter project</span></h1>
+      <h1><span class="font-semi-bold">Bill Tracker</span></h1>
       <p class="lead">
-        Welcome to <span class="font-normal">${project}</span>, a&nbsp;Pyramid
-        application generated&nbsp;by<br><span class="font-normal">Cookiecutter and me</span>.
+        Welcome ${user.name}.
       </p>
       <p>
-        Some Items:
+        Open Bills:
         <ol>
-          <li tal:repeat="i items">${i} is an item!</li>
+          <li tal:repeat="b user.open_bills">You still owe ${"${0:5.0f}".format(b.open)} for ${b.description}.</li>
+        </ol>
+      </p>
+      <p>
+        Payed Bills:
+        <ol>
+          <li tal:repeat="b user.paid_bills">You paid ${"${0:5.0f}".format(b.total)} for ${b.description}.</li>
         </ol>
       </p>
     </div>
