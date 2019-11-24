@@ -21,6 +21,20 @@ def get_user_by_id(user_id: int, include_bills=True) -> Optional[User]:
         session.close()
 
 
+def get_user_by_email(email: int, include_bills=False) -> Optional[User]:
+    session = DbSession.create_session()
+    try:
+        if not include_bills:
+            return session.query(User).filter(User.email == email).first()
+        else:
+            return session.query(User) \
+                .options(subqueryload(User.bills)) \
+                .filter(User.id == user_id) \
+                .first()
+    finally:
+        session.close()
+
+
 def get_bill_by_id(bill_id: int) -> Optional[Bill]:
     session = DbSession.create_session()
     try:

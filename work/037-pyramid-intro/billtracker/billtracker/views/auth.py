@@ -30,7 +30,7 @@ def login(request):
         password = request.params["password"]
         # Login needs to be the ID
         # (this is just because I dont have to name look up yet)
-        user = repository.get_user_by_id(login)
+        user = repository.get_user_by_email(login)
         if user is not None and user.check_password(password):
             headers = remember(request, user.id)
             return HTTPFound(location=next_url, headers=headers)
