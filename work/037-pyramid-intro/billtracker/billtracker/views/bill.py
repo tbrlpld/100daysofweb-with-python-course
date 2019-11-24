@@ -4,7 +4,12 @@
 
 from typing import Optional, Dict, List
 
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import (
+    HTTPNotFound,
+    HTTPBadRequest,
+    HTTPFound,
+    HTTPForbidden,
+)
 from pyramid.request import Request
 from pyramid.view import view_config
 
@@ -21,17 +26,13 @@ from billtracker.data.models.bill import Bill
 def bill_detail_get(request: Request) -> Dict:
     """Render home template with given project name."""
     # noqa: DAR101, DAR201
-    user_id: int = 1
-    user: Optional[User] = repository.get_user_by_id(user_id)
+    user = request.user
 
-    try:
-        bill_id: int = int(request.matchdict.get("bill_id"))
-    except ValueError:
-        raise HTTPNotFound()
-    else:
-        bill: Optional[Bill] = repository.get_bill_by_id(bill_id)
-        if bill is None:
-            raise HTTPNotFound()
+    bill = get_bill_or_client_error(
+        bill_id=request.matchdict.get("bill_id"),
+    )
+
+    verfiy_user_access_to_bill(user, bill)
 
     return {
         "bill": bill,
@@ -48,17 +49,13 @@ def bill_detail_get(request: Request) -> Dict:
 def bill_detail_post(request: Request) -> Dict:
     """Render home template with given project name."""
     # noqa: DAR101, DAR201
-    user_id: int = 1
-    user: Optional[User] = repository.get_user_by_id(user_id)
+    user = request.user
 
-    try:
-        bill_id: int = int(request.matchdict.get("bill_id"))
-    except ValueError:
-        raise HTTPNotFound()
-    else:
-        bill: Optional[Bill] = repository.get_bill_by_id(bill_id)
-        if bill is None:
-            raise HTTPNotFound()
+    bill = get_bill_or_client_error(
+        bill_id=request.matchdict.get("bill_id"),
+    )
+
+    verfiy_user_access_to_bill(user, bill)
 
     errors: List = []
     amount_str: str = request.POST.get("amount", "")
@@ -82,3 +79,21 @@ def bill_detail_post(request: Request) -> Dict:
 
     repository.add_payment(amount=amount, bill_id=bill.id)
     raise HTTPFound(location="/bill/{0}".format(bill.id))
+
+
+def get_bill_or_client_error(bill_id):
+    try:
+        bill_id: int = int(bill_id)
+    except ValueError:
+        raise HTTPBadRequest()
+    else:
+        bill: Optional[Bill] = repository.get_bill_by_id(bill_id)
+        if bill is None:
+            raise HTTPNotFound()
+    return bill
+
+
+def verfiy_user_access_to_bill(user, bill):
+    """Raise HTTPForbidden if use has no access."""
+    if user is None or user.id != bill.user.id:
+        raise HTTPForbidden()

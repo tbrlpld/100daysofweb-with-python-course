@@ -15,6 +15,7 @@
         <div class="col-md-10">
           <div class="content">
             <p class="lead">Bill for <span class="font-normal">${bill.description}</span>.</p>
+            <p>${ bill.user.name } / ${ bill.user.email }</p>
           </div>
         </div>
       </div>

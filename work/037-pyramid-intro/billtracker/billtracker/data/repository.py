@@ -40,6 +40,7 @@ def get_bill_by_id(bill_id: int) -> Optional[Bill]:
     try:
         return session.query(Bill) \
             .filter(Bill.id == bill_id) \
+            .options(subqueryload(Bill.user)) \
             .first()
     finally:
         session.close()
