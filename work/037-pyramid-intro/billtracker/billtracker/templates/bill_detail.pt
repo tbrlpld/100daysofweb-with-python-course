@@ -1,0 +1,6 @@
+<div metal:use-macro="load: base.pt">
+  <div metal:fill-slot="content">
+    <h1>${ bill.description} </h1>
+    <p>${"${0}".format(bill.total)}</p>
+  </div>
+</div>

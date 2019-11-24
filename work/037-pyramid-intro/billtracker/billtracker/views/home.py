@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Defines view functions for the billtracker app."""
+"""Defines home view functions for the billtracker app."""
 
 from typing import Optional, Dict
 
