@@ -27,3 +27,9 @@ class Account(Base):
         back_populates="accounts",
         uselist=False,
     )
+
+    records = orm.relation(
+        "Record",
+        uselist=True,
+        back_populates="account",
+    )

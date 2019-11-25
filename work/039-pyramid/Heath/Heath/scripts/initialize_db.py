@@ -18,8 +18,12 @@ def setup_models(dbsession):
     """
     users = get_users()
     dbsession.add_all(users)
+
     accounts = create_cash_accounts(users)
     dbsession.add_all(accounts)
+
+    records = add_records(accounts)
+    dbsession.add_all(records)
 
 
 def get_users():
@@ -58,6 +62,33 @@ def create_cash_accounts(users):
             created=user.created,
         ))
     return accounts
+
+
+def add_records(accounts):
+    """Add a record to a random account."""
+    record_dicts = load_records_data()
+    record_objs = []
+    for record in record_dicts:
+        record_objs.append(models.record.Record(
+            type_=record["type"],
+            category=record["category"],
+            amount=record["amount"],
+            created=datetime.datetime.strptime(
+                record["date"],
+                "%Y-%m-%dT%H:%M:%SZ",
+            ),
+            account=random.choice(accounts),
+        ))
+    return record_objs
+
+
+def load_records_data():
+    """Parse mock User data into dict."""
+    parent_dir = os.path.dirname(os.path.dirname(__file__))
+    records_json_path = os.path.join(parent_dir, "db", "FinancialRecords.json")
+    with open(records_json_path, "r") as records_file:
+        records_dict = json.load(records_file)
+    return records_dict
 
 
 def parse_args(argv):
