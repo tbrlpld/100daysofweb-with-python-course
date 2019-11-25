@@ -17,8 +17,6 @@ def setup_models(dbsession):
     """
     users = get_users()
     dbsession.add_all(users)
-    dbsession.add(model)
-
 
 def get_users():
     """Return list of user objects."""
