@@ -1,7 +1,10 @@
 import argparse
+import datetime
+import json
+import os
 import sys
 
-from pyramid.paster import bootstrap, setup_logging
+from pyramid.paster import bootstrap, setup_logging, get_appsettings
 from sqlalchemy.exc import OperationalError
 
 from .. import models
@@ -12,8 +15,37 @@ def setup_models(dbsession):
     Add or update models / fixtures in the database.
 
     """
+    users = get_users()
+    dbsession.add_all(users)
     model = models.mymodel.MyModel(name='one', value=1)
     dbsession.add(model)
+
+
+def get_users():
+    """Return list of user objects."""
+    user_dicts = load_user_data()
+    user_objs = []
+    for user in user_dicts:
+        user_objs.append(models.user.User(
+            name=user["name"],
+            email=user["email"],
+            password=user["password"],
+            created=datetime.datetime.strptime(
+                user["created"],
+                "%Y-%m-%dT%H:%M:%SZ",
+            ),
+        ))
+    return user_objs
+
+
+def load_user_data():
+    """Parse mock User data into dict."""
+    parent_dir = os.path.dirname(os.path.dirname(__file__))
+    user_json_path = os.path.join(parent_dir, "db", "Users.json")
+    with open(user_json_path, "r") as user_file:
+        user_dict = json.load(user_file)
+    return user_dict
+
 
 
 def parse_args(argv):

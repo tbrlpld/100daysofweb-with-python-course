@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy import (
     Column,
     Integer,
@@ -15,4 +17,4 @@ class User(Base):
     name = Column(Text, index=True)
     email = Column(Text, index=True, unique=True)
     password = Column(Text)
-    created = Column(DateTime)
+    created = Column(DateTime, default=datetime.datetime.now)
