@@ -2,6 +2,7 @@ import argparse
 import datetime
 import json
 import os
+import random
 import sys
 
 from pyramid.paster import bootstrap, setup_logging, get_appsettings
@@ -17,6 +18,9 @@ def setup_models(dbsession):
     """
     users = get_users()
     dbsession.add_all(users)
+    accounts = create_cash_accounts(users)
+    dbsession.add_all(accounts)
+
 
 def get_users():
     """Return list of user objects."""
@@ -43,6 +47,17 @@ def load_user_data():
         user_dict = json.load(user_file)
     return user_dict
 
+
+def create_cash_accounts(users):
+    accounts = []
+    for user in users:
+        accounts.append(models.account.Account(
+            name="Cash",
+            balance_actual=random.randint(10, 50),
+            user=user,
+            created=user.created,
+        ))
+    return accounts
 
 
 def parse_args(argv):

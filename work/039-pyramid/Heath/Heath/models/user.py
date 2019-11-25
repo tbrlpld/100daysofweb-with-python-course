@@ -5,6 +5,7 @@ from sqlalchemy import (
     Integer,
     Text,
     DateTime,
+    orm,
 )
 
 from .meta import Base
@@ -18,3 +19,9 @@ class User(Base):
     email = Column(Text, index=True, unique=True)
     password = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now)
+
+    accounts = orm.relation(
+        "Account",
+        back_populates="user",
+        uselist=True,
+    )
