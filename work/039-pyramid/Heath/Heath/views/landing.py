@@ -6,8 +6,8 @@ from sqlalchemy.exc import DBAPIError
 from .. import models
 
 
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-def my_view(request):
+@view_config(route_name='landing', renderer='../templates/landing.jinja2')
+def landing(request):
     try:
         query = request.dbsession.query(models.MyModel)
         one = query.filter(models.MyModel.name == 'one').first()
