@@ -17,7 +17,6 @@ def setup_models(dbsession):
     """
     users = get_users()
     dbsession.add_all(users)
-    model = models.mymodel.MyModel(name='one', value=1)
     dbsession.add(model)
 
 
