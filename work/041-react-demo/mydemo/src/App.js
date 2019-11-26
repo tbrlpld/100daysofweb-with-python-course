@@ -2,23 +2,36 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const PROJECT_NAME = "Python Tips"
+const TWITTER_ICON = "https://codechalleng.es/static/img/icon-twitter.png"
+
+function Tip(props) {
+  return (
+    <div className="tip">
+      <p>
+        {props.tip}
+        {
+          props.link &&
+          <span className="source-link"> (<a href={ props.link } target="_blank">Source</a>)</span>
+        }
+      </p>
+      <pre>{props.code}</pre>
+      {
+        props.share_link &&
+        <p className="share-link">
+          <a href={ props.share_link } target="_blank"><img src={ TWITTER_ICON } alt="Twitter logo" /></a>
+        </p>
+      }
+    </div>
+  );
+}
+
+
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{ PROJECT_NAME } <small>from PyBites</small></h1>
+      <Tip tip="Just some text" link="https://example.com/" code="a + b \n c" share_link="http://example.com/share"/>
     </div>
   );
 }
