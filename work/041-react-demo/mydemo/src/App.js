@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 const PROJECT_NAME = "Python Tips"
@@ -12,14 +11,14 @@ function Tip(props) {
         {props.tip}
         {
           props.link &&
-          <span className="source-link"> (<a href={ props.link } target="_blank">Source</a>)</span>
+          <span className="source-link"> (<a href={ props.link } target="_blank" rel="noopener noreferrer">Source</a>)</span>
         }
       </p>
       <pre>{props.code}</pre>
       {
         props.share_link &&
         <p className="share-link">
-          <a href={ props.share_link } target="_blank"><img src={ TWITTER_ICON } alt="Twitter logo" /></a>
+          <a href={ props.share_link } target="_blank" rel="noopener noreferrer"><img src={ TWITTER_ICON } alt="Twitter logo" /></a>
         </p>
       }
     </div>
@@ -28,10 +27,31 @@ function Tip(props) {
 
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      origTips: [],
+      showTips: [],
+      filterStr: "",
+    };
+  }
+
+
+  componentDidMount() {
+    console.log("Component did mount!");
+  }
+
+  onFilterStringChange(event) {
+    console.log("Filter string has changes.");
+  }
+
   render () {
     return (
       <div className="App">
         <h1>{ PROJECT_NAME } <small>from PyBites</small></h1>
+        <input type="text" name="search" onChange={this.onFilterStringChange}/>
+        <hr/>
         <Tip tip="Just some text" link="https://example.com/" code="a + b \n c" share_link="http://example.com/share"/>
       </div>
     );
