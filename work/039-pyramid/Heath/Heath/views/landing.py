@@ -8,7 +8,7 @@ from .. import models
 
 @view_config(route_name='landing', renderer='../templates/landing.jinja2')
 def landing(request):
-    user_1 = models.user.get_user_by_id(
+    user_1 = models.user.get_by_id(
         session=request.dbsession,
         user_id=1,
     )
