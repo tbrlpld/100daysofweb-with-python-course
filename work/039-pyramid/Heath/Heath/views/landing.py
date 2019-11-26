@@ -8,12 +8,16 @@ from .. import models
 
 @view_config(route_name='landing', renderer='../templates/landing.jinja2')
 def landing(request):
-    try:
-        query = request.dbsession.query(models.MyModel)
-        one = query.filter(models.MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'Heath'}
+    user_1 = models.user.get_by_id(
+        session=request.dbsession,
+        user_id=1,
+    )
+    # try:
+    #     query = request.dbsession.query(models.MyModel)
+    #     one = query.filter(models.MyModel.name == 'one').first()
+    # except DBAPIError:
+    #     return Response(db_err_msg, content_type='text/plain', status=500)
+    return {'project': 'Heath'}
 
 
 db_err_msg = """\
