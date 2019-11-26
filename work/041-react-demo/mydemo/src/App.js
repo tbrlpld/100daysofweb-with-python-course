@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -27,13 +27,16 @@ function Tip(props) {
 }
 
 
-function App() {
-  return (
-    <div className="App">
-      <h1>{ PROJECT_NAME } <small>from PyBites</small></h1>
-      <Tip tip="Just some text" link="https://example.com/" code="a + b \n c" share_link="http://example.com/share"/>
-    </div>
-  );
+class App extends Component {
+  render () {
+    return (
+      <div className="App">
+        <h1>{ PROJECT_NAME } <small>from PyBites</small></h1>
+        <Tip tip="Just some text" link="https://example.com/" code="a + b \n c" share_link="http://example.com/share"/>
+      </div>
+    );
+  }
 }
+
 
 export default App;
