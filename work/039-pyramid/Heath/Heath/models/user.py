@@ -36,3 +36,8 @@ class User(Base):
 def get_by_id(session: Session, user_id: int) -> Optional[User]:
     """Return User object for given ID from DB."""
     return session.query(User).filter(User.id_ == user_id).first()
+
+
+def get_by_email(session: Session, email: str) -> Optional[User]:
+    """Return User object for given email address from DB."""
+    return session.query(User).filter(User.email == email).first()
