@@ -8,6 +8,10 @@ from .. import models
 
 @view_config(route_name='landing', renderer='../templates/landing.jinja2')
 def landing(request):
+    user_1 = models.user.get_user_by_id(
+        session=request.dbsession,
+        user_id=1,
+    )
     # try:
     #     query = request.dbsession.query(models.MyModel)
     #     one = query.filter(models.MyModel.name == 'one').first()

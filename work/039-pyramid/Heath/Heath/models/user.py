@@ -1,12 +1,18 @@
+# -*- coding: utf-8 -*-
+
+"""Defines User model and typical query helper."""
+
 import datetime
+from typing import Optional
 
 from sqlalchemy import (
     Column,
+    DateTime,
     Integer,
     Text,
-    DateTime,
     orm,
 )
+from sqlalchemy.orm import Session
 
 from .meta import Base
 
@@ -25,3 +31,8 @@ class User(Base):
         back_populates="user",
         uselist=True,
     )
+
+
+def get_user_by_id(session: Session, user_id: int) -> Optional[User]:
+    """Return User object for given ID from DB."""
+    return session.query(User).filter(User.id_ == user_id).first()
