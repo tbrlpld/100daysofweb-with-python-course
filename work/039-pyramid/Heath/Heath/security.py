@@ -26,7 +26,9 @@ def get_user(request: Request) -> Optional[user.User]:
     Return user from database if available.
 
     The user id in the request has to be treated as unauthenticated, because
-    this is based on external information.
+    this is based on external information. The id from the request it looked up
+    in the database. I the id exists, that user object is returned. None is
+    returned if the user is not found.
     """
     user_id = request.unauthenticated_userid
     session = request.dbsession
