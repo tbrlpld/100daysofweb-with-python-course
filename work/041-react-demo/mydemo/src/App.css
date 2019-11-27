@@ -1,0 +1,51 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.filter-input {
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1.5px 0 hsla(0, 0%, 0%, 0.2);
+  padding: 5px;
+}
+
+.tips {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.tip {
+  padding-bottom: 2rem; 
+}
+
+.tip pre {
+  background-color: hsl(0, 0%, 95%);
+  border-radius: 3px;
+  padding: 0.5em;
+  text-align: left;
+  overflow-x: hidden;
+  overflow-wrap: none;
+}
+
+.source-link {
+  font-size: smaller;
+}
