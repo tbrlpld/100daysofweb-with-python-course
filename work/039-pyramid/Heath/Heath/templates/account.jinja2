@@ -4,14 +4,14 @@
 <div class="content">
   <div class="row">
     <div class="col-12">
-      <h3>Hello {{ user.name }}</h3>
+      <h3>Account "{{ account.name }}"</h3>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
       <ul>
-        {% for account in accounts %}
-          <li><a href="{{ request.route_url('account', account_id=account.id_)}}">{{ account.name }}</a></li>
+        {% for record in account.records %}
+          <li>{{ record.created }} - {{ record.category }} - {{ record.amount }}</li>
         {% endfor %}
       </ul>
     </div>
