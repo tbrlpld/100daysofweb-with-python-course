@@ -38,6 +38,8 @@ class App extends Component {
       showTips: [],
       filterStr: "",
     };
+    this.onFilterStringChange = this.onFilterStringChange.bind(this);
+    this.displayTips = this.displayTips.bind(this);
   }
 
 
@@ -57,16 +59,29 @@ class App extends Component {
   }
 
   onFilterStringChange(event) {
-    console.log("Filter string has changes.");
-    console.log(event.target.value);
+    const inputValue =  event.target.value
+    const filterStr = inputValue ? inputValue.toLowerCase() : "" ;  // If inputValue then inpuValue.toLowerCase, else "".
+    this.setState({
+      filterStr: filterStr,
+      showTips: this.filterShowTips(filterStr),
+    });
+  }
+
+  filterShowTips(filterStr) {
+    let filteredTips = []
+    const allTips = this.state.origTips
+    for (const tip of allTips) {
+      if (
+        ( tip.tip && tip.tip.toLowerCase().includes(filterStr) ) 
+        || ( tip.code && tip.code.toLowerCase().includes(filterStr) )
+      ) {
+        filteredTips.push(tip)
+      }
+    }
+    return filteredTips;
   }
 
   displayTips() {
-    // let tips = []
-    // for(const tip of this.state.showTips) {
-    //   tips.push(Tip(tip))
-    // }
-    // return tips
     const tipsDisplay = this.state.showTips.map(
       (tip, index) => {
         return (<Tip {...tip} key={index} filterStr={this.state.filterStr} />)
