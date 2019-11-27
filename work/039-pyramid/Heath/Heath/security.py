@@ -28,8 +28,8 @@ def get_user(request: Request) -> Optional[user.User]:
     The user id in the request has to be treated as unauthenticated, because
     this is based on external information.
     """
-    user_id = request.unauthenticated_user_id
-    session = request.session
+    user_id = request.unauthenticated_userid
+    session = request.dbsession
     if user_id is not None:
         return user.get_by_id(session, user_id)
     return None
