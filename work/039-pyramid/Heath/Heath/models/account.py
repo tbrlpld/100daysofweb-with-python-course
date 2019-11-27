@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+
+"""Define Account model and utility functions."""
+
+from typing import List, Optional
 import datetime
 
 from sqlalchemy import (
@@ -9,12 +14,16 @@ from sqlalchemy import (
     ForeignKey,
     orm,
 )
+from sqlalchemy.orm import Session
 
-from .meta import Base
+from Heath.models.meta import Base
+from Heath.models.user import User
 
 
 class Account(Base):
-    __tablename__ = 'accounts'
+    """Define Account model."""
+
+    __tablename__ = "accounts"
 
     id_ = Column("id", Integer, primary_key=True)
     name = Column(Text, index=True)
@@ -33,3 +42,12 @@ class Account(Base):
         uselist=True,
         back_populates="account",
     )
+
+    def check_user_access(self, user_id: int) -> bool:
+        """Check if the given user has access to this account."""
+        return user_id == self.user_id
+
+
+def get_account_by_id(session: Session, account_id: int) -> Optional[Account]:
+    """Get account by id."""
+    return session.query(Account).filter(Account.id_ == account_id).first()

@@ -1,8 +1,12 @@
 {% extends "base.jinja2" %}
-
 {% block content %}
-<div class="content">
-  <h1>Heath - Your Personal Ledger</h1>
-  <p class="lead">Welcome to <span class="font-normal">{{project}}</span>, a&nbsp;Pyramid application generated&nbsp;by<br><span class="font-normal">Cookiecutter</span>.</p>
-</div>
+  <div class="content">
+    <h1>Heath - Your Personal Ledger</h1>
+    <p class="lead">Welcome to <span class="font-normal">{{project}}</span>, a&nbsp;Pyramid application generated&nbsp;by<br><span class="font-normal">Cookiecutter</span>.</p>
+    <div class="d-flex justify-content-center">
+      {% if not request.user %}
+        <a href="{{ request.route_url('login') }}" class="btn btn-success btn-lg float-right">Login</a>
+      {% endif %}
+    </div>
+  </div>
 {% endblock content %}

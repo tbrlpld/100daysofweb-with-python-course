@@ -32,6 +32,12 @@ class User(Base):
         uselist=True,
     )
 
+    def check_password(self, password: str) -> bool:
+        """Compare the given password with the password of the user in DB."""
+        # TODO: Hash the password before comparing. This requires the passwords
+        # in the DB to be hashed too of course.
+        return password == self.password
+
 
 def get_by_id(session: Session, user_id: int) -> Optional[User]:
     """Return User object for given ID from DB."""

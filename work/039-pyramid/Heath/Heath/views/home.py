@@ -2,17 +2,23 @@
 
 """Defines home view for a uer."""
 
+from typing import Optional, List
+
+from pyramid.httpexceptions import HTTPForbidden
+from pyramid.request import Request
 from pyramid.view import view_config
 
-from .. import models
+from Heath.models.user import User
+from Heath.models.account import Account
 
 
 @view_config(route_name='home', renderer='../templates/home.jinja2')
-def home(request):
+def home(request: Request):
     """Return dictionary containing the user associated with the request."""
-    # TODO: Actual make the returned user based on the login.
-    user = models.user.get_by_email(
-        session=request.dbsession,
-        email="kyurlov1@symantec.com",
-    )
-    return {'user': user}
+    user: Optional[User] = request.user
+    if user is None:
+        raise HTTPForbidden()
+
+    return {
+        "user": user,
+    }
