@@ -8,7 +8,7 @@ const TODO_ENDPOINT = "https://jsonplaceholder.typicode.com/todos"
 
 function Todo(props) {
   return (
-    <div>
+    <div className="list-group-item list-group-item-action">
       { props.title } { props.completed === true && "✔️" }
     </div>
   )
@@ -39,11 +39,12 @@ class App extends Component {
   }
 
   displayTodos() {
-    const todos = this.state.allTodos.map(
+    const todos_list_elements = this.state.allTodos.map(
       (todo, index) => {
-        return (<Todo title={todo.title} completed={todo.completed} key={index} />)
+        return (<Todo title={todo.title} completed={todo.completed} key={index} />);
       }
     );
+    const todos = (<div>{todos_list_elements}</div>);
     return todos;
   }
 
@@ -58,11 +59,9 @@ class App extends Component {
             </span>
           </nav>
         </header>
-        <div className="container">
+        <div className="container my-4">
           <div className="row">
             <div className="col">
-              <Todo title="Take garbage out" completed="false" />
-              <Todo title="Repair sink" completed="true" />
               { this.displayTodos() }
             </div>
           </div>
