@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Highlighter from "react-highlight-words"
 
 const axios = require("axios");
 
@@ -11,13 +12,25 @@ function Tip(props) {
   return (
     <div className="tip">
       <p>
-        {props.tip}
+        <Highlighter
+          highlighterClassName="highlight"
+          searchWords={[props.filterStr]}
+          textToHighlight={props.tip || ""}
+          autoEscape={true}
+        />
         {
           props.link &&
           <span className="source-link"> (<a href={ props.link } target="_blank" rel="noopener noreferrer">Source</a>)</span>
         }
       </p>
-      <pre>{props.code}</pre>
+      <pre>
+        <Highlighter
+          highlighterClassName="highlight"
+          searchWords={[props.filterStr]}
+          textToHighlight={props.code || ""}
+          autoEscape={true}
+        />
+      </pre>
       {
         props.share_link &&
         <p className="share-link">
