@@ -13,8 +13,13 @@
   </head>
   <body>
     <div class="container">
+      <header class="row">
+        <div class="col-12">
+          {% block header %}{% endblock header%}
+        </div>
+      </header>
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-12">
           {% block content %}
             <p>No content</p>
           {% endblock content %}

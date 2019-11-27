@@ -1,8 +1,7 @@
-{% extends "base.jinja2" %}
+{% extends "base-with-header.jinja2" %}
 
 {% block content %}
 <div class="content">
-  <h1>Heath - Your Personal Ledger</h1>
-  <p>Hello {{ user.name }}</p>
+  <h3>Hello {{ user.name }}</h3>
 </div>
 {% endblock content %}

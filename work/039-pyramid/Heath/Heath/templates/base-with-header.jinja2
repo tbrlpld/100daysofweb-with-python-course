@@ -1,0 +1,18 @@
+{% extends "base.jinja2" %}
+{% block header %}
+  <div class="row">
+    <div class="col-8">
+      <h1>Heath</h1>
+    </div>
+    <div class="col-4">
+      {% if not request.user %}
+        <a href="{{ request.route_url('login') }}" class="btn btn-default btn-sm float-right">Login</a>
+      {% else %}
+        <span>{{ request.user.name }}</span>
+        <a href="{{ request.route_url('logout') }}" class="btn btn-outline-primary btn-sm float-right">Logout</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock header %}
+{% block content %}
+{% endblock content %}
