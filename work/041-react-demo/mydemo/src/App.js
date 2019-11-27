@@ -13,7 +13,7 @@ function Tip(props) {
     <div className="tip">
       <p>
         <Highlighter
-          highlighterClassName="highlight"
+          highlightClassName="highlight"
           searchWords={[props.filterStr]}
           textToHighlight={props.tip || ""}
           autoEscape={true}
@@ -25,7 +25,7 @@ function Tip(props) {
       </p>
       <pre>
         <Highlighter
-          highlighterClassName="highlight"
+          highlightClassName="highlight"
           searchWords={[props.filterStr]}
           textToHighlight={props.code || ""}
           autoEscape={true}
@@ -107,7 +107,14 @@ class App extends Component {
     return (
       <div className="App">
         <h1>{ PROJECT_NAME } <small>from PyBites</small></h1>
-        <input type="text" name="search" onChange={this.onFilterStringChange}/>
+        <input 
+          type="text" 
+          name="search"
+          className="filter-input"
+          onChange={this.onFilterStringChange}
+          placeholder="Filter tips ..."
+          value={ this.state.filterStr }
+        />
         <hr/>
         <div className="tips">
           { this.displayTips() }

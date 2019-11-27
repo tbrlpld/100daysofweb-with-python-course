@@ -20,3 +20,9 @@
 .App-link {
   color: #09d3ac;
 }
+
+.filter-input {
+  padding: 5px;
+  border: solid hsl(0, 0%, 80%) 1px;
+  border-radius: 3px;
+}
