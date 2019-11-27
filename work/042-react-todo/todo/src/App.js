@@ -14,12 +14,25 @@ class Todo extends Component {
     this.state = {
       title: props.title,
       completed: props.completed,
-    }
+    };
+    this.toggleStatusOnClick = this.toggleStatusOnClick.bind(this);
+  }
+
+  toggleStatusOnClick(event) {
+    console.log("Element clicked");
+    console.log(event.target);
+    const initial_status = this.state.completed;
+    console.log("initial status is: " + initial_status);
+    if (initial_status === true) {
+      this.setState({completed: false});
+    } else {
+      this.setState({completed: true});
+    };
   }
 
   render() {
     return (
-      <div className="list-group-item list-group-item-action">
+      <div className="list-group-item list-group-item-action" onClick={this.toggleStatusOnClick}>
         { this.state.title } { this.state.completed === true && "✔️" }
       </div>
     )
