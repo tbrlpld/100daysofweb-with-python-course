@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const axios = require("axios");
+
 const PROJECT_NAME = "Python Tips"
 const TWITTER_ICON = "https://codechalleng.es/static/img/icon-twitter.png"
+const TIPS_ENDPOINT = "http://127.0.0.1:8000/api/"
 
 function Tip(props) {
   return (
@@ -40,10 +43,29 @@ class App extends Component {
 
   componentDidMount() {
     console.log("Component did mount!");
+    axios.get(TIPS_ENDPOINT)
+      .then(response => {
+        console.log(response.data);
+        this.setState({
+          origTips: response.data,
+          showTips: response.data,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   onFilterStringChange(event) {
     console.log("Filter string has changes.");
+  }
+
+  displayTips() {
+    let tips = []
+    for(const tip of this.state.showTips) {
+      tips.push(Tip(tip))
+    }
+    return tips
   }
 
   render () {
@@ -52,7 +74,9 @@ class App extends Component {
         <h1>{ PROJECT_NAME } <small>from PyBites</small></h1>
         <input type="text" name="search" onChange={this.onFilterStringChange}/>
         <hr/>
-        <Tip tip="Just some text" link="https://example.com/" code="a + b \n c" share_link="http://example.com/share"/>
+        <div className="tips">
+          { this.displayTips() }
+        </div>
       </div>
     );
   }
