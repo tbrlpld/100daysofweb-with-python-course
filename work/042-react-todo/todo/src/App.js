@@ -19,10 +19,7 @@ class Todo extends Component {
   }
 
   toggleStatusOnClick(event) {
-    console.log("Element clicked");
-    console.log(event.target);
     const initial_status = this.state.completed;
-    console.log("initial status is: " + initial_status);
     if (initial_status === true) {
       this.setState({completed: false});
     } else {
@@ -32,8 +29,8 @@ class Todo extends Component {
 
   render() {
     return (
-      <div className="list-group-item list-group-item-action" onClick={this.toggleStatusOnClick}>
-        { this.state.title } { this.state.completed === true && "✔️" }
+      <div className={"list-group-item list-group-item-action text-capitalize " + ((this.state.completed === true) ? "text-muted" : "")} onClick={this.toggleStatusOnClick}>
+        <span className={(this.state.completed === true) ? "text-strike-through" : ""}>{ this.state.title }</span> { this.state.completed === true && "✔️" }
       </div>
     )
   }
