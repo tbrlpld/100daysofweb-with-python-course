@@ -6,14 +6,25 @@ const axios = require("axios")
 
 const TODO_ENDPOINT = "https://jsonplaceholder.typicode.com/todos"
 
-function Todo(props) {
-  return (
-    <div className="list-group-item list-group-item-action">
-      { props.title } { props.completed === true && "✔️" }
-    </div>
-  )
-}
 
+class Todo extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: props.title,
+      completed: props.completed,
+    }
+  }
+
+  render() {
+    return (
+      <div className="list-group-item list-group-item-action">
+        { this.state.title } { this.state.completed === true && "✔️" }
+      </div>
+    )
+  }
+}
 
 class App extends Component {
 
@@ -48,7 +59,7 @@ class App extends Component {
     return todos;
   }
 
-  render () {
+  render() {
     return (
       <div className="App">
         <header className="">
