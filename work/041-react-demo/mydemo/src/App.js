@@ -23,6 +23,7 @@ function Tip(props) {
           <span className="source-link"> (<a href={ props.link } target="_blank" rel="noopener noreferrer">Source</a>)</span>
         }
       </p>
+      { props.code &&
       <pre>
         <Highlighter
           highlightClassName="highlight"
@@ -31,6 +32,7 @@ function Tip(props) {
           autoEscape={true}
         />
       </pre>
+      }
       {
         props.share_link &&
         <p className="share-link">

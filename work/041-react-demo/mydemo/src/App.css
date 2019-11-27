@@ -28,6 +28,24 @@
   padding: 5px;
 }
 
+.tips {
+  margin: 0 auto;
+  width: 80%;
+}
+
 .tip {
   padding-bottom: 2rem; 
+}
+
+.tip pre {
+  background-color: hsl(0, 0%, 95%);
+  border-radius: 3px;
+  padding: 0.5em;
+  text-align: left;
+  overflow-x: hidden;
+  overflow-wrap: none;
+}
+
+.source-link {
+  font-size: smaller;
 }
