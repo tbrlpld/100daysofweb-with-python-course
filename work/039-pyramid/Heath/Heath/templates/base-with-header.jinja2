@@ -4,12 +4,12 @@
     <div class="col-8">
       <h1>Heath</h1>
     </div>
-    <div class="col-4">
+    <div class="col-4 d-flex justify-content-end">
       {% if not request.user %}
-        <a href="{{ request.route_url('login') }}" class="btn btn-default btn-sm float-right">Login</a>
+        <a href="{{ request.route_url('login') }}" class="btn btn-primary btn-sm float-right align-self-center">Login</a>
       {% else %}
-        <span>{{ request.user.name }}</span>
-        <a href="{{ request.route_url('logout') }}" class="btn btn-outline-primary btn-sm float-right">Logout</a>
+        <span class="align-self-center px-2">{{ request.user.name }}</span>
+        <a href="{{ request.route_url('logout') }}" class="btn btn-outline-primary btn-sm align-self-center">Logout</a>
       {% endif %}
     </div>
   </div>
