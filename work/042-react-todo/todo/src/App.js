@@ -9,7 +9,7 @@ const TODO_ENDPOINT = "https://jsonplaceholder.typicode.com/todos"
 function Todo(props) {
   return (
     <div>
-      {props.title} { props.completed === "true" && "✔️" }
+      { props.title } { props.completed === true && "✔️" }
     </div>
   )
 }
@@ -21,7 +21,8 @@ class App extends Component {
     super(props);
     this.state = {
       allTodos: [],
-    }
+    };
+    this.displayTodos = this.displayTodos.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +36,15 @@ class App extends Component {
       .catch(error => {
         console.log(error)
       });
+  }
+
+  displayTodos() {
+    const todos = this.state.allTodos.map(
+      (todo, index) => {
+        return (<Todo title={todo.title} completed={todo.completed} key={index} />)
+      }
+    );
+    return todos;
   }
 
   render () {
@@ -53,6 +63,7 @@ class App extends Component {
             <div className="col">
               <Todo title="Take garbage out" completed="false" />
               <Todo title="Repair sink" completed="true" />
+              { this.displayTodos() }
             </div>
           </div>
         </div>
