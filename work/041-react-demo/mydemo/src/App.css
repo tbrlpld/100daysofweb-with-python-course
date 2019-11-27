@@ -22,7 +22,12 @@
 }
 
 .filter-input {
-  padding: 5px;
-  border: solid hsl(0, 0%, 80%) 1px;
+  border: 1px solid hsl(0, 0%, 80%);
   border-radius: 3px;
+  box-shadow: inset 0 1px 1.5px 0 hsla(0, 0%, 0%, 0.2);
+  padding: 5px;
+}
+
+.tip {
+  padding-bottom: 2rem; 
 }
