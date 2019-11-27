@@ -58,14 +58,21 @@ class App extends Component {
 
   onFilterStringChange(event) {
     console.log("Filter string has changes.");
+    console.log(event.target.value);
   }
 
   displayTips() {
-    let tips = []
-    for(const tip of this.state.showTips) {
-      tips.push(Tip(tip))
-    }
-    return tips
+    // let tips = []
+    // for(const tip of this.state.showTips) {
+    //   tips.push(Tip(tip))
+    // }
+    // return tips
+    const tipsDisplay = this.state.showTips.map(
+      (tip, index) => {
+        return (<Tip {...tip} key={index} filterStr={this.state.filterStr} />)
+      }
+    )
+    return tipsDisplay
   }
 
   render () {
