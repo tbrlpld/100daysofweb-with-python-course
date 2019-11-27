@@ -2,6 +2,20 @@
 
 {% block content %}
 <div class="content">
-  <h3>Hello {{ user.name }}</h3>
+  <div class="row">
+    <div class="col-12">
+      <h3>Hello {{ user.name }}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <ul>
+        {% for account in accounts %}
+        <li>{{ account.name }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
 </div>
 {% endblock content %}

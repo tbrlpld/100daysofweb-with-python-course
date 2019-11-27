@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+
+"""Define Account model and utility functions."""
+
+from typing import List
 import datetime
 
 from sqlalchemy import (
@@ -9,12 +14,16 @@ from sqlalchemy import (
     ForeignKey,
     orm,
 )
+from sqlalchemy.orm import Session
 
-from .meta import Base
+from Heath.models.meta import Base
+from Heath.models.user import User
 
 
 class Account(Base):
-    __tablename__ = 'accounts'
+    """Define Account model."""
+
+    __tablename__ = "accounts"
 
     id_ = Column("id", Integer, primary_key=True)
     name = Column(Text, index=True)
@@ -33,3 +42,8 @@ class Account(Base):
         uselist=True,
         back_populates="account",
     )
+
+
+def get_accounts_by_user(session: Session, user: User) -> List[Account]:
+    """Return accounts for a given user."""
+    return session.query(Account).filter(Account.user == user).all()
