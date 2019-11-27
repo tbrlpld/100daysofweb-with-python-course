@@ -3,24 +3,33 @@ import logo from './logo.svg';
 import './App.css';
 
 
+function Todo(props) {
+  return (
+    <div>
+      {props.title} { props.completed === "true" && "✔️" }
+    </div>
+  )
+}
+
+
 class App extends Component {
+
   render () {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+        <header className="">
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <span className="navbar-brand">React Todo App</span>
+          </nav>
         </header>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <Todo title="Take garbage out" completed="false" />
+              <Todo title="Repair sink" completed="true" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
