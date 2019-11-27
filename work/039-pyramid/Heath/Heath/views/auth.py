@@ -4,7 +4,7 @@
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import remember
+from pyramid.security import remember, forget
 
 from Heath.models import user
 
@@ -42,3 +42,11 @@ def login(request):
         "url": request.route_url("login"),
         "next_url": next_url,
     }
+
+
+@view_config(route_name="logout")
+def logout(request):
+    """Log the currently logged in user out."""
+    headers = forget(request)
+    next_url = request.route_url("landing")
+    return HTTPFound(location=next_url, headers=headers)
