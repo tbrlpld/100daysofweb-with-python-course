@@ -48,11 +48,6 @@ class Account(Base):
         return user_id == self.user_id
 
 
-def get_accounts_by_user(session: Session, user: User) -> List[Account]:
-    """Return accounts for a given user."""
-    return session.query(Account).filter(Account.user == user).all()
-
-
 def get_account_by_id(session: Session, account_id: int) -> Optional[Account]:
     """Get account by id."""
     return session.query(Account).filter(Account.id_ == account_id).first()

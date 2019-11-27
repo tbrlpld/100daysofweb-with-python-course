@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-12">
       <ul>
-        {% for account in accounts %}
+        {% for account in user.accounts %}
           <li><a href="{{ request.route_url('account', account_id=account.id_)}}">{{ account.name }}</a></li>
         {% endfor %}
       </ul>

@@ -2,12 +2,11 @@
 
 """Defines account view."""
 
-from typing import Optional, List, Dict
+from typing import Optional, Dict
 
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.request import Request
 from pyramid.view import view_config
-from sqlalchemy.orm import Session
 
 from Heath.models.account import Account, get_account_by_id
 
@@ -21,9 +20,8 @@ def account(request: Request) -> Dict:
         session=request.dbsession,
         account_id=account_id,
     )
-    # Check access
+    # TODO: Check access
 
-    # Get records
 
     return {
         "account": account_obj,
