@@ -5,6 +5,9 @@ import './index.css';
 
 const GAME_NAME = "Free Monkey";
 const HEADER_MSG = "Guess the movie title!";
+const MONKEY_IMG = (num) => `http://projects.bobbelderbos.com/hangman/monkey${num}.png`;
+const WIN_IMAGE_STRING = "_wins";
+
 
 class App extends Component {
 
@@ -33,6 +36,7 @@ class App extends Component {
       header: HEADER_MSG,
       movie: movie.split(""),
       mask: movie.replace(/[A-Za-z]/g, "_"),
+      badGuesses: 0,
     });
   }
 
@@ -45,7 +49,7 @@ class App extends Component {
             <h3>{this.state.header}</h3>
           </header>
           <div> 
-            <img src={this.state.image} alt="Game status" />
+            <img src={MONKEY_IMG(this.state.badGuesses)} alt="Game status" />
           </div>
           <div id="mask">
             {this.state.mask}
