@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import './index.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const GAME_NAME = "Free Monkey";
+
+
+class App extends Component {
+
+  // TODO: Define `constructor` and `componentDidMount`
+  // TODO: Reset game method, render state variables
+  // TODO: Create keyboard with letter buttons
+  // TODO: Match chars and update state 
+  // TODO: Style buttons based on guess (green if in word, else red) 
+  // TODO: Win/loss helpers to check state. 
+
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+  componentDidMount() {
+    console.log("Component did mount: ");
+    console.log(this);
+    this.resetGame();
+  }
+
+  resetGame = () => {
+    this.setState({
+      header: GAME_NAME,
+    })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div id="game">
+          <header>
+            <h1>{this.state.header}</h1>
+          </header>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
