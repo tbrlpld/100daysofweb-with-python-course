@@ -39,6 +39,15 @@ class App extends Component {
           <header>
             <h1>{this.state.header}</h1>
           </header>
+          <div> 
+            <img src={this.state.image} alt="Game status image" />
+          </div>
+          <div id="mask">
+            The Guess Word
+          </div>
+          <div>
+            {/* Letter buttons */}
+          </div>
         </div>
       </div>
     );
