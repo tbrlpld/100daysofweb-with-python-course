@@ -28,11 +28,12 @@ class App extends Component {
 
   resetGame = () => {
     const movie = getRandomMovie();
-    console.log(movie.split(""));
+    console.log(movie);
     this.setState({
       header: HEADER_MSG,
       movie: movie.split(""),
-    })
+      mask: movie.replace(/[A-Za-z]/g, "_"),
+    });
   }
 
   render() {
@@ -47,7 +48,7 @@ class App extends Component {
             <img src={this.state.image} alt="Game status" />
           </div>
           <div id="mask">
-            The Guess Word
+            {this.state.mask}
           </div>
           <div>
             {/* Letter buttons */}
