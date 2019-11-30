@@ -12,9 +12,6 @@ const REPLACE_CHAR = "_"
 
 class App extends Component {
 
-  // TODO: Style buttons based on guess (green if in word, else red) 
-  // TODO: Win/loss helpers to check state. 
-
   constructor(props) {
     super(props);
     this.state = {
@@ -67,7 +64,11 @@ class App extends Component {
       badGuesses: matched ? this.state.badGuesses : this.state.badGuesses + 1,
     })
     clickedButton.disabled = true;
+    clickedButton.style.backgroundColor = matched ? "green" : "red";
+    clickedButton.style.color = "white";
   }
+
+  // TODO: Win/loss helpers to check state. 
 
   render() {
     return (
