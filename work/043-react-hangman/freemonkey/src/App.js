@@ -102,6 +102,7 @@ class App extends Component {
     this.setState({
       header: LOSS_MSG,
       buttonWidget: this.newGameButton("Try Again"),
+      mask: this.state.movie,  // Show the answer.
     });
   }
 
