@@ -7,8 +7,9 @@ const GAME_NAME = "Free Monkey";
 const HEADER_MSG = "Guess the movie title!";
 const MONKEY_IMG = (num) => `http://projects.bobbelderbos.com/hangman/monkey${num}.png`;
 const WIN_IMAGE_POSTFIX = "_wins";
-const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("")
-const REPLACE_CHAR = "_"
+const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("");
+const REPLACE_CHAR = "_";
+const MAX_GUESSES = 5;
 
 class App extends Component {
 
@@ -49,6 +50,7 @@ class App extends Component {
     console.log(clickedButton.innerHTML);
     let newMask = [];
     let matched = false;
+
     for (let i = 0; i < this.state.mask.length; i++) {
       if (this.state.mask[i] === REPLACE_CHAR 
         && clickedButton.innerHTML.toLowerCase() === this.state.movie[i].toLowerCase()) {
@@ -59,16 +61,37 @@ class App extends Component {
       }
     }
     console.log("Match: " + matched);
-    this.setState({
-      mask: newMask,
-      badGuesses: matched ? this.state.badGuesses : this.state.badGuesses + 1,
-    })
+
+    this.setState(
+      {
+        mask: newMask,
+        badGuesses: (matched ? this.state.badGuesses : this.state.badGuesses + 1),
+      }, 
+      this.checkWinOrLoss  // Callback, after state is updated
+    )
+
     clickedButton.disabled = true;
     clickedButton.style.backgroundColor = matched ? "green" : "red";
     clickedButton.style.color = "white";
   }
 
-  // TODO: Win/loss helpers to check state. 
+  checkWinOrLoss = () => {
+    console.log(this.state.badGuesses);
+    if (!this.state.mask.includes(REPLACE_CHAR)) {
+      // Once all the replacement characters are removed from the mask, the game is won.
+      this.onWin();
+    } else if (this.state.badGuesses >= MAX_GUESSES) {
+      this.onLoss();
+    }
+  }
+
+  onWin = () => {
+    console.log("WIN");
+  }
+
+  onLoss = () => {
+    console.log("LOSS");
+  }
 
   render() {
     return (
