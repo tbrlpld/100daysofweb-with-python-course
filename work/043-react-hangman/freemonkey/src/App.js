@@ -6,14 +6,12 @@ import './index.css';
 const GAME_NAME = "Free Monkey";
 const HEADER_MSG = "Guess the movie title!";
 const MONKEY_IMG = (num) => `http://projects.bobbelderbos.com/hangman/monkey${num}.png`;
-const WIN_IMAGE_STRING = "_wins";
-
+const WIN_IMAGE_POSTFIX = "_wins";
+const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("")
+const REPLACE_CHAR = "_"
 
 class App extends Component {
 
-  // TODO: Reset game method, render state variables
-  // TODO: Create keyboard with letter buttons
-  // TODO: Match chars and update state 
   // TODO: Style buttons based on guess (green if in word, else red) 
   // TODO: Win/loss helpers to check state. 
 
@@ -35,9 +33,40 @@ class App extends Component {
     this.setState({
       header: HEADER_MSG,
       movie: movie.split(""),
-      mask: movie.replace(/[A-Za-z]/g, "_"),
+      mask: movie.replace(/[A-Za-z]/g, REPLACE_CHAR),
       badGuesses: 0,
     });
+  }
+
+  createButtons = () => {
+    let buttons = [];
+    for (let i = 0; i < ALPHABET.length; i++) {
+      const btn = <button className="letter" key={i} onClick={this.charClick}>{ ALPHABET[i].toUpperCase() }</button>;
+      buttons.push(btn);
+    }
+    return buttons;
+  }
+
+  charClick = (event) => {
+    const clickedButton = event.target;
+    console.log(clickedButton.innerHTML);
+    let newMask = [];
+    let matched = false;
+    for (let i = 0; i < this.state.mask.length; i++) {
+      if (this.state.mask[i] === REPLACE_CHAR 
+        && clickedButton.innerHTML.toLowerCase() === this.state.movie[i].toLowerCase()) {
+        newMask.push(this.state.movie[i]);
+        matched = true;
+      } else {
+        newMask.push(this.state.mask[i]);
+      }
+    }
+    console.log("Match: " + matched);
+    this.setState({
+      mask: newMask,
+      badGuesses: matched ? this.state.badGuesses : this.state.badGuesses + 1,
+    })
+    clickedButton.disabled = true;
   }
 
   render() {
@@ -49,13 +78,13 @@ class App extends Component {
             <h3>{this.state.header}</h3>
           </header>
           <div> 
-            <img src={MONKEY_IMG(this.state.badGuesses)} alt="Game status" />
+            <img src={MONKEY_IMG(this.state.badGuesses)} alt="game status" />
           </div>
           <div id="mask">
             {this.state.mask}
           </div>
           <div>
-            {/* Letter buttons */}
+            { this.createButtons() }
           </div>
         </div>
       </div>
