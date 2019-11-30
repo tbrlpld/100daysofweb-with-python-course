@@ -22,8 +22,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("Component did mount: ");
-    console.log(this);
     this.resetGame();
   }
 
@@ -50,7 +48,6 @@ class App extends Component {
 
   charClick = (event) => {
     const clickedButton = event.target;
-    console.log(clickedButton.innerHTML);
     let newMask = [];
     let matched = false;
 
@@ -63,7 +60,6 @@ class App extends Component {
         newMask.push(this.state.mask[i]);
       }
     }
-    console.log("Match: " + matched);
 
     this.setState(
       {
@@ -93,7 +89,6 @@ class App extends Component {
   isWon = () => !this.state.mask.includes(REPLACE_CHAR);
 
   onWin = () => {
-    console.log("WIN");
     this.setState({
       header: WIN_MSG,
       buttonWidget: this.newGameButton("Play Again"),
@@ -104,7 +99,6 @@ class App extends Component {
   isLoss = () => this.state.badGuesses >= MAX_GUESSES;
 
   onLoss = () => {
-    console.log("LOSS");
     this.setState({
       header: LOSS_MSG,
       buttonWidget: this.newGameButton("Try Again"),
