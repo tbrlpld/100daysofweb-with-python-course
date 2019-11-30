@@ -5,6 +5,8 @@ import './index.css';
 
 const GAME_NAME = "Free Monkey";
 const HEADER_MSG = "Guess the movie title!";
+const WIN_MSG = "You freed the monkey! :)"
+const LOSS_MSG = "Oh no, the monkey is trapped! :("
 const MONKEY_IMG = (num) => `http://projects.bobbelderbos.com/hangman/monkey${num}.png`;
 const WIN_IMAGE_POSTFIX = "_wins";
 const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -33,10 +35,11 @@ class App extends Component {
       movie: movie.split(""),
       mask: movie.replace(/[A-Za-z]/g, REPLACE_CHAR),
       badGuesses: 0,
+      buttonWidget: this.createLetterButtons(),
     });
   }
 
-  createButtons = () => {
+  createLetterButtons = () => {
     let buttons = [];
     for (let i = 0; i < ALPHABET.length; i++) {
       const btn = <button className="letter" key={i} onClick={this.charClick}>{ ALPHABET[i].toUpperCase() }</button>;
@@ -76,21 +79,40 @@ class App extends Component {
   }
 
   checkWinOrLoss = () => {
-    console.log(this.state.badGuesses);
-    if (!this.state.mask.includes(REPLACE_CHAR)) {
-      // Once all the replacement characters are removed from the mask, the game is won.
+    if (this.isWon()) {
       this.onWin();
-    } else if (this.state.badGuesses >= MAX_GUESSES) {
+      return;
+    }
+    if (this.isLoss()) {
       this.onLoss();
+      return;
     }
   }
 
+  // Once all the replacement characters are removed from the mask, the game is won.
+  isWon = () => !this.state.mask.includes(REPLACE_CHAR);
+
   onWin = () => {
     console.log("WIN");
+    this.setState({
+      header: WIN_MSG,
+      buttonWidget: this.newGameButton("Play Again"),
+      badGuesses: WIN_IMAGE_POSTFIX,  // For win image rendering.
+    });
   }
+
+  isLoss = () => this.state.badGuesses >= MAX_GUESSES;
 
   onLoss = () => {
     console.log("LOSS");
+    this.setState({
+      header: LOSS_MSG,
+      buttonWidget: this.newGameButton("Try Again"),
+    });
+  }
+
+  newGameButton = (msg) => {
+    return <button onClick={this.resetGame}>{ msg }</button>
   }
 
   render() {
@@ -108,7 +130,7 @@ class App extends Component {
             {this.state.mask}
           </div>
           <div>
-            { this.createButtons() }
+            { this.state.buttonWidget }
           </div>
         </div>
       </div>
