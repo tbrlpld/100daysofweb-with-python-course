@@ -96,8 +96,8 @@ class App extends Component {
   handleClick = (rowIndex, fieldIndex) => {
     let gameStatus = this.state.gameStatus.slice();
 
-    // Check field is not filled yet
-    if (gameStatus[rowIndex][fieldIndex] !== null) {
+    // Check game not over and field is not filled yet 
+    if (this.state.gameOver || gameStatus[rowIndex][fieldIndex] !== null) {
       return;
     }
 
@@ -218,11 +218,6 @@ class App extends Component {
   }
 
   handleWon = () => {
-    // Disable all fields
-    const fields = document.getElementsByClassName("field");
-    for (let field of fields) {
-      field.disabled = true;
-    }
     // Set win message
     this.setState({
       gameOver: true,
@@ -250,7 +245,7 @@ class App extends Component {
 
   drawRestartButton = () => {
     if (this.state.gameOver === true) {
-      return (<button className="reset-button" onClick={this.resetGame}>Play again!</button>);
+      return (<button className="reset-button" onClick={() => this.resetGame()}>Play again!</button>);
     } 
   }
 
