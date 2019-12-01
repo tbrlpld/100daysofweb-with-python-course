@@ -250,7 +250,7 @@ class App extends Component {
 
   drawRestartButton = () => {
     if (this.state.gameOver === true) {
-      return (<button onClick={this.resetGame}>Play again!</button>);
+      return (<button className="reset-button" onClick={this.resetGame}>Play again!</button>);
     } 
   }
 
@@ -284,7 +284,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <div className="restart-wrapper">
+        <div className="reset-wrapper">
           {this.drawRestartButton()}
         </div>
       </div>

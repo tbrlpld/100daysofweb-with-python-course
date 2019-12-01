@@ -113,3 +113,14 @@
       -ms-user-select: none;
           user-select: none;
 }
+
+.reset-button {
+  background-color: gray;
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 20px auto;
+  padding: 5px;
+}
