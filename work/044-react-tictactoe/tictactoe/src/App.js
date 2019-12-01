@@ -48,7 +48,18 @@ class App extends Component {
     const fieldKey = index;
     console.log("Drawing Field: " + fieldKey);
     console.log(field);
-    return (<div className="field" key={fieldKey}>{ field }</div>)
+    return (
+      <div className="field" key={fieldKey} onClick={this.fieldClick}>
+        <div className="field-value">{ field }</div>
+      </div>
+    )
+  }
+
+  fieldClick = (event) => {
+    const clickedField = event.target;
+    const filedValueElement = clickedField.getElementsByClassName("field-value")[0];
+    console.log(filedValueElement);
+    filedValueElement.innerHTML = PLAYER_SYMBOLS[this.state.activePlayer - 1];
   }
 
   render() {
