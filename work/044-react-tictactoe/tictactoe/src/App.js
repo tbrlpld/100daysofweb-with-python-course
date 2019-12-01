@@ -3,17 +3,16 @@ import './App.css';
 
 
 const GAME_TITLE = "tic-tac-toe";
-const PLAYER_SYMBOLS = ["X", "O"];
-const INITIAL_GAME_STATUS = [
-  ["", "", ""],
-  ["", "", ""],
-  ["", "", ""],
-];
-const INITIAL_STATE = {
-  activePlayer: 1,
-  gameStatus: INITIAL_GAME_STATUS,
-  winMsg: "",
-  gameOver: false,
+
+
+function Field(props) {
+  return (
+    <button className="field" onClick={props.onClick}>
+        {/*<div className="field-value noselect"> */}
+          {props.value}
+        {/*</div>*/}
+    </button>
+  )
 }
 
 
@@ -22,83 +21,67 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStatus: INITIAL_GAME_STATUS,
+      activePlayer: "X",
+      gameStatus: [
+          ["1", "2", "3"],
+          ["4", "5", "6"],
+          ["7", "8", "9"],
+        ],
+      gameOver: false,
     };
   }
 
-  componentDidMount() {
-    console.log("Did mount.")
-    this.resetGame();
-  }
+  // componentDidMount() {
+  //   console.log("Did mount.")
+  //   // this.resetGame();
+  // }
 
-  resetGame = () => {
-    console.log("Resetting game.")
-    this.setState({
-      activePlayer: 1,
-      gameStatus: INITIAL_GAME_STATUS,
-      winMsg: "",
-      gameOver: false,
-    })
-  }
-
-  activePlayerSymbol = () => PLAYER_SYMBOLS[this.state.activePlayer - 1];
+  // resetGame = () => {
+  //   console.log("Resetting game.")
+  //   // this.setState({
+  //   //   activePlayer: 1,
+  //   //   gameStatus: INITIAL_GAME_STATUS,
+  //   //   winMsg: "",
+  //   //   gameOver: false,
+  //   // })
+  // }
 
   drawHeader = () => {
-    if (this.state.winMsg) {
-      return (<div className="header flex-justify-center"><div className="player win-msg">{this.state.winMsg}</div></div>);
+    if (this.state.gameOver) {
+      return (
+        <div className="header flex-justify-center">
+          <div className="player win-msg">
+            Player {this.state.activePlayer} wins!
+          </div>
+        </div>
+      );
     } 
 
-    let playerOneClasses = "player"
-    let playerTwoClasses = "player"
-    if (this.state.activePlayer === 1) {
-      playerOneClasses += " active-player"
-    } else if (this.state.activePlayer === 2) {
-      playerTwoClasses += " active-player"
-    }
-    const playerOneElement = (<div className={playerOneClasses}>Player {PLAYER_SYMBOLS[0]}</div>);
-    const playerTwoElement = (<div className={playerTwoClasses}>Player {PLAYER_SYMBOLS[1]}</div>);
-    return (<div className="header flex-justify-spacebetween">{playerOneElement}{playerTwoElement}</div>);
+    const playerXClasses = (this.state.activePlayer === "X") ? "player active-player" : "player"
+    const playerOClasses = (this.state.activePlayer === "O") ? "player active-player" : "player"
+    
+    const playerXElement = (<div className={playerXClasses}>Player X</div>);
+    const playerOElement = (<div className={playerOClasses}>Player O</div>);
+
+    return (<div className="header flex-justify-spacebetween">{playerXElement}{playerOElement}</div>);
   }
 
-  drawGame = () => {
-    console.log("Drawing Game...")
-    const rows = this.state.gameStatus.map(this.drawRow);
-    const game = (<div className="game">{ rows }</div>);
-    return game;
-  }
-
-  drawRow = (row, index) => {
-    const fields = row.map(this.drawFields);
-    return (<div className="field-row" row-index={index} key={index}>{fields}</div>);
-  }
-
-  drawFields = (field, index) => {
+  drawField = (rowIndex, fieldIndex, value) => {
     return (
-      <div className="field" field-index={index} key={index} onClick={this.fieldClick}>
-        <div className="field-value noselect">{field}</div>
-      </div>
+      <Field 
+        value={this.state.gameStatus[rowIndex][fieldIndex]}
+        onClick={() => this.handleClick(rowIndex, fieldIndex)}
+      />
     )
   }
 
-  fieldClick = (event) => {
-    const clickedField = event.target;
-    if (clickedField.disabled) {
-      console.log("This field is disabled");
-    } else {
-      const fieldIndex = Number(clickedField.getAttribute("field-index"));
-      const rowIndex = Number(clickedField.parentElement.getAttribute("row-index"));
-      // console.log(rowIndex + ", " + fieldIndex);
-      if (typeof fieldIndex === "number" && typeof rowIndex === "number") {
-        let newGameStatus = this.state.gameStatus;
-        newGameStatus[rowIndex][fieldIndex] = this.activePlayerSymbol();
-        this.setState({
-          gameStatus: newGameStatus,
-        }, this.postProcessingClick)
-        clickedField.disabled = true;
-      } else {
-        console.log("Something went wrong with the indexes.")
-      }
-    }
+  handleClick = (rowIndex, fieldIndex) => {
+    let newGameStatus = this.state.gameStatus.slice();
+    newGameStatus[rowIndex][fieldIndex] = this.state.activePlayer;
+    this.setState({
+      activePlayer: this.otherPlayer(),
+      gameStatus: newGameStatus,
+    });
   }
 
   postProcessingClick = () => {
@@ -110,16 +93,8 @@ class App extends Component {
     }
   }
 
-  togglePlayer = () => {
-    let newActive = 0;
-    if (this.state.activePlayer === 1) {
-      newActive = 2;
-    } else if (this.state.activePlayer === 2) {
-      newActive = 1;
-    }
-    this.setState({
-      activePlayer: newActive,
-    });
+  otherPlayer = () => {
+    return (this.state.activePlayer === "X") ? "O" : "X";
   }
 
   checkWin = () => {
@@ -153,7 +128,7 @@ class App extends Component {
       let otherValueFound = false;
       for (let fieldIndex = 0; fieldIndex < row.length; fieldIndex++) {
         let value = row[fieldIndex];
-        if (!(value === this.activePlayerSymbol())) {
+        if (!(value === this.state.activePlayer)) {
           otherValueFound = true;
           break;
         }
@@ -174,7 +149,7 @@ class App extends Component {
       let otherValueFound = false;
       for (let rowIndex = 0; rowIndex < this.state.gameStatus.length; rowIndex++) {
         let value = this.state.gameStatus[rowIndex][columnIndex];
-        if (value !== this.activePlayerSymbol()) {
+        if (value !== this.activePlayer) {
           otherValueFound = true;
           break;
         }
@@ -209,7 +184,7 @@ class App extends Component {
   checkWinDiag = (diag) => {
     let otherValueFound = false;
     for (let value of diag) {
-      if (value !== this.activePlayerSymbol()) {
+      if (value !== this.activePlayer) {
         otherValueFound = true;
       }
     }
@@ -225,7 +200,7 @@ class App extends Component {
     // Set win message
     this.setState({
       gameOver: true,
-      winMsg: "Player " + this.activePlayerSymbol() + " wins!",
+      winMsg: "Player " + this.activePlayer + " wins!",
     })
   }
 
@@ -247,7 +222,23 @@ class App extends Component {
           {this.drawHeader()}
         </div>
         <div className="game-wrapper">
-          {this.drawGame()}
+          <div className="game">
+            <div className="field-row">
+              {this.drawField(0, 0, 1)}
+              {this.drawField(0, 1, 2)}
+              {this.drawField(0, 2, 3)}
+            </div>
+            <div className="field-row">
+              {this.drawField(1, 0, 4)}
+              {this.drawField(1, 1, 5)}
+              {this.drawField(1, 2, 6)}
+            </div>
+            <div className="field-row">
+              {this.drawField(2, 0, 7)}
+              {this.drawField(2, 1, 8)}
+              {this.drawField(2, 2, 9)}
+            </div>
+          </div>
         </div>
         <div className="restart-wrapper">
           {this.drawRestartButton()}
