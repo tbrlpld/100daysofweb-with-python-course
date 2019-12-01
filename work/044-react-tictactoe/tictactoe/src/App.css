@@ -46,6 +46,11 @@
   color: white;
 }
 
+.draw-msg {
+  background-color: lightgrey;
+  color: white;
+}
+
 .game-wrapper {
   width: 100%;
 }

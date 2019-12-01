@@ -21,9 +21,9 @@ class App extends Component {
     this.state = {
       activePlayer: "X",
       gameStatus: [
-          ["1", "2", "3"],
-          ["4", "5", "6"],
-          ["7", "8", "9"],
+          [null, null, null],
+          [null, null, null],
+          [null, null, null],
         ],
       gameOver: false,
     };
@@ -45,23 +45,38 @@ class App extends Component {
   // }
 
   drawHeader = () => {
-    if (this.state.gameOver) {
+    if (!this.state.gameOver) {
+      const playerXClasses = (this.state.activePlayer === "X") ? "player active-player" : "player";
+      const playerOClasses = (this.state.activePlayer === "O") ? "player active-player" : "player";
+      
+      const playerXElement = (<div className={playerXClasses}>Player X</div>);
+      const playerOElement = (<div className={playerOClasses}>Player O</div>);
+
       return (
-        <div className="header flex-justify-center">
-          <div className="player win-msg">
-            Player {this.state.activePlayer} wins!
-          </div>
+        <div className="header flex-justify-spacebetween">
+          {playerXElement}
+          {playerOElement}
         </div>
       );
     } 
+    if (this.state.winner !== null) {
+      return (
+        <div className="header flex-justify-center">
+          <div className="player win-msg">
+            Player {this.state.winner} wins!
+          </div>
+        </div>
+      );
+    } else {
+      return ( 
+        <div className="header flex-justify-center">
+          <div className="player draw-msg">
+            Draw!
+          </div>
+        </div>
+      )
+    }
 
-    const playerXClasses = (this.state.activePlayer === "X") ? "player active-player" : "player"
-    const playerOClasses = (this.state.activePlayer === "O") ? "player active-player" : "player"
-    
-    const playerXElement = (<div className={playerXClasses}>Player X</div>);
-    const playerOElement = (<div className={playerOClasses}>Player O</div>);
-
-    return (<div className="header flex-justify-spacebetween">{playerXElement}{playerOElement}</div>);
   }
 
   drawField = (rowIndex, fieldIndex, value) => {
@@ -85,9 +100,11 @@ class App extends Component {
   }
 
   postProcessingClick = () => {
-    const win = this.checkWin();
-    if (win) {
+    if (this.checkWin()) {
       this.handleWon();
+    } else if (this.checkAllFilled()) {
+      console.log("Draw!")
+      this.handleDraw();
     } else {
       console.log("Switching player.")
       this.setState({
@@ -202,7 +219,26 @@ class App extends Component {
     // Set win message
     this.setState({
       gameOver: true,
+      winner: this.state.activePlayer,
     })
+  }
+
+  checkAllFilled = () => {
+    for (let row of this.state.gameStatus) {
+      for (let field of row) {
+        if (field === null) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  handleDraw = () => {
+    this.setState({
+      gameOver: true,
+      winner: null,
+    });
   }
 
   drawRestartButton = () => {
