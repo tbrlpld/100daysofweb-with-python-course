@@ -91,10 +91,6 @@ class App extends Component {
     this.togglePlayer();
   }
 
-  // TODO: Check is game is over
-
-  checkWin = () => {}
-
   togglePlayer = () => {
     let newActive = 0
     if (this.state.activePlayer === 1) {
@@ -106,6 +102,50 @@ class App extends Component {
       activePlayer: newActive,
     });
   }
+
+  checkWin = () => {
+    let won = false;
+    const winRow = this.checkWinRows()
+    if (winRow !== null) {
+      console.log("Winning row found: " + winRow);
+      won = true;
+    } 
+    this.checkWinColumns()
+    this.checkWinDiagonals()
+  }
+
+  checkWinRows = () => {
+    for (let rowIndex = 0; rowIndex < this.state.gameStatus.length; rowIndex++) {
+      let row = this.state.gameStatus[rowIndex];
+      console.log(row);
+      let otherValueFound = false;
+      for (let fieldIndex = 0; fieldIndex < row.length; fieldIndex++) {
+        let value = row[fieldIndex];
+        // console.log(field)
+        if (!(value === this.activePlayerSymbol())) {
+          console.log("Other value found!")
+          otherValueFound = true;
+          break;
+        }
+      }
+      // If no other value was found, this is the winning row. Return the index.
+      if (!otherValueFound) {
+        return rowIndex;
+      }
+    }
+    // If iterating through all rows without finding one where only the active players are contained
+    // then this is not the winning row.
+    return null;
+  }
+
+  checkWinColumns = () => {
+    return;
+  }
+
+  checkWinDiagonals = () => {
+    return;
+  }
+  // TODO: Highlight winning fields
 
   render() {
     return (
