@@ -1,0 +1,105 @@
+.App {
+  box-sizing: border-box;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.player-header-wrapper {
+  width: 100%;
+}
+
+.player-header {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 20px auto;
+  max-width: 300px;
+  width: 100%;
+}
+
+.flex-justify-spacebetween {
+  justify-content: space-between;
+}
+
+.flex-justify-center {
+  justify-content: center;
+}
+
+.player {
+  border: 1px solid;
+  border-color: lightblue;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 5px;
+}
+
+.active-player {
+  font-color: white;
+  background-color: lightblue;
+}
+
+.game-wrapper {
+  width: 100%;
+}
+
+.game {
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin: 0 auto;
+  padding: 0;
+  width: max-content;
+}
+
+.field-row {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.field {
+  border: 1px solid black;
+  border: 1px solid hsl(0, 0%, 20%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+}
+
+.field-row:first-of-type > .field {
+  border-top: 0;
+  margin-top: 0;
+}
+
+.field-row:last-of-type > .field {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+
+.field-row > .field:first-of-type {
+  border-left: 0;
+  margin-left: 0;
+}
+
+.field-row > .field:last-of-type {
+  border-right: 0;
+  margin-right: 0;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.win-msg {
+  background-color: limegreen;
+  color: white;
+}
