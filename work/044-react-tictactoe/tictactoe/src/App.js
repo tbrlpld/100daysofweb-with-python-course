@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   ],
 }
 
+
 class App extends Component {
 
   constructor(props) {
@@ -30,6 +31,8 @@ class App extends Component {
     return;
   }
 
+  activePlayerSymbol = () => PLAYER_SYMBOLS[this.state.activePlayer - 1];
+
   drawGame = () => {
     const rows = this.state.gameStatus.map(this.drawRow);
     const game = (<div className="game">{ rows }</div>);
@@ -37,29 +40,58 @@ class App extends Component {
   }
 
   drawRow = (row, index) => {
-    const rowKey = index;
-    console.log("Drawing Row: " + rowKey);
-    console.log(row);
     const fields = row.map(this.drawFields);
-    return (<div className="field-row" key={index}>{fields}</div>);
+    return (<div className="field-row" row-index={index} key={index}>{fields}</div>);
   }
 
   drawFields = (field, index) => {
-    const fieldKey = index;
-    console.log("Drawing Field: " + fieldKey);
-    console.log(field);
     return (
-      <div className="field" key={fieldKey} onClick={this.fieldClick}>
-        <div className="field-value">{ field }</div>
+      <div className="field" field-index={index} key={index} onClick={this.fieldClick}>
+        <div className="field-value noselect">{field}</div>
       </div>
     )
   }
 
   fieldClick = (event) => {
     const clickedField = event.target;
-    const filedValueElement = clickedField.getElementsByClassName("field-value")[0];
-    console.log(filedValueElement);
-    filedValueElement.innerHTML = PLAYER_SYMBOLS[this.state.activePlayer - 1];
+    if (clickedField.disabled) {
+      console.log("This field is disabled");
+    } else {
+      const fieldIndex = Number(clickedField.getAttribute("field-index"));
+      const rowIndex = Number(clickedField.parentElement.getAttribute("row-index"));
+      console.log(rowIndex + ", " + fieldIndex);
+      if (typeof fieldIndex === "number" && typeof rowIndex === "number") {
+        let newGameStatus = this.state.gameStatus;
+        newGameStatus[rowIndex][fieldIndex] = this.activePlayerSymbol();
+        this.setState({
+          gameStatus: newGameStatus,
+        }, this.postProcessingClick)
+        clickedField.disabled = true;
+      } else {
+        console.log("Something went wrong with the indexes.")
+      }
+    }
+  }
+
+  postProcessingClick = () => {
+    this.checkWin();
+    this.togglePlayer();      
+  }
+
+  // TODO: Check is game is over
+
+  checkWin = () => {}
+
+  togglePlayer = () => {
+    let newActive = 0
+    if (this.state.activePlayer === 1) {
+      newActive = 2;
+    } else if (this.state.activePlayer === 2) {
+      newActive = 1;
+    }
+    this.setState({
+      activePlayer: newActive,
+    });
   }
 
   render() {
