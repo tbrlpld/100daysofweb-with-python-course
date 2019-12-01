@@ -1,8 +1,10 @@
 .App {
   box-sizing: border-box;
-  text-align: center;
+  color: black;
+  color: hsl(0, 0%, 20%);
   margin: 0 auto;
   max-width: 600px;
+  text-align: center;
 }
 
 .header-wrapper {
@@ -72,6 +74,10 @@
   font-size: 1.2em;
   height: 100px;
   width: 100px;
+}
+
+.field:disabled {
+  color: inherit;
 }
 
 .field-row:first-of-type > .field {

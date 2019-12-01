@@ -8,9 +8,7 @@ const GAME_TITLE = "tic-tac-toe";
 function Field(props) {
   return (
     <button className="field" onClick={props.onClick}>
-        {/*<div className="field-value noselect"> */}
-          {props.value}
-        {/*</div>*/}
+      {props.value}
     </button>
   )
 }
@@ -70,12 +68,13 @@ class App extends Component {
     return (
       <Field 
         value={this.state.gameStatus[rowIndex][fieldIndex]}
-        onClick={() => this.handleClick(rowIndex, fieldIndex)}
+        onClick={(event) => this.handleClick(event, rowIndex, fieldIndex)}
       />
     )
   }
 
-  handleClick = (rowIndex, fieldIndex) => {
+  handleClick = (event, rowIndex, fieldIndex) => {
+    event.target.disabled = true;
     let newGameStatus = this.state.gameStatus.slice();
     newGameStatus[rowIndex][fieldIndex] = this.state.activePlayer;
     this.setState({
