@@ -2,16 +2,18 @@ import React, {Component} from 'react';
 import './App.css';
 
 
-const GAME_TITLE = "tic-tac-toe"
-const PLAYER_SYMBOLS = ["X", "O"]
+const GAME_TITLE = "tic-tac-toe";
+const PLAYER_SYMBOLS = ["X", "O"];
+const INITIAL_GAME_STATUS = [
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+];
 const INITIAL_STATE = {
   activePlayer: 1,
-  gameStatus: [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
-  ],
+  gameStatus: INITIAL_GAME_STATUS,
   winMsg: "",
+  gameOver: false,
 }
 
 
@@ -19,17 +21,25 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = INITIAL_STATE;
+    this.state = {
+      gameStatus: INITIAL_GAME_STATUS,
+    };
   }
 
   componentDidMount() {
     console.log("Did mount.")
-    // this.resetGame();
+    this.resetGame();
   }
 
   resetGame = () => {
-    this.setState(INITIAL_STATE);
-    return;
+    console.log("Resetting game.")
+    // document.getElementsByClassName("game")[0].remove();
+    this.setState({
+      activePlayer: 1,
+      gameStatus: INITIAL_GAME_STATUS,
+      winMsg: "",
+      gameOver: false,
+    })
   }
 
   activePlayerSymbol = () => PLAYER_SYMBOLS[this.state.activePlayer - 1];
@@ -52,6 +62,7 @@ class App extends Component {
   }
 
   drawGame = () => {
+    console.log("Drawing Game...")
     const rows = this.state.gameStatus.map(this.drawRow);
     const game = (<div className="game">{ rows }</div>);
     return game;
@@ -214,8 +225,15 @@ class App extends Component {
     }
     // Set win message
     this.setState({
+      gameOver: true,
       winMsg: "Player " + this.activePlayerSymbol() + " wins!",
     })
+  }
+
+  drawRestartButton = () => {
+    if (this.state.gameOver === true) {
+      return (<button onClick={this.resetGame}>Play again!</button>);
+    } 
   }
 
   // TODO: Highlight winning fields
@@ -231,6 +249,9 @@ class App extends Component {
         </div>
         <div className="game-wrapper">
           {this.drawGame()}
+        </div>
+        <div className="restart-wrapper">
+          {this.drawRestartButton()}
         </div>
       </div>
     );
