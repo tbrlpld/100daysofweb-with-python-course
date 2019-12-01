@@ -26,6 +26,7 @@ class App extends Component {
           [null, null, null],
         ],
       gameOver: false,
+      winner: null,
     };
   }
 
@@ -34,15 +35,19 @@ class App extends Component {
   //   // this.resetGame();
   // }
 
-  // resetGame = () => {
-  //   console.log("Resetting game.")
-  //   // this.setState({
-  //   //   activePlayer: 1,
-  //   //   gameStatus: INITIAL_GAME_STATUS,
-  //   //   winMsg: "",
-  //   //   gameOver: false,
-  //   // })
-  // }
+  resetGame = () => {
+    console.log("Resetting game.")
+    this.setState({
+      activePlayer: "X",
+      gameStatus: [
+          [null, null, null],
+          [null, null, null],
+          [null, null, null],
+        ],
+      gameOver: false,
+      winner: null,
+    });
+  }
 
   drawHeader = () => {
     if (!this.state.gameOver) {
@@ -83,30 +88,32 @@ class App extends Component {
     return (
       <Field 
         value={this.state.gameStatus[rowIndex][fieldIndex]}
-        onClick={(event) => this.handleClick(event, rowIndex, fieldIndex)}
+        onClick={() => this.handleClick(rowIndex, fieldIndex)}
       />
     )
   }
 
-  handleClick = (event, rowIndex, fieldIndex) => {
-    event.target.disabled = true;
+  handleClick = (rowIndex, fieldIndex) => {
+    let gameStatus = this.state.gameStatus.slice();
 
-    let newGameStatus = this.state.gameStatus.slice();
-    newGameStatus[rowIndex][fieldIndex] = this.state.activePlayer;
+    // Check field is not filled yet
+    if (gameStatus[rowIndex][fieldIndex] !== null) {
+      return;
+    }
+
+    gameStatus[rowIndex][fieldIndex] = this.state.activePlayer;
 
     this.setState({
-      gameStatus: newGameStatus,
+      gameStatus: gameStatus,
     }, this.postProcessingClick);
   }
 
   postProcessingClick = () => {
-    if (this.checkWin()) {
+    if (this.isWon()) {
       this.handleWon();
-    } else if (this.checkAllFilled()) {
-      console.log("Draw!")
+    } else if (this.allFieldsFilled()) {
       this.handleDraw();
     } else {
-      console.log("Switching player.")
       this.setState({
         activePlayer: this.otherPlayer(),
       });
@@ -117,7 +124,7 @@ class App extends Component {
     return (this.state.activePlayer === "X") ? "O" : "X";
   }
 
-  checkWin = () => {
+  isWon = () => {
     let won = false;
     const winRow = this.checkWinRows()
     if (winRow !== null) {
@@ -223,7 +230,7 @@ class App extends Component {
     })
   }
 
-  checkAllFilled = () => {
+  allFieldsFilled = () => {
     for (let row of this.state.gameStatus) {
       for (let field of row) {
         if (field === null) {
@@ -247,7 +254,6 @@ class App extends Component {
     } 
   }
 
-  // TODO: Handle draw
   // TODO: Highlight winning fields
 
   render() {
