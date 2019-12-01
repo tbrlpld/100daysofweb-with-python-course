@@ -33,7 +33,6 @@ class App extends Component {
 
   resetGame = () => {
     console.log("Resetting game.")
-    // document.getElementsByClassName("game")[0].remove();
     this.setState({
       activePlayer: 1,
       gameStatus: INITIAL_GAME_STATUS,
@@ -44,21 +43,21 @@ class App extends Component {
 
   activePlayerSymbol = () => PLAYER_SYMBOLS[this.state.activePlayer - 1];
 
-  drawPlayerHead = () => {
+  drawHeader = () => {
     if (this.state.winMsg) {
-      return (<div className="player-header flex-justify-center"><div className="player win-msg">{this.state.winMsg}</div></div>);
+      return (<div className="header flex-justify-center"><div className="player win-msg">{this.state.winMsg}</div></div>);
     } 
 
-    let playerOneClasses = ["player"]
-    let playerTwoClasses = ["player"]
+    let playerOneClasses = "player"
+    let playerTwoClasses = "player"
     if (this.state.activePlayer === 1) {
-      playerOneClasses.push("active-player")
+      playerOneClasses += " active-player"
     } else if (this.state.activePlayer === 2) {
-      playerTwoClasses.push("active-player")
+      playerTwoClasses += " active-player"
     }
-    const playerOneElement = (<div className={playerOneClasses.join(" ")}>Player {PLAYER_SYMBOLS[0]}</div>);
-    const playerTwoElement = (<div className={playerTwoClasses.join(" ")}>Player {PLAYER_SYMBOLS[1]}</div>);
-    return (<div className="player-header flex-justify-spacebetween">{playerOneElement}{playerTwoElement}</div>);
+    const playerOneElement = (<div className={playerOneClasses}>Player {PLAYER_SYMBOLS[0]}</div>);
+    const playerTwoElement = (<div className={playerTwoClasses}>Player {PLAYER_SYMBOLS[1]}</div>);
+    return (<div className="header flex-justify-spacebetween">{playerOneElement}{playerTwoElement}</div>);
   }
 
   drawGame = () => {
@@ -112,7 +111,7 @@ class App extends Component {
   }
 
   togglePlayer = () => {
-    let newActive = 0
+    let newActive = 0;
     if (this.state.activePlayer === 1) {
       newActive = 2;
     } else if (this.state.activePlayer === 2) {
@@ -244,8 +243,8 @@ class App extends Component {
         <div className="App-header">
           <h1>{ GAME_TITLE }</h1>
         </div>
-        <div className="player-header-wrapper">
-          {this.drawPlayerHead()}
+        <div className="header-wrapper">
+          {this.drawHeader()}
         </div>
         <div className="game-wrapper">
           {this.drawGame()}
