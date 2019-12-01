@@ -1,15 +1,17 @@
 .App {
   box-sizing: border-box;
-  text-align: center;
+  color: black;
+  color: hsl(0, 0%, 20%);
   margin: 0 auto;
   max-width: 600px;
+  text-align: center;
 }
 
-.player-header-wrapper {
+.header-wrapper {
   width: 100%;
 }
 
-.player-header {
+.header {
   display: flex;
   flex-wrap: nowrap;
   margin: 20px auto;
@@ -39,6 +41,16 @@
   background-color: lightblue;
 }
 
+.win-msg {
+  background-color: limegreen;
+  color: white;
+}
+
+.draw-msg {
+  background-color: lightgrey;
+  color: white;
+}
+
 .game-wrapper {
   width: 100%;
 }
@@ -61,13 +73,16 @@
 }
 
 .field {
+  background-color: hsla(0, 0%, 0%, 0%);
   border: 1px solid black;
   border: 1px solid hsl(0, 0%, 20%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 1.2em;
   height: 100px;
   width: 100px;
+}
+
+.field:disabled {
+  color: inherit;
 }
 
 .field-row:first-of-type > .field {
@@ -99,7 +114,13 @@
           user-select: none;
 }
 
-.win-msg {
-  background-color: limegreen;
+.reset-button {
+  background-color: gray;
+  border: 0;
+  border-radius: 5px;
   color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 20px auto;
+  padding: 5px;
 }
