@@ -89,6 +89,7 @@ class App extends Component {
     if (win) {
       this.handleWon();
     } else {
+      console.log("Switching player.")
       this.setState({
         activePlayer: this.otherPlayer(),
       });
@@ -146,12 +147,11 @@ class App extends Component {
   }
 
   checkWinColumns = () => {
-    const columnMaxIndex = this.state.gameStatus[0].length - 1;
-    for (let columnIndex = 0; columnIndex <= columnMaxIndex; columnIndex++) {
+    for (let columnIndex = 0; columnIndex < this.state.gameStatus[0].length; columnIndex++) {
       let otherValueFound = false;
       for (let rowIndex = 0; rowIndex < this.state.gameStatus.length; rowIndex++) {
         let value = this.state.gameStatus[rowIndex][columnIndex];
-        if (value !== this.activePlayer) {
+        if (value !== this.state.activePlayer) {
           otherValueFound = true;
           break;
         }
@@ -186,7 +186,7 @@ class App extends Component {
   checkWinDiag = (diag) => {
     let otherValueFound = false;
     for (let value of diag) {
-      if (value !== this.activePlayer) {
+      if (value !== this.state.activePlayer) {
         otherValueFound = true;
       }
     }
