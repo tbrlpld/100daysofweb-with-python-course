@@ -12,10 +12,17 @@
 .player-header {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
   margin: 20px auto;
   max-width: 300px;
   width: 100%;
+}
+
+.flex-justify-spacebetween {
+  justify-content: space-between;
+}
+
+.flex-justify-center {
+  justify-content: center;
 }
 
 .player {
@@ -90,4 +97,9 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+
+.win-msg {
+  background-color: limegreen;
+  color: white;
 }

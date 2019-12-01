@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     ["", "", ""],
     ["", "", ""],
   ],
+  winMsg: "",
 }
 
 
@@ -34,6 +35,10 @@ class App extends Component {
   activePlayerSymbol = () => PLAYER_SYMBOLS[this.state.activePlayer - 1];
 
   drawPlayerHead = () => {
+    if (this.state.winMsg) {
+      return (<div className="player-header flex-justify-center"><div className="player win-msg">{this.state.winMsg}</div></div>);
+    } 
+
     let playerOneClasses = ["player"]
     let playerTwoClasses = ["player"]
     if (this.state.activePlayer === 1) {
@@ -43,7 +48,7 @@ class App extends Component {
     }
     const playerOneElement = (<div className={playerOneClasses.join(" ")}>Player {PLAYER_SYMBOLS[0]}</div>);
     const playerTwoElement = (<div className={playerTwoClasses.join(" ")}>Player {PLAYER_SYMBOLS[1]}</div>);
-    return (<div className="player-header">{playerOneElement}{playerTwoElement}</div>);
+    return (<div className="player-header flex-justify-spacebetween">{playerOneElement}{playerTwoElement}</div>);
   }
 
   drawGame = () => {
@@ -87,8 +92,12 @@ class App extends Component {
   }
 
   postProcessingClick = () => {
-    this.checkWin();
-    this.togglePlayer();
+    const win = this.checkWin();
+    if (win) {
+      this.onWon();
+    } else {
+      this.togglePlayer();
+    }
   }
 
   togglePlayer = () => {
@@ -122,6 +131,9 @@ class App extends Component {
     }
     if (won) {
       console.log("Winner is: " + this.state.activePlayer);
+      return true
+    } else {
+      return false
     }
   }
 
@@ -193,6 +205,19 @@ class App extends Component {
     }
     return !otherValueFound
   }
+
+  onWon = () => {
+    // Disable all fields
+    const fields = document.getElementsByClassName("field");
+    for (let field of fields) {
+      field.disabled = true;
+    }
+    // Set win message
+    this.setState({
+      winMsg: "Player " + this.activePlayerSymbol() + " wins!",
+    })
+  }
+
   // TODO: Highlight winning fields
 
   render() {
