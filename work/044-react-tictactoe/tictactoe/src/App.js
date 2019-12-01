@@ -7,9 +7,9 @@ const PLAYER_SYMBOLS = ["X", "O"]
 const INITIAL_STATE = {
   activePlayer: 1,
   gameStatus: [
-    ["1", "2", "3"],
-    ["4", "5", "6"],
-    ["7", "8", "9"],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
   ],
 }
 
@@ -72,7 +72,7 @@ class App extends Component {
     } else {
       const fieldIndex = Number(clickedField.getAttribute("field-index"));
       const rowIndex = Number(clickedField.parentElement.getAttribute("row-index"));
-      console.log(rowIndex + ", " + fieldIndex);
+      // console.log(rowIndex + ", " + fieldIndex);
       if (typeof fieldIndex === "number" && typeof rowIndex === "number") {
         let newGameStatus = this.state.gameStatus;
         newGameStatus[rowIndex][fieldIndex] = this.activePlayerSymbol();
@@ -110,20 +110,24 @@ class App extends Component {
       console.log("Winning row found: " + winRow);
       won = true;
     } 
-    this.checkWinColumns()
+    const winCol = this.checkWinColumns()
+    if (winCol !== null) {
+      console.log("Winning column found: " + winCol)
+      won = true;
+    }
     this.checkWinDiagonals()
+    if (won) {
+      console.log("Winner is: " + this.state.activePlayer);
+    }
   }
 
   checkWinRows = () => {
     for (let rowIndex = 0; rowIndex < this.state.gameStatus.length; rowIndex++) {
       let row = this.state.gameStatus[rowIndex];
-      console.log(row);
       let otherValueFound = false;
       for (let fieldIndex = 0; fieldIndex < row.length; fieldIndex++) {
         let value = row[fieldIndex];
-        // console.log(field)
         if (!(value === this.activePlayerSymbol())) {
-          console.log("Other value found!")
           otherValueFound = true;
           break;
         }
@@ -139,7 +143,21 @@ class App extends Component {
   }
 
   checkWinColumns = () => {
-    return;
+    const columnMaxIndex = this.state.gameStatus[0].length - 1;
+    for (let columnIndex = 0; columnIndex <= columnMaxIndex; columnIndex++) {
+      let otherValueFound = false;
+      for (let rowIndex = 0; rowIndex < this.state.gameStatus.length; rowIndex++) {
+        let value = this.state.gameStatus[rowIndex][columnIndex];
+        if (value !== this.activePlayerSymbol()) {
+          otherValueFound = true;
+          break;
+        }
+      }
+      if (!otherValueFound) {
+        return columnIndex;
+      }
+    }
+    return null;
   }
 
   checkWinDiagonals = () => {
