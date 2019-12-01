@@ -33,6 +33,19 @@ class App extends Component {
 
   activePlayerSymbol = () => PLAYER_SYMBOLS[this.state.activePlayer - 1];
 
+  drawPlayerHead = () => {
+    let playerOneClasses = ["player"]
+    let playerTwoClasses = ["player"]
+    if (this.state.activePlayer === 1) {
+      playerOneClasses.push("active-player")
+    } else if (this.state.activePlayer === 2) {
+      playerTwoClasses.push("active-player")
+    }
+    const playerOneElement = (<div className={playerOneClasses.join(" ")}>Player {PLAYER_SYMBOLS[0]}</div>);
+    const playerTwoElement = (<div className={playerTwoClasses.join(" ")}>Player {PLAYER_SYMBOLS[1]}</div>);
+    return (<div className="player-header">{playerOneElement}{playerTwoElement}</div>);
+  }
+
   drawGame = () => {
     const rows = this.state.gameStatus.map(this.drawRow);
     const game = (<div className="game">{ rows }</div>);
@@ -75,7 +88,7 @@ class App extends Component {
 
   postProcessingClick = () => {
     this.checkWin();
-    this.togglePlayer();      
+    this.togglePlayer();
   }
 
   // TODO: Check is game is over
@@ -99,6 +112,9 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <h1>{ GAME_TITLE }</h1>
+        </div>
+        <div className="player-header-wrapper">
+          {this.drawPlayerHead()}
         </div>
         <div className="game-wrapper">
           {this.drawGame()}

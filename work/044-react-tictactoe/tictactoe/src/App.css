@@ -1,11 +1,38 @@
 .App {
   box-sizing: border-box;
   text-align: center;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.player-header-wrapper {
+  width: 100%;
+}
+
+.player-header {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin: 20px auto;
+  max-width: 300px;
+  width: 100%;
+}
+
+.player {
+  border: 1px solid;
+  border-color: lightblue;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 5px;
+}
+
+.active-player {
+  font-color: white;
+  background-color: lightblue;
 }
 
 .game-wrapper {
-  margin: 0 auto;
-  max-width: 600px;
   width: 100%;
 }
 
