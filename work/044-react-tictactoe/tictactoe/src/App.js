@@ -115,7 +115,11 @@ class App extends Component {
       console.log("Winning column found: " + winCol)
       won = true;
     }
-    this.checkWinDiagonals()
+    const winDiag = this.checkWinDiagonals()
+    if (winDiag != null) {
+      console.log("Winning diagonal found: " + winDiag);
+      won = true;
+    }
     if (won) {
       console.log("Winner is: " + this.state.activePlayer);
     }
@@ -161,7 +165,33 @@ class App extends Component {
   }
 
   checkWinDiagonals = () => {
-    return;
+    const downDiag = [
+      this.state.gameStatus[0][0],
+      this.state.gameStatus[1][1],
+      this.state.gameStatus[2][2],
+    ]
+    if (this.checkWinDiag(downDiag)) {
+      return "down"
+    }
+    const upDiag = [
+      this.state.gameStatus[2][0],
+      this.state.gameStatus[1][1],
+      this.state.gameStatus[0][2],
+    ]
+    if (this.checkWinDiag(upDiag)) {
+      return "up"
+    }
+    return null;
+  }
+
+  checkWinDiag = (diag) => {
+    let otherValueFound = false;
+    for (let value of diag) {
+      if (value !== this.activePlayerSymbol()) {
+        otherValueFound = true;
+      }
+    }
+    return !otherValueFound
   }
   // TODO: Highlight winning fields
 
