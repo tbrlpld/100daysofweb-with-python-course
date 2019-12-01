@@ -75,20 +75,23 @@ class App extends Component {
 
   handleClick = (event, rowIndex, fieldIndex) => {
     event.target.disabled = true;
+
     let newGameStatus = this.state.gameStatus.slice();
     newGameStatus[rowIndex][fieldIndex] = this.state.activePlayer;
+
     this.setState({
-      activePlayer: this.otherPlayer(),
       gameStatus: newGameStatus,
-    });
+    }, this.postProcessingClick);
   }
 
   postProcessingClick = () => {
     const win = this.checkWin();
     if (win) {
-      this.onWon();
+      this.handleWon();
     } else {
-      this.togglePlayer();
+      this.setState({
+        activePlayer: this.otherPlayer(),
+      });
     }
   }
 
@@ -190,7 +193,7 @@ class App extends Component {
     return !otherValueFound
   }
 
-  onWon = () => {
+  handleWon = () => {
     // Disable all fields
     const fields = document.getElementsByClassName("field");
     for (let field of fields) {
@@ -199,7 +202,6 @@ class App extends Component {
     // Set win message
     this.setState({
       gameOver: true,
-      winMsg: "Player " + this.activePlayer + " wins!",
     })
   }
 
@@ -209,6 +211,7 @@ class App extends Component {
     } 
   }
 
+  // TODO: Handle draw
   // TODO: Highlight winning fields
 
   render() {
