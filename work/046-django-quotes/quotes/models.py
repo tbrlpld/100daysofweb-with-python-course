@@ -10,8 +10,8 @@ class Quote(models.Model):
 
     quote = models.TextField()
     author = models.CharField(max_length=100)
-    source = models.URLField()
-    cover = models.URLField()
+    source = models.URLField(blank=True, null=True)
+    cover = models.URLField(blank=True, null=True)
     # Only set once when creating
     added = models.DateTimeField(auto_now_add=True)
     # Updated on every save.
