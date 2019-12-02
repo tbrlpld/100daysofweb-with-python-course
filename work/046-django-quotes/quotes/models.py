@@ -17,9 +17,9 @@ class Quote(models.Model):
     # Updated on every save.
     edited = models.DateTimeField(auto_now=True)
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         """
-        Return a string to represent the model.
+        Return a string to represent the model with its type.
 
         Returns:
             str: String that represents the model.
