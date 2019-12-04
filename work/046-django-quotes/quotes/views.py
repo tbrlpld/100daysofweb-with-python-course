@@ -52,8 +52,22 @@ def quote_detail(request: HttpRequest, pk: int) -> HttpResponse:
 
 def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
     """Update a quote."""  # noqa: 201
-    pass
+    quote = get_object_or_404(Quote, pk=pk)
+    form = QuoteForm(request.POST or None, instance=quote)
 
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Quote updated.")
+        return redirect("quotes:quote_list")
+
+    return render(
+        request,
+        "quotes/quote_form.html",
+        {
+            "quote": quote,
+            "form": form,
+        },
+    )
 
 def quote_delete(request: HttpRequest, pk: int) -> HttpResponse:
     """Delete a quote."""  # noqa: 201
