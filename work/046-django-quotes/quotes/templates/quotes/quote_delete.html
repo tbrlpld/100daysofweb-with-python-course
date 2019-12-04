@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Delete Quote</h1>
+  <h3>Are you sure you want to delete the quote?</h3>
+  <div class="mui-panel">
+    <div class="mui-container">
+      "{{ quote.quote }}" <cite>{{ quote.author }}</cite>
+    </div>
+  </div>
+  <div class="mui-container">
+    <form action="" method="post" style="display: inline;">
+      {% csrf_token %}
+      <input type="submit" class="mui-btn mui-btn--raised mui-btn--danger" href="{% url 'quotes:quote_list' %}" value="Delete">
+    </form>
+    <a class="mui-btn mui-btn--raised" href="{% url 'quotes:quote_list' %}">Back</a>
+  </div>
+
+{% endblock %}
