@@ -12,9 +12,9 @@
   <div class="mui-container">
     <form action="" method="post" style="display: inline;">
       {% csrf_token %}
-      <input type="submit" class="mui-btn mui-btn--raised mui-btn--danger" href="{% url 'quotes:quote_list' %}" value="Delete">
+      <input type="submit" class="mui-btn mui-btn--raised mui-btn--danger" value="Delete">
     </form>
-    <a class="mui-btn mui-btn--raised" href="{% url 'quotes:quote_list' %}">Back</a>
+    <a class="mui-btn mui-btn--raised" href="{% url 'quotes:quotes_list' %}">Back</a>
   </div>
 
 {% endblock %}
