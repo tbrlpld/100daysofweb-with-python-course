@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block content %}
   <table class="mui-table mui-table--bordered">
@@ -15,7 +16,7 @@
         <tr>
           <td><a href="{% url 'quotes:quote_detail' quote.id %}">{{ quote.quote }}</a></td>
           <td>{{ quote.author }}</td>
-          <td>{{ quote.added }}</td>
+          <td>{{ quote.added|timesince }} ago</td>
           <td><a class="mui-btn mui-btn--small mui-btn--flat mui-btn--secondary" href="{% url 'quotes:quote_update' quote.id %}">Edit</a></td>
           <td><a class="mui-btn mui-btn--small mui-btn--flat mui-btn--danger" href="{% url 'quotes:quote_delete' quote.id %}">Delete</a></td>
         </tr>
