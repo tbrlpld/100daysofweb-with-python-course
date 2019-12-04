@@ -15,13 +15,12 @@ from quotes.models import Quote
 
 def quote_list(request: HttpRequest) -> HttpResponse:
     """Render a list of quotes."""  # noqa: 201
-    pass
-    # quotes = Quote.objects.all()
-    # return render(
-    #     request,
-    #     "quotes/quote_list.html",
-    #     {"quotes": quotes},
-    # )
+    quotes = Quote.objects.all()
+    return render(
+        request,
+        "quotes/quotes_list.html",
+        {"quotes": quotes},
+    )
 
 
 def quote_detail(request: HttpRequest, pk: int) -> HttpResponse:
