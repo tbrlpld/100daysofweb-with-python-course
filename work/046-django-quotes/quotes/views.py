@@ -10,10 +10,6 @@ from django.http import HttpResponse, HttpRequest
 from quotes.models import Quote
 from quotes.forms import QuoteForm
 
-# def index(request: HttpRequest) -> HttpResponse:
-#     """Return the rendered index page."""
-#     return HttpResponse("Welcome to my first custom view.")
-
 
 def quote_create(request: HttpRequest) -> HttpResponse:
     """Create a new quote."""  # noqa: 201
@@ -31,7 +27,7 @@ def quote_create(request: HttpRequest) -> HttpResponse:
     )
 
 
-def quote_list(request: HttpRequest) -> HttpResponse:
+def quotes_list(request: HttpRequest) -> HttpResponse:
     """Render a list of quotes."""  # noqa: 201
     quotes = Quote.objects.all()
     return render(
@@ -58,7 +54,7 @@ def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
     if form.is_valid():
         form.save()
         messages.success(request, "Quote updated.")
-        return redirect("quotes:quote_list")
+        return redirect("quotes:quotes_list")
 
     return render(
         request,
@@ -77,7 +73,7 @@ def quote_delete(request: HttpRequest, pk: int) -> HttpResponse:
     if request.POST:
         quote.delete()
         messages.success(request, "Quote delete.")
-        return redirect("quotes:quote_list")
+        return redirect("quotes:quotes_list")
 
     return render(
         request,
