@@ -3,7 +3,7 @@
 """Define the views that respond to the urls being requested."""
 
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 
 
@@ -18,10 +18,8 @@ from quotes.forms import QuoteForm
 def quote_create(request: HttpRequest) -> HttpResponse:
     """Create a new quote."""  # noqa: 201
     form = QuoteForm(request.POST or None)
-    print(form)
 
     if form.is_valid():
-        print("Form is valid")
         form.save()
         messages.success(request, "Created quote.")
         return redirect("quotes:quote_list")
@@ -36,7 +34,6 @@ def quote_create(request: HttpRequest) -> HttpResponse:
 def quote_list(request: HttpRequest) -> HttpResponse:
     """Render a list of quotes."""  # noqa: 201
     quotes = Quote.objects.all()
-    print(quotes)
     return render(
         request,
         "quotes/quotes_list.html",
@@ -46,8 +43,12 @@ def quote_list(request: HttpRequest) -> HttpResponse:
 
 def quote_detail(request: HttpRequest, pk: int) -> HttpResponse:
     """Render a single quote."""  # noqa: 201
-    pass
-
+    quote = get_object_or_404(Quote, pk=pk)
+    return render(
+        request,
+        "quotes/quote_detail.html",
+        {"quote": quote},
+    )
 
 def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
     """Update a quote."""  # noqa: 201
