@@ -1,5 +1,29 @@
 {% extends "base.html" %}
 
-{% block content%}
-  List of quotes
+{% block content %}
+  <table class="mui-table mui-table--bordered">
+    <thead>
+      <tr>
+        <th>Quote</th>
+        <th>Author</th>
+        <th>Created</th>
+        <th colspan="2">Edit Quote</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quote in qutoes %}
+        <tr>
+          <td><a href="{% url 'quotes:quote_detail' quote.id %}">{{ quote.quote }}</a></td>
+          <td>{{ quote.author }}</td>
+          <td>{{ quote.added }}</td>
+          <td><a class="mui-btn mui-btn--small mui-btn--flat mui-btn--secondary" href="{% url 'quotes:quote_update' quote.id %}">Edit</a></td>
+          <td><a class="mui-btn mui-btn--small mui-btn--flat mui-btn--danger" href="{% url 'quotes:quote_delete' quote.id %}">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="mui-container">
+    <a class="mui-btn mui-btn--primary" href="{% url 'quotes:quote_create' %}">Add a quote</a>
+  </div>
 {% endblock %}
