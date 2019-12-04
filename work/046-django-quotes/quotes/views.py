@@ -69,9 +69,21 @@ def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
         },
     )
 
+
 def quote_delete(request: HttpRequest, pk: int) -> HttpResponse:
     """Delete a quote."""  # noqa: 201
-    pass
+    quote = get_object_or_404(Quote, pk=pk)
+    print(request.POST)
+    if request.POST:
+        quote.delete()
+        messages.success(request, "Quote delete.")
+        return redirect("quotes:quote_list")
 
-
+    return render(
+        request,
+        "quotes/quote_delete.html",
+        {
+            "quote": quote,
+        },
+    )
 
