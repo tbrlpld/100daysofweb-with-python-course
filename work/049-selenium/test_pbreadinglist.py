@@ -50,15 +50,21 @@ def driver_login():
 
 
 def test_homepage_title(driver_home):
-    pass
+    expected = "PyBites My Reading List | Because We Love Books"
+    assert driver_home.title == expected
 
 
 def test_number_of_thumbs_homepage(driver_home):
-    pass
+    expected_image_count = 100
+    images = driver_home.find_elements_by_tag_name("img")
+    assert len(images) == expected_image_count
 
 
 def test_has_login_link(driver_home):
-    pass
+    try:
+        login_link = driver_home.find_element_by_link_text("Login")
+    except NoSuchElementException:
+        pytest.fail("There should be a login button on the site.")
 
 
 def _get_number_books_read(driver):
