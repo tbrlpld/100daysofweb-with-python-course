@@ -109,20 +109,21 @@ def test_search_box_auto_direct(driver_first_book):
 
 
 def test_login_to_site(driver_login):
+    sleep(2)
     expected_link_texts = [
         "5-Hour Challenge",
         "My Books",
-        "Logouts",
+        "Logout",
     ]
-    try:
-        for link_text in expected_link_texts:
-            driver_login.find_elements_by_link_text(link_text)
-    except NoSuchElementException:
-        pytest.fail(
-            "Not found all expected links for logged in users: {0}".format(
-                expected_link_texts,
-            ),
-        )
+    for link_text in expected_link_texts:
+        try:
+            driver_login.find_element_by_link_text(link_text)
+        except NoSuchElementException:
+            pytest.fail(
+                "Not expected link for logged in users: {0}".format(
+                    link_text,
+                ),
+            )
 
     unwanted_link = "login"
     try:
@@ -167,4 +168,30 @@ def test_add_delete_book(driver_login):
 
 
 def test_logout(driver_login):
-    pass
+    sleep(2)
+    driver_login.find_element_by_link_text("Logout").click()
+    sleep(2)
+
+    unwanted_link_texts = [
+        "5-Hour Challenge",
+        "My Books",
+        "Logout",
+    ]
+    for link_text in unwanted_link_texts:
+        try:
+            driver_login.find_element_by_link_text(link_text)
+            pytest.fail(
+                "Found on unwanted links for logged out users: {0}".format(
+                    link_text,
+                ),
+            )
+        except NoSuchElementException:
+            pass
+
+    expected_link = "Login"
+    try:
+        driver_login.find_element_by_link_text(expected_link)
+    except NoSuchElementException:
+        pytest.fail("Not found expected link for logged out user: {0}".format(
+            expected_link,
+        ))
