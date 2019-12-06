@@ -136,11 +136,34 @@ def test_login_to_site(driver_login):
 
 
 def _get_number_books_read(driver):
-    pass
+    sleep(2)  # The site renders to slow to proceed immediately.
+    driver.find_element_by_link_text(MY_BOOKS).click()
+
+    mybooks_stats = driver.find_element_by_class_name("mui--text-subhead")
+    pattern = r"Total reading: (\d+) books added.*"
+    replacement = r"\g<1>"  # First group defined in parenthesis ()
+    replaced_result = re.sub(pattern, replacement, mybooks_stats.text)
+    return int(replaced_result)
 
 
 def test_add_delete_book(driver_login):
-    pass
+    books_read_initial = _get_number_books_read(driver_login)
+
+    # Visit second book and add it
+    driver_login.get(SECOND_BOOK)
+    driver_login.find_element_by_name("bookSubmit").click()
+
+    # Check that count is increased
+    books_read_after_add = _get_number_books_read(driver_login)
+    assert books_read_after_add == books_read_initial + 1
+
+    # Visit second book again and remove it
+    driver_login.get(SECOND_BOOK)
+    driver_login.find_element_by_name("deleteBook").click()
+
+    # Check that counter is back to the initial value
+    books_read_after_delete = _get_number_books_read(driver_login)
+    assert books_read_after_delete == books_read_initial
 
 
 def test_logout(driver_login):
