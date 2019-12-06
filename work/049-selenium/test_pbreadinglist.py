@@ -108,9 +108,31 @@ def test_search_box_auto_direct(driver_first_book):
     assert driver_first_book.title == expected_directed_page_title
 
 
-
 def test_login_to_site(driver_login):
-    pass
+    expected_link_texts = [
+        "5-Hour Challenge",
+        "My Books",
+        "Logouts",
+    ]
+    try:
+        for link_text in expected_link_texts:
+            driver_login.find_elements_by_link_text(link_text)
+    except NoSuchElementException:
+        pytest.fail(
+            "Not found all expected links for logged in users: {0}".format(
+                expected_link_texts,
+            ),
+        )
+
+    unwanted_link = "login"
+    try:
+        driver_login.find_element_by_link_text(unwanted_link)
+        pytest.fail("Found unwanted link for logged in user: {0}".format(
+            unwanted_link,
+        ))
+    except NoSuchElementException:
+        # This is what we want.
+        pass
 
 
 def _get_number_books_read(driver):
