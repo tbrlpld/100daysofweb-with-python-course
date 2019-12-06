@@ -13,7 +13,7 @@ def main():
 
 @api.route("/")
 def index(_, response: responder.Response) -> None:
-    response.content = api.template("/index.html")
+    response.content = api.template("/index.html", recreator="Tibor")
 
 
 if __name__ == "__main__":
