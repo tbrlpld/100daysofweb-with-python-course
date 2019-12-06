@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+"""Simple responder app for an API with a landing page."""
+
 import responder
 
 api = responder.API()
@@ -8,8 +12,8 @@ def main():
 
 
 @api.route("/")
-def hello(_, response: responder.Response) -> None:
-    response.content = "Hello World"
+def index(_, response: responder.Response) -> None:
+    response.content = api.template("/index.html")
 
 
 if __name__ == "__main__":
