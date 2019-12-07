@@ -8,10 +8,12 @@ import responder
 
 api = responder.API()
 
+
 @api.route("/")
 def index(_: responder.Request, resp: responder.Response) -> None:
     """Render index page."""
-    resp.text = "Welcome!"
+    # noqa: DAR101, E800
+    resp.html = api.template("index.html.j2")
 
 
 def main() -> None:
