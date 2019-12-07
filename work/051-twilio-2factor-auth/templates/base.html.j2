@@ -6,6 +6,12 @@
   <title>{% block title %}{% endblock %} | 2-Factor Login with Twilio</title>
 </head>
 <body>
+  <nav>
+    <ul>
+      <li><a href="{{ api.url_for('index') }}">Home</a></li>
+      <li><a href="{{ api.url_for('signup') }}">Sign Up</a></li>
+    </ul>
+  </nav>
   {% block content %}
   {% endblock %}
 </body>

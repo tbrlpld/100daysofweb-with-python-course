@@ -4,4 +4,4 @@
 
 import responder
 
-api = responder.API()
+api = responder.API(debug=True)
