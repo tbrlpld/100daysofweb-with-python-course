@@ -47,26 +47,5 @@ def search_by_imdb_number(
     response.media = movie_dict
 
 
-# Top 10 Movies (by IMDB score)
-# GET /api/movie/top
-@api.route("/api/movie/top")
-def top_movies(_, response: responder.Response) -> None:
-    response.media = {"searched": "Top 10 Movies"}
-
-
-# All genres
-# GET /api/movie/genre/all
-@api.route("/api/movie/genre/all")
-def all_genres(_, response: responder.Response) -> None:
-    response.media = {"Genres": "All"}
-
-
-# Top movies for a given genres
-# GET /api/movie/genre/{genre}
-@api.route("/api/movie/genre/{genre}")
-def search_by_genre(_, response: responder.Response, genre: str) -> None:
-    response.media = {"searched": genre}
-
-
 if __name__ == "__main__":
     main()
