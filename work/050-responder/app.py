@@ -4,7 +4,11 @@
 
 import responder
 
+from data import db
+
+
 api = responder.API()
+db.global_init()
 
 
 def main():
