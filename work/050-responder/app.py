@@ -24,7 +24,20 @@ def index(_, response: responder.Response) -> None:
 # GET /api/search/{keyword}
 @api.route("/api/search/{keyword}")
 def search_by_keyword(_, response: responder.Response, keyword: str) -> None:
-    response.media = {"searched": keyword}
+    movies = db.search_keyword(keyword)
+
+    # Limit returns
+    max_returns = 10
+    if len(movies) > max_returns:
+        movies = movies[:max_returns]
+
+    movie_dicts = [db.movie_to_dict(movie) for movie in movies]
+
+    response.media = {
+        "Searched": keyword,
+        "Found": len(movie_dicts),
+        "Results": movie_dicts
+    }
 
 
 # Movies by director
