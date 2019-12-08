@@ -154,6 +154,7 @@ async def home(req: responder.Request, resp: responder.Response) -> None:
     """Show user home."""
     if not resp.session["identiy_confirmed"]:
         api.redirect(resp, location=api.url_for("index"))
+        return None
 
     username_from_session = req.session["username"]
 
