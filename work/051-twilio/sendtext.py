@@ -16,7 +16,7 @@ twilio_auth_token = os.environ["TWILIO_AUTH_TOKEN"]
 
 client = Client(twilio_account_sid, twilio_auth_token)
 
-uuid_code = uuid.uuid4().hex
+uuid_code = uuid.uuid4().hex[:5]
 
 client.messages.create(
     to=my_phone_number,
