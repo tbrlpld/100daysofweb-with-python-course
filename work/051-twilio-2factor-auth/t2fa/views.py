@@ -10,9 +10,9 @@ from sqlalchemy.exc import IntegrityError
 from twilio.rest import Client
 
 
-from api import api
-from db import Session
-from models.user import User
+from t2fa.api import api
+from t2fa.db import Session
+from t2fa.models.user import User
 
 
 @api.route("/")
