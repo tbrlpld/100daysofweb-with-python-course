@@ -1,0 +1,24 @@
+{% extends "base.html.j2" %}
+
+{% block title %}Sign Up{% endblock title%}
+
+{% block content %}
+  <h1>{{ self.title() }}</h1>
+  {% if errors %}
+    <ul>
+    {% for error in errors.values() %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  <form action="" method="POST">
+    <input type="text" name="username" placeholder="Username" required>
+    <br>
+    <input type="password" name="password" placeholder="Password" required>
+    <br>
+    <input type="tel" name="phone" placeholder="Phone Number" required>
+    <br>
+    <br>
+    <input type="submit" value="Create Account">
+  </form>
+{% endblock content %}
