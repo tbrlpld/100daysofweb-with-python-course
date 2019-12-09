@@ -38,6 +38,8 @@ async def signup(req: responder.Request, resp: responder.Response) -> None:
         user.password = post_data["password"]
         user.phone_number = post_data["phone"]
 
+        # TODO: Check that this phone number actually works
+
         dbsession = Session()
         dbsession.add(user)
 
