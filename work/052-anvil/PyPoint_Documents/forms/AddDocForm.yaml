@@ -1,0 +1,65 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {role: card, col_widths: '{"WQLNHS":15,"BJVVTH":45,"NGRVWZ":15,"SUHGDD":45}'}
+  name: card_1
+  layout_properties: {grid_position: 'MDFOKK,OJVSOY'}
+  components:
+  - type: Label
+    properties: {role: headline, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Add a New Document, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: headline_1
+    layout_properties: {grid_position: 'PNURWJ,OCAZOT'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Title, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_title
+    layout_properties: {grid_position: 'WIWZDS,WQLNHS'}
+  - type: TextBox
+    properties: {}
+    name: text_box_title
+    layout_properties: {grid_position: 'WIWZDS,BJVVTH'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Category, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_category
+    layout_properties: {grid_position: 'YONDVM,NGRVWZ'}
+  - type: DropDown
+    properties: {}
+    name: drop_down_category
+    layout_properties: {grid_position: 'YONDVM,SUHGDD'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Content
+
+        ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: label_content
+    layout_properties: {grid_position: 'YFWXXG,DNMQYB'}
+  - type: TextArea
+    properties: {height: 204}
+    name: text_area_content
+    layout_properties: {grid_position: 'SJVHJP,HYJCYZ'}
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '#ff7d78',
+      visible: false, text: '', font_size: 14, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      icon: 'fa:bug'}
+    name: label_errors
+    layout_properties: {grid_position: 'KLBTTT,STJSLH'}
+  - type: Button
+    properties: {role: primary-color, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Create New Document, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: button_create_doc
+    layout_properties: {grid_position: 'WZGQCS,OVYXKJ'}
+    event_bindings: {click: button_create_doc_click}

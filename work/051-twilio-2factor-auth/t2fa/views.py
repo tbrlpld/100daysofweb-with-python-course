@@ -10,9 +10,9 @@ from sqlalchemy.exc import IntegrityError
 from twilio.rest import Client
 
 
-from api import api
-from db import Session
-from models.user import User
+from t2fa.api import api
+from t2fa.db import Session
+from t2fa.models.user import User
 
 
 @api.route("/")
@@ -37,6 +37,8 @@ async def signup(req: responder.Request, resp: responder.Response) -> None:
         user.username = post_data["username"]
         user.password = post_data["password"]
         user.phone_number = post_data["phone"]
+
+        # TODO: Check that this phone number actually works
 
         dbsession = Session()
         dbsession.add(user)

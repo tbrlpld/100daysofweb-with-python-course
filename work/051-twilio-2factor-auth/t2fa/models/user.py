@@ -4,7 +4,7 @@
 
 import sqlalchemy as sa
 
-from models.base import Base
+from t2fa.models.base import Base
 
 
 class User(Base):

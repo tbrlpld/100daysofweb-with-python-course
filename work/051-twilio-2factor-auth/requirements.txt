@@ -2,6 +2,7 @@ aiofiles==0.4.0
 aniso8601==7.0.0
 apispec==3.1.0
 apistar==0.7.2
+attrs==19.3.0
 certifi==2019.11.28
 chardet==3.0.4
 Click==7.0
@@ -17,8 +18,14 @@ itsdangerous==1.1.0
 Jinja2==2.10.3
 MarkupSafe==1.1.1
 marshmallow==3.3.0
+more-itertools==8.0.2
+packaging==19.2
+pluggy==0.13.1
 promise==2.2.1
+py==1.8.0
 PyJWT==1.7.1
+pyparsing==2.4.5
+pytest==5.3.1
 python-multipart==0.0.5
 pytz==2019.3
 PyYAML==5.2
@@ -35,5 +42,6 @@ typesystem==0.2.4
 urllib3==1.25.7
 uvicorn==0.8.6
 uvloop==0.14.0
+wcwidth==0.1.7
 websockets==7.0
 whitenoise==4.1.4

@@ -1,0 +1,13 @@
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {auto_create_missing_columns: false}
+package_name: PyPoint_Documents
+allow_embedding: false
+name: PyPoint Documents
+runtime_options: {version: 1, server_version: python3-sandbox}
+metadata: {}
+startup_form: HomeForm
+dependency_order: []
+dependency_code: {}
+renamed: true

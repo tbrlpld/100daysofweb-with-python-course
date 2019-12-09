@@ -2,11 +2,13 @@
 
 """Run the simple two factor auth app."""
 
-from api import api
-from db import dbengine
-from models.base import Base
-from models.user import User
-from views import *  # noqa: F401, F403, WPS347
+import sys
+
+from t2fa.api import api
+from t2fa.db import dbengine
+from t2fa.models.base import Base
+from t2fa.models.user import User
+from t2fa.views import *  # noqa: F401, F403, WPS347
 
 
 def main() -> None:
