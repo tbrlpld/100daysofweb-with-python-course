@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form action="" method="post">
+    {% csrf_token %}
+
+    <h1>{% if quote %}Update{% else %}Create{% endif %} Quote</h1>
+    {% for field in form %}
+      <td>
+        <div class="mui-textfield">
+            {{ field.errors }}
+            <p>{{ field.label_tag }}</p>
+            {{ field }}
+            {% if field.help_text %}
+              <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+      </td>
+    {% endfor %}
+
+    <div class="mui-container">
+      <input type="submit" class="mui-btn mui-btn--raised mui-btn--primary" value="{% if quote %}Update{% else %}Create{% endif %} Quote">
+      <a class="mui-btn mui-btn--raised" href="{% url 'quotes:quotes_list' %}">Back</a>
+    </div>
+
+  </form>
+{% endblock %}
