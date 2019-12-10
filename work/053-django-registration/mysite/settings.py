@@ -132,6 +132,13 @@ STATICFILES_DIRS = (
 
 
 # Django-Registration
-ACOUNT_ACTIVATION_DAYS = 7
-LOGOUT_REDIRECT = "quotes:quotes_list"
-LOGIN_REDIRECT = "quotes:quotes_list"
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGOUT_REDIRECT_URL = 'quotes:quote_list'
+LOGIN_REDIRECT_URL = 'quotes:quote_list'
+
+# Email Settings
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ["SENDGRID_USERNAME"]
+EMAIL_HOST_PASSWORD = os.environ["SENDGRID_PASSWORD"]
