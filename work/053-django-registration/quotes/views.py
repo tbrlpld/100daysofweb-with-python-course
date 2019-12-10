@@ -3,6 +3,7 @@
 """Define the views that respond to the urls being requested."""
 
 from django.contrib import messages
+from django.core import mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 
@@ -29,6 +30,21 @@ def quote_create(request: HttpRequest) -> HttpResponse:
 
 def quotes_list(request: HttpRequest) -> HttpResponse:
     """Render a list of quotes."""  # noqa: 201
+
+    # TEsting email
+    email_conn = mail.get_connection(fail_silenty=False)
+    email_conn.open()
+    # Construct an email message that uses the connection
+    email1 = mail.EmailMessage(
+        'Quotes List Visited',
+        'If you receive this, then the default email settings are fine.',
+        'from@example.com',
+        ['tibor.leupold@gmail.com'],
+        connection=email_conn,
+    )
+    email1.send()  # Send the email
+    email_conn.close()
+
     quotes = Quote.objects.all()
     return render(
         request,
