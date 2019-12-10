@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
+    'django_registration',
     'quotes',
 ]
 
@@ -128,3 +129,9 @@ SITEWIDE_STATIC_DIR = os.path.join(BASE_DIR, "mysite", "static")
 STATICFILES_DIRS = (
     SITEWIDE_STATIC_DIR,
 )
+
+
+# Django-Registration
+ACOUNT_ACTIVATION_DAYS = 7
+LOGOUT_REDIRECT = "quotes:quotes_list"
+LOGIN_REDIRECT = "quotes:quotes_list"
