@@ -30,21 +30,6 @@ def quote_create(request: HttpRequest) -> HttpResponse:
 
 def quotes_list(request: HttpRequest) -> HttpResponse:
     """Render a list of quotes."""  # noqa: 201
-
-    # TEsting email
-    email_conn = mail.get_connection(fail_silenty=False)
-    email_conn.open()
-    # Construct an email message that uses the connection
-    email1 = mail.EmailMessage(
-        'Quotes List Visited',
-        'If you receive this, then the default email settings are fine.',
-        'from@example.com',
-        ['tibor.leupold@gmail.com'],
-        connection=email_conn,
-    )
-    email1.send()  # Send the email
-    email_conn.close()
-
     quotes = Quote.objects.all()
     return render(
         request,
