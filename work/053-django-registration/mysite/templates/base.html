@@ -24,7 +24,11 @@
             <td class="mui--text-right">
               <ul class="mui-list--inline mui--text-body2">
                 <li><a href="#">About</a></li>
-                <li><a href="#">Login</a></li>
+                {% if not request.user.is_authenticated %}
+                  <li><a href="{% url 'login' %}">Login</a></li>
+                {% else %}
+                  <li>Hello {{ request.user | title }} <a href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
               </ul>
             </td>
           </tr>
