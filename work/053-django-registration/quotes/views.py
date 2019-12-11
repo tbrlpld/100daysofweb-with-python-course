@@ -3,6 +3,7 @@
 """Define the views that respond to the urls being requested."""
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core import mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
@@ -12,6 +13,7 @@ from quotes.models import Quote
 from quotes.forms import QuoteForm
 
 
+@login_required
 def quote_create(request: HttpRequest) -> HttpResponse:
     """Create a new quote."""  # noqa: 201
     form = QuoteForm(request.POST or None)
@@ -53,6 +55,7 @@ def quote_detail(request: HttpRequest, pk: int) -> HttpResponse:
     )
 
 
+@login_required
 def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
     """Update a quote."""  # noqa: 201
     quote = get_object_or_404(Quote, pk=pk)
@@ -73,6 +76,7 @@ def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
     )
 
 
+@login_required
 def quote_delete(request: HttpRequest, pk: int) -> HttpResponse:
     """Delete a quote."""  # noqa: 201
     quote = get_object_or_404(Quote, pk=pk)
