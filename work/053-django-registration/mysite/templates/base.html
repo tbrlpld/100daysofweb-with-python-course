@@ -27,7 +27,7 @@
                 {% if not request.user.is_authenticated %}
                   <li><a href="{% url 'login' %}">Login</a></li>
                 {% else %}
-                  <li>Hello {{ request.user | title }} <a href="{% url 'logout' %}">Logout</a></li>
+                  <li>Hello {{ request.user }} <a href="{% url 'logout' %}">Logout</a></li>
                 {% endif %}
               </ul>
             </td>

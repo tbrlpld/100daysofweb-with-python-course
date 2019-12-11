@@ -17,9 +17,14 @@ def quote_create(request: HttpRequest) -> HttpResponse:
     form = QuoteForm(request.POST or None)
 
     if form.is_valid():
+        # Create form instance, like it was saved, but without committing it
+        # to the database.
+        form = form.save(commit=False)
+        form.user = request.user
         form.save()
+
         messages.success(request, "Created quote.")
-        return redirect("quotes:quote_list")
+        return redirect("quotes:quotes_list")
 
     return render(
         request,
@@ -46,6 +51,7 @@ def quote_detail(request: HttpRequest, pk: int) -> HttpResponse:
         "quotes/quote_detail.html",
         {"quote": quote},
     )
+
 
 def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
     """Update a quote."""  # noqa: 201
@@ -83,4 +89,3 @@ def quote_delete(request: HttpRequest, pk: int) -> HttpResponse:
             "quote": quote,
         },
     )
-
