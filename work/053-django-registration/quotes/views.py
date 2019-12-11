@@ -3,6 +3,7 @@
 """Define the views that respond to the urls being requested."""
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core import mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
@@ -12,14 +13,21 @@ from quotes.models import Quote
 from quotes.forms import QuoteForm
 
 
+@login_required
 def quote_create(request: HttpRequest) -> HttpResponse:
-    """Create a new quote."""  # noqa: 201
+    """Create a new quote."""
+    # noqa: DAR201, DAR101
     form = QuoteForm(request.POST or None)
 
     if form.is_valid():
+        # Create form instance, like it was saved, but without committing it
+        # to the database.
+        form = form.save(commit=False)
+        form.user = request.user
         form.save()
+
         messages.success(request, "Created quote.")
-        return redirect("quotes:quote_list")
+        return redirect("quotes:quotes_list")
 
     return render(
         request,
@@ -29,7 +37,7 @@ def quote_create(request: HttpRequest) -> HttpResponse:
 
 
 def quotes_list(request: HttpRequest) -> HttpResponse:
-    """Render a list of quotes."""  # noqa: 201
+    """Render a list of quotes."""  # noqa: DAR201, DAR101
     quotes = Quote.objects.all()
     return render(
         request,
@@ -39,7 +47,7 @@ def quotes_list(request: HttpRequest) -> HttpResponse:
 
 
 def quote_detail(request: HttpRequest, pk: int) -> HttpResponse:
-    """Render a single quote."""  # noqa: 201
+    """Render a single quote."""  # noqa: DAR201, DAR101
     quote = get_object_or_404(Quote, pk=pk)
     return render(
         request,
@@ -47,9 +55,16 @@ def quote_detail(request: HttpRequest, pk: int) -> HttpResponse:
         {"quote": quote},
     )
 
+
+@login_required
 def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
-    """Update a quote."""  # noqa: 201
-    quote = get_object_or_404(Quote, pk=pk)
+    """Update a quote."""
+    # noqa: DAR201, DAR101
+    quote = get_object_or_404(
+        Quote,
+        pk=pk,
+        user=request.user,  # Only owner can update
+    )
     form = QuoteForm(request.POST or None, instance=quote)
 
     if form.is_valid():
@@ -67,10 +82,16 @@ def quote_update(request: HttpRequest, pk: int) -> HttpResponse:
     )
 
 
+@login_required
 def quote_delete(request: HttpRequest, pk: int) -> HttpResponse:
-    """Delete a quote."""  # noqa: 201
-    quote = get_object_or_404(Quote, pk=pk)
-    print(request.POST)
+    """Delete a quote."""
+    # noqa: DAR201, DAR101
+    quote = get_object_or_404(
+        Quote,
+        pk=pk,
+        user=request.user,  # Only owner can delete
+    )
+
     if request.POST:
         quote.delete()
         messages.success(request, "Quote delete.")
@@ -83,4 +104,3 @@ def quote_delete(request: HttpRequest, pk: int) -> HttpResponse:
             "quote": quote,
         },
     )
-
