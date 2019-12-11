@@ -22,11 +22,22 @@
   <div class="mui-textfield">
     {{ form.password1.label }}
     {{ form.password1 }}
+    {{ form.password1.help_text }}
+    {% for error in form.password1.errors %}
+      Error: {{ error }}
+    {% endfor %}
   </div>
   <div class="mui-textfield">
     {{ form.password2.label }}
     {{ form.password2 }}
+    {{ form.password2.help_text }}
+    <div class="mui--text-danger">
+      {% for error in form.password2.errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
   </div>
+  <!-- {{ form.as_p }} -->
 
   <input class="mui-btn mui-btn--primary" type="submit" value="{% trans 'Submit' %}" />
 </form>

@@ -3,6 +3,7 @@
 """Define the views that respond to the urls being requested."""
 
 from django.contrib import messages
+from django.core import mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 
