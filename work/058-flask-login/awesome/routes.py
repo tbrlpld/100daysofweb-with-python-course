@@ -19,6 +19,7 @@ from flask_login import (
     current_user,
 )
 from werkzeug.wrappers import Response  # for typing
+from sqlalchemy.exc import IntegrityError
 
 from awesome import app, db
 from awesome.models import User
@@ -39,11 +40,19 @@ def index() -> str:
 def signup() -> str:
     """Create user in db or show form."""
     if request.method == "POST":
-        add_user_to_db(
-            username=request.form["username"],
-            password=request.form["password"],
-        )
-        flash("User {u} created.".format(u=request.form["username"]))
+        username = request.form["username"]
+        password = request.form["password"]
+        try:
+            add_user_to_db(
+                username=username,
+                password=password,
+            )
+        except IntegrityError:
+            flash("Username '{username}' not available.".format(
+                username=username,
+            ))
+        else:
+            flash("User {u} created.".format(u=request.form["username"]))
     return render_template("signup.html.j2")
 
 
