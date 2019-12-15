@@ -9,20 +9,21 @@
     <nav>
       <ul>
         <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('members_only') }}">Member Area</a></li>
-        <li><a href="{{ url_for('create_user') }}">Register</a></li>
-        <li><a href="{{ url_for('login') }}">Login</a></li>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% if current_user.is_anonymous %}
+          <li><a href="{{ url_for('create_user') }}">Register</a></li>
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% else %}
+          <li><a href="{{ url_for('members_only') }}">Member Area</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% endif %}
       </ul>
     </nav>
     {% set messages = get_flashed_messages() %}
-    {% if messages %}
       <ul class="messages">
         {% for message in messages %}
           <li>{{ message }}</li>
         {% endfor %}
       </ul>
-    {% endif %}
   </header>
   <main>
     {% block content %}{% endblock content %}
