@@ -4,7 +4,8 @@
 
 from flask import render_template, request, flash
 
-from awesome import app
+from awesome import app, db
+from awesome.models import User
 
 
 @app.route("/")
@@ -13,7 +14,7 @@ def index():
 
 
 @app.route("/create-user", methods=["GET", "POST"])
-def create_user():
+def create_user() -> str:
     """Create user in db or show form."""
     if request.method == "POST":
         add_user_to_db(
@@ -24,6 +25,11 @@ def create_user():
     return render_template("create-user.html")
 
 
-def add_user_to_db(username, password):
+def add_user_to_db(username, password) -> None:
     """Create a user in the database."""
-    pass
+    user = User(
+        username=username,
+        password=password,
+    )
+    db.session.add(user)
+    db.session.commit()
