@@ -15,6 +15,7 @@ from flask_login import (
     LoginManager,
     login_required,
     login_user,
+    logout_user,
 )
 from werkzeug.wrappers import Response  # for typing
 
@@ -77,6 +78,13 @@ def login() -> Union[str, Response]:
 def load_user(user_id):
     """Load user from db."""
     return User.query.get(int(user_id))
+
+
+@app.route("/logout")
+def logout() -> str:
+    """Log the currently logged in user out."""
+    logout_user()
+    return "Logged out successfully."
 
 
 @app.route("/members-only")
