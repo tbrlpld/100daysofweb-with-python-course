@@ -11,4 +11,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"
 
 db = SQLAlchemy(app)
 
+
 from awesome import routes  # noqa: F401
+from awesome import models  # noqa: F401
