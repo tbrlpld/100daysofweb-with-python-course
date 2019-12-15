@@ -13,7 +13,7 @@
           <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
           <li><a href="{{ url_for('login') }}">Login</a></li>
         {% else %}
-          <li><a href="{{ url_for('members_only') }}">Member Area</a></li>
+          <li><a href="{{ url_for('members_only') }}">{{ current_user.username }}</a></li>
           <li><a href="{{ url_for('logout') }}">Logout</a></li>
         {% endif %}
       </ul>
