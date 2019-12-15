@@ -3,9 +3,15 @@
 """Define routes and views for the app."""
 
 from flask import render_template, request, flash
+from flask_login import LoginManager, login_required
 
 from awesome import app, db
 from awesome.models import User
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 
 @app.route("/")
@@ -41,3 +47,10 @@ def login() -> str:
     if request.method == "POST":
         pass
     return render_template("login.html")
+
+
+@app.route("/members-only")
+@login_required
+def members_only():
+    """Return view for logged in users."""
+    return render_template("members-only.html")
