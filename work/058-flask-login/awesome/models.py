@@ -2,10 +2,12 @@
 
 """Define ORM models for the app."""
 
+from flask_login import UserMixin
+
 from awesome import db
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """User model to enable authorization."""
 
     id = db.Column(db.Integer, primary_key=True)
