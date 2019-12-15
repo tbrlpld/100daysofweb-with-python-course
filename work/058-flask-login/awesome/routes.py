@@ -16,6 +16,7 @@ from flask_login import (
     login_required,
     login_user,
     logout_user,
+    current_user,
 )
 from werkzeug.wrappers import Response  # for typing
 
@@ -59,6 +60,11 @@ def add_user_to_db(username, password) -> None:
 @app.route("/login", methods=["GET", "POST"])
 def login() -> Union[str, Response]:
     """Log in the user or show form."""
+    # Only anonymous users can see the login.
+    # Other users are already logged in.
+    if not current_user.is_anonymous:
+        # Logged in users are redirected
+        return redirect(url_for("members_only"))
     if request.method == "POST":
         # Get user
         user = User.query.filter_by(username=request.form["username"]).first()
@@ -68,6 +74,7 @@ def login() -> Union[str, Response]:
                 # Log user in
                 login_user(user)
                 # Redirect to member site
+                flash("Login successful.")
                 return redirect(url_for("members_only"))
         # In case of issue, create a message
         flash("Username or password not correct!")
@@ -81,6 +88,7 @@ def load_user(user_id):
 
 
 @app.route("/logout")
+@login_required
 def logout() -> str:
     """Log the currently logged in user out."""
     logout_user()
