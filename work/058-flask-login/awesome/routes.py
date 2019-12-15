@@ -32,7 +32,7 @@ login_manager.login_view = "login"
 @app.route("/")
 def index() -> str:
     """Return simple index page."""
-    return render_template("index.html")
+    return render_template("index.html.j2")
 
 
 @app.route("/create-user", methods=["GET", "POST"])
@@ -44,7 +44,7 @@ def create_user() -> str:
             password=request.form["password"],
         )
         flash("User {u} created.".format(u=request.form["username"]))
-    return render_template("create-user.html")
+    return render_template("create-user.html.j2")
 
 
 def add_user_to_db(username, password) -> None:
@@ -78,7 +78,7 @@ def login() -> Union[str, Response]:
                 return redirect(url_for("members_only"))
         # In case of issue, create a message
         flash("Username or password not correct!")
-    return render_template("login.html")
+    return render_template("login.html.j2")
 
 
 @login_manager.user_loader
@@ -99,4 +99,4 @@ def logout() -> str:
 @login_required
 def members_only():
     """Return view for logged in users."""
-    return render_template("members-only.html")
+    return render_template("members-only.html.j2")
