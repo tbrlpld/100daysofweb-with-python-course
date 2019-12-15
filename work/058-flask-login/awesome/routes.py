@@ -2,7 +2,7 @@
 
 """Define routes and views for the app."""
 
-from flask import render_template
+from flask import render_template, request, flash
 
 from awesome import app
 
@@ -10,3 +10,20 @@ from awesome import app
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/create-user", methods=["GET", "POST"])
+def create_user():
+    """Create user in db or show form."""
+    if request.method == "POST":
+        add_user_to_db(
+            username=request.form["username"],
+            password=request.form["password"],
+        )
+        flash("User {u} created.".format(u=request.form["username"]))
+    return render_template("create-user.html")
+
+
+def add_user_to_db(username, password):
+    """Create a user in the database."""
+    pass
