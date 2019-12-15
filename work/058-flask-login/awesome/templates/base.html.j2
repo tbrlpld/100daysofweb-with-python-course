@@ -10,7 +10,7 @@
       <ul>
         <li><a href="{{ url_for('index') }}">Home</a></li>
         {% if current_user.is_anonymous %}
-          <li><a href="{{ url_for('create_user') }}">Register</a></li>
+          <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
           <li><a href="{{ url_for('login') }}">Login</a></li>
         {% else %}
           <li><a href="{{ url_for('members_only') }}">Member Area</a></li>

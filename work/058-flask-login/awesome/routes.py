@@ -35,8 +35,8 @@ def index() -> str:
     return render_template("index.html.j2")
 
 
-@app.route("/create-user", methods=["GET", "POST"])
-def create_user() -> str:
+@app.route("/signup", methods=["GET", "POST"])
+def signup() -> str:
     """Create user in db or show form."""
     if request.method == "POST":
         add_user_to_db(
@@ -44,7 +44,7 @@ def create_user() -> str:
             password=request.form["password"],
         )
         flash("User {u} created.".format(u=request.form["username"]))
-    return render_template("create-user.html.j2")
+    return render_template("signup.html.j2")
 
 
 def add_user_to_db(username, password) -> None:
