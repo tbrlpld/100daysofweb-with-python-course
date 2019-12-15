@@ -33,3 +33,11 @@ def add_user_to_db(username, password) -> None:
     )
     db.session.add(user)
     db.session.commit()
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login() -> str:
+    """Log in the user or show form."""
+    if request.method == "POST":
+        pass
+    return render_template("login.html")
