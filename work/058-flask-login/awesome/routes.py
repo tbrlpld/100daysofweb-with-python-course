@@ -89,10 +89,11 @@ def load_user(user_id):
 
 @app.route("/logout")
 @login_required
-def logout() -> str:
+def logout() -> Response:
     """Log the currently logged in user out."""
     logout_user()
-    return "Logged out successfully."
+    flash("Logged out successfully.")
+    return redirect(url_for("index"))
 
 
 @app.route("/members-only")
