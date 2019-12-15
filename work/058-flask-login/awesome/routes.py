@@ -2,8 +2,21 @@
 
 """Define routes and views for the app."""
 
-from flask import render_template, request, flash
-from flask_login import LoginManager, login_required
+from typing import Union
+
+from flask import (
+    flash,
+    render_template,
+    request,
+    redirect,
+    url_for,
+)
+from flask_login import (
+    LoginManager,
+    login_required,
+    login_user,
+)
+from werkzeug.wrappers import Response  # for typing
 
 from awesome import app, db
 from awesome.models import User
@@ -15,7 +28,8 @@ login_manager.login_view = "login"
 
 
 @app.route("/")
-def index():
+def index() -> str:
+    """Return simple index page."""
     return render_template("index.html")
 
 
@@ -42,11 +56,27 @@ def add_user_to_db(username, password) -> None:
 
 
 @app.route("/login", methods=["GET", "POST"])
-def login() -> str:
+def login() -> Union[str, Response]:
     """Log in the user or show form."""
     if request.method == "POST":
-        pass
+        # Get user
+        user = User.query.filter_by(username=request.form["username"]).first()
+        if user:
+            # Check password
+            if user.password == request.form["password"]:
+                # Log user in
+                login_user(user)
+                # Redirect to member site
+                return redirect(url_for("members_only"))
+        # In case of issue, create a message
+        flash("Username or password not correct!")
     return render_template("login.html")
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    """Load user from db."""
+    return User.query.get(int(user_id))
 
 
 @app.route("/members-only")
