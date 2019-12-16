@@ -32,13 +32,18 @@ class User(UserMixin, db.Model):
         return self._password_hash
 
     @password_hash.setter
-    def password_hash(self, password: str) -> None:
+    def password(self, password: str) -> None:
         """Set `password_hash property` to a hash of the given password."""
-        self._password_hash = pbkdf2_sha256(password)
+        self._password_hash = pbkdf2_sha256.hash(
+            password.encode("utf-8"),
+        )
 
     def verify_password(self, password: str) -> bool:
         """Check if the given password matches the stored (and hashed) one."""
-        return pbkdf2_sha256.verify(password, self._password_hash)
+        return pbkdf2_sha256.verify(
+            password.encode("utf-8"),
+            self._password_hash,
+        )
 
     def __repr__(self) -> str:
         """
