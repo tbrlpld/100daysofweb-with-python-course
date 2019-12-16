@@ -60,7 +60,7 @@ def add_user_to_db(username, password) -> None:
     """Create a user in the database."""
     user = User(
         username=username,
-        password=password,
+        password=password,  # Hashing is done in the ORM automatically.
     )
     db.session.add(user)
     db.session.commit()
@@ -79,7 +79,7 @@ def login() -> Union[str, Response]:
         user = User.query.filter_by(username=request.form["username"]).first()
         if user:
             # Check password
-            if user.password == request.form["password"]:
+            if user.verify_password(request.form["password"]):
                 # Log user in
                 login_user(user)
                 # Redirect to member site
