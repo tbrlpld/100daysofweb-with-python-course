@@ -14,6 +14,7 @@ class Location(SqlAlchemyBase):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now, index=True)
 
     street = sqlalchemy.Column(sqlalchemy.String)
+    zipcode = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     city = sqlalchemy.Column(sqlalchemy.String, index=True)
     state = sqlalchemy.Column(sqlalchemy.String, index=True)
 
