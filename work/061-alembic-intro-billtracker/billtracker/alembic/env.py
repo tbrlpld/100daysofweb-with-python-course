@@ -5,6 +5,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from billtracker.data.modelbase import SqlAlchemyBase
+from billtracker.data.__all_models import *  # noqa: WPS347
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -17,7 +20,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = SqlAlchemyBase.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
