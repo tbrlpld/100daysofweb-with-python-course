@@ -32,8 +32,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    # Third party
     'django_registration',
-    'quotes'
+    'rest_framework',
+    # Local
+    'api',
+    'quotes',
 ]
 
 MIDDLEWARE = [
