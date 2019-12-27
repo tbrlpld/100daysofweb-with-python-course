@@ -139,6 +139,6 @@ EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
 # REST Framework settings
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
 }
