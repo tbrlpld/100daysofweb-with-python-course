@@ -9,9 +9,15 @@ from quotes.models import Quote
 
 
 class QuotesListView(generics.ListCreateAPIView):
+    """
+    get:
+        Retrieve a list of all available quotes.
+
+    post:
+        Create new quotes.
+    """
     queryset = Quote.objects.all()
     serializer_class = QuoteSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
 
 
 class QuoteRUDView(generics.RetrieveUpdateDestroyAPIView):
