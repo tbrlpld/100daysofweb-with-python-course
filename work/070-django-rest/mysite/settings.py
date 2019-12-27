@@ -135,3 +135,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
 EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+
+# REST Framework settings
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+}
