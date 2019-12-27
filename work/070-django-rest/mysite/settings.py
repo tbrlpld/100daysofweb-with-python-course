@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # Third party
     'django_registration',
     'rest_framework',
+    'rest_framework_swagger',
     # Local
     'api',
     'quotes',
@@ -141,4 +142,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
