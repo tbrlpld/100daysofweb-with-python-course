@@ -8,6 +8,11 @@ from quotes.models import Quote
 
 
 class QuoteSerializer(serializers.ModelSerializer):
+
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault(),
+    )
+
     class Meta:
         model = Quote
         fields = (
