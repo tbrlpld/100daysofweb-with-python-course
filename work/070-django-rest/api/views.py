@@ -21,31 +21,6 @@ class QuotesListView(generics.ListCreateAPIView):
     queryset = Quote.objects.all()
     serializer_class = QuoteSerializer
 
-    def create(self, request, *args, **kwargs):
-        if not request.user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-
-        new_quote = Quote(
-            quote=request.POST["quote"],
-            author=request.POST["author"],
-            cover=request.POST["cover"],
-            source=request.POST["source"],
-            user=request.user,
-        )
-        try:
-            new_quote.full_clean()
-        except ValidationError as e:
-            return Response(
-                data=e,
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        else:
-            new_quote.save()
-            serialized_new_quote = QuoteSerializer(new_quote)
-            return Response(
-                data=serialized_new_quote.data,
-                status=status.HTTP_201_CREATED,
-            )
 
 class QuoteRUDView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quote.objects.all()
