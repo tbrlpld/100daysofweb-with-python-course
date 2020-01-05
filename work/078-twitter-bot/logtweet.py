@@ -293,9 +293,8 @@ def send_tweet(tweet_content: str) -> None:
         config["Twitter"]["access_token"],
         config["Twitter"]["access_secret"],
     )
-    # TODO: Reactivate sending of tweet
-    print(tweet_content)
-    # tweepy_api.update_status(tweet_content)
+    # Send tweet
+    tweepy_api.update_status(tweet_content)
     # Log tweet
     logging.info(log_tweet)
 
