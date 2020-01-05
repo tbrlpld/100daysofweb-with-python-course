@@ -85,6 +85,30 @@ def build_preamble(today_heading: Tag) -> str:
     return f"{day}/#100DaysOfLode"
 
 
+def shorten_link(long_link: str, bitly_api_key: str) -> str:
+    """
+    Create short link using the Bit.ly service.
+
+    Arguments:
+        long_link (str): Long link to shorten.
+        bitly_api_key (str): API key for the Bit.ly service.
+            See the `Bitly API documentation`_ on how to retrieve an API key.
+
+    Returns:
+        str: Shortened link pointing to the same resource as the long link.
+
+    .. _Bitly API documentation:
+        https://dev.bitly.com/v4/#section/Application-using-a-single-account
+
+    """
+    shortener_url = "https://api-ssl.bitly.com/v4/shorten"
+    headers = {"Authorization": f"Bearer {bitly_api_key}"}
+    payload = {"long_url": long_link}
+    response = requests.post(shortener_url, json=payload, headers=headers)
+    response.raise_for_status()
+    return response.json()["link"]
+
+
 def get_tweet_message(content_heading: Tag) -> str:
     """
     Extract the tweet content from the paragraphs after content heading.
@@ -174,6 +198,8 @@ if __name__ == "__main__":
     preamble = build_preamble(today_heading)
 
     # TODO: Create shortened link to first link of the day.
+    short_link = get_short_link(link, config["Bitly"]["api_key"])
+
 
     # Get content
     # TODO: Calculate max message length. This needs to be the maximum tweet
