@@ -4,6 +4,7 @@
 
 from configparser import ConfigParser
 from datetime import date, datetime, timedelta
+import logging
 import re
 import sys
 from typing import Optional
@@ -16,11 +17,21 @@ import tweepy
 
 config = ConfigParser()
 config.read("config.ini")
+
 URL = "https://log100days.lpld.io/log.md"
 # TODAY = date.today() - timedelta(days=11)  # TODO: Remove delta
-TODAY = date(2019, 12, 27)
+TODAY = date(2020, 1, 3)
 DATE_FORMAT = "%B %d, %Y"
 MAX_TWEET_LEN = 240
+LOG_FORMAT = "%(asctime)s %(name)-10.10s %(levelname)-4.4s %(message)s"
+LOG_FILE = "tweet.log"
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=LOG_FORMAT,
+    filename=LOG_FILE,
+    filemode="a",  # append
+)
 
 
 def is_today(day_heading_text: str) -> bool:
@@ -247,17 +258,28 @@ def send_tweet(tweet_content: str) -> None:
     Arguments:
         tweet_content (str): Content of the tweet.
 
+    Raises:
+        RuntimeError: Raised if the defined tweet content was posted before.
+
     """
+    # TODO: Log tweet and check log before sending tweet to prevent duplication.
+    log_tweet = tweet_content.replace("\n", " ")
+    with open(LOG_FILE, "r") as f:
+        tweeted = any(log_tweet in line for line in f.readlines())
+    if tweeted:
+        warn_msg = "Tweet with this content already exists!"
+        logging.warn(warn_msg)
+        raise RuntimeError(warn_msg)
     tweepy_api = twitter_authenticate(
         config["Twitter"]["api_key"],
         config["Twitter"]["api_secret"],
         config["Twitter"]["access_token"],
         config["Twitter"]["access_secret"],
     )
-    # TODO: Log tweet and check log before sending tweet to prevent duplication.
-    print(tweet_content)
     # TODO: Reactivate sending of tweet
+    print(tweet_content)
     # tweepy_api.update_status(tweet_content)
+    logging.info(log_tweet)
 
 
 if __name__ == "__main__":
