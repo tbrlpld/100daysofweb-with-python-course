@@ -2,6 +2,7 @@
 
 """Script to post tweet based on today's #100DaysOfCode log."""
 
+import argparse
 from configparser import ConfigParser
 from datetime import date, datetime, timedelta
 import logging
@@ -19,8 +20,7 @@ config = ConfigParser()
 config.read("config.ini")
 
 URL = "https://log100days.lpld.io/log.md"
-# TODAY = date.today() - timedelta(days=11)  # TODO: Remove delta
-TODAY = date(2020, 1, 3)
+TODAY = date.today()
 DATE_FORMAT = "%B %d, %Y"
 MAX_TWEET_LEN = 240
 LOG_FORMAT = "%(asctime)s %(name)-10.10s %(levelname)-4.4s %(message)s"
@@ -34,12 +34,26 @@ logging.basicConfig(
 )
 
 
-def is_today(day_heading_text: str) -> bool:
+def create_arg_parser():
+    parser = argparse.ArgumentParser(description="Tweet todays log message.")
+    parser.add_argument(
+        "-o", "--offset",
+        type=int,
+        help=(
+            "Days to offset the today value with."
+            " Can be positive or negative."
+        ),
+    )
+    return parser
+
+
+def is_today(day_heading_text: str, offset: int = None) -> bool:
     """
     Check if given day heading represents today.
 
     Arguments:
         day_heading_text (str): Text content of the day's heading.
+        offset (int): Number of days by which to offset the value of today.
 
     Returns:
         bool: Expresses if the given day heading text represents today.
@@ -54,16 +68,20 @@ def is_today(day_heading_text: str) -> bool:
     # Convert to date object
     date_obj = datetime.strptime(date_string, DATE_FORMAT).date()
     # Check if today
-    return date_obj == TODAY
+    today = TODAY
+    if offset is not None:
+        today = TODAY + timedelta(days=offset)
+    return date_obj == today
 
 
-def get_today_heading(soup: BeautifulSoup) -> Tag:
+def get_today_heading(soup: BeautifulSoup, offset: int) -> Tag:
     """
     Return today's heading element or None.
 
     Arguments:
         soup (BeautifulSoup): Soup object of log page parsed with
             BeautifulSoup.
+        offset (int): Number of days by which to offset the value of today.
 
     Returns:
         bs4.element.Tag: Heading element representing today.
@@ -75,7 +93,7 @@ def get_today_heading(soup: BeautifulSoup) -> Tag:
     """
     day_headings = soup.find_all("h2")
     for day in day_headings[::]:
-        if is_today(day.text):
+        if is_today(day.text, offset):
             return day
     raise LookupError("No heading for found for today!")
 
@@ -95,8 +113,7 @@ def build_preamble(today_heading: Tag) -> str:
 
     """
     day = re.sub(r"(.*)(.[0-9])(:.*)", r"\2", today_heading.text)
-    # TODO: Use correct hashtag
-    return f"{day}/#100DaysOfLode"
+    return f"{day}/#100DaysOfCode"
 
 
 def get_todays_subheading(
@@ -262,7 +279,7 @@ def send_tweet(tweet_content: str) -> None:
         RuntimeError: Raised if the defined tweet content was posted before.
 
     """
-    # TODO: Log tweet and check log before sending tweet to prevent duplication.
+    # Check log before sending tweet to prevent duplication.
     log_tweet = tweet_content.replace("\n", " ")
     with open(LOG_FILE, "r") as f:
         tweeted = any(log_tweet in line for line in f.readlines())
@@ -279,15 +296,20 @@ def send_tweet(tweet_content: str) -> None:
     # TODO: Reactivate sending of tweet
     print(tweet_content)
     # tweepy_api.update_status(tweet_content)
+    # Log tweet
     logging.info(log_tweet)
 
 
 if __name__ == "__main__":
+    parser = create_arg_parser()
+    args = parser.parse_args()
+    offset = args.offset
+
     response = requests.get(URL)
     soup = BeautifulSoup(response.text, "html.parser")
 
     # Get today's heading
-    today_heading = get_today_heading(soup)
+    today_heading = get_today_heading(soup, offset)
 
     # Generate tweet preamble (E.g. 77/#100DaysOfCode)
     preamble = build_preamble(today_heading)
