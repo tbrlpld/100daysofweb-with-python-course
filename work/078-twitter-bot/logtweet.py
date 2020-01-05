@@ -16,7 +16,7 @@ import tweepy
 config = ConfigParser()
 config.read("config.ini")
 URL = "https://log100days.lpld.io/log.md"
-TODAY = date.today() - timedelta(days=15)  # TODO: Remove delta
+TODAY = date.today() - timedelta(days=10)  # TODO: Remove delta
 DATE_FORMAT = "%B %d, %Y"
 MAX_TWEET_LEN = 240
 
@@ -98,10 +98,19 @@ def get_first_link(today_heading: Tag) -> str:
         str: First link found in the list of links or empty if no links found.
 
     """
-    link_heading = today_heading.find_next_sibling(
-        "h3",
-        string="Link(s)",
-    )
+    # Go over the next siblings until the next day heading is found
+
+    link_heading = None
+    current_element = today_heading
+    while True:
+        next_sibling = current_element.next_sibling
+        if next_sibling.name == "h2":
+            break
+        if next_sibling.name == "h3" and next_sibling.text == "Links(s)":
+            link_heading = next_sibling
+            break
+        current_element = next_sibling
+
     if not link_heading:
         return ""
     return link_heading.find_next_sibling("ol").li.a["href"]
@@ -131,12 +140,13 @@ def get_short_link(long_link: str, bitly_api_key: str) -> str:
     return response.json()["link"]
 
 
-def get_tweet_message(today_heading: Tag) -> str:
+def get_tweet_message(today_heading: Tag, max_len: int) -> str:
     """
     Extract the tweet content from the paragraphs after content heading.
 
     Arguments:
         today_heading (Tag): Heading tag element for today.
+        max_len (int): Maximum length of tweet message.
 
     Returns:
         str: Tweet message with a maximum length of MAX_TWEET_LEN
@@ -172,7 +182,7 @@ def get_tweet_message(today_heading: Tag) -> str:
             new_content=current_element.text,
         ).strip()
 
-        if len(possible_content) > MAX_TWEET_LEN:
+        if len(possible_content) > max_len:
             break
         tweet_message = possible_content
 
@@ -234,20 +244,29 @@ if __name__ == "__main__":
     # Generate tweet preamble (E.g. 77/#100DaysOfCode)
     preamble = build_preamble(today_heading)
 
-    # TODO: Extract first link from list of links for the day.
+    # Extract first link from list of links for the day.
     link = get_first_link(today_heading)
     # Create shortened link to first link of the day.
-    # short_link = get_short_link(link, config["Bitly"]["api_key"])
+    if link:
+        link = get_short_link(link, config["Bitly"]["api_key"])
 
     # Get content
     # TODO: Calculate max message length. This needs to be the maximum tweet
     # length, reduced by the preamble and the link.
-    tweet_message = get_tweet_message(today_heading)
+    tweet_content_template = "{preamble} {tweet_message}\n\n{link}"
+    tweet_length_wo_message = len(tweet_content_template.format(
+        preamble=preamble,
+        tweet_message="",
+        link=link,
+    ))
+    max_length = MAX_TWEET_LEN - tweet_length_wo_message
+    tweet_message = get_tweet_message(today_heading, max_len=max_length)
 
     # TODO: Build content from preamble, message and link
-    tweet_content = f"{preamble} {tweet_message}\n\n{link}"
+    tweet_content = tweet_content_template.format(
+        preamble=preamble,
+        tweet_message=tweet_message,
+        link=link,
+    )
 
     send_tweet(tweet_content)
-
-
-
