@@ -16,7 +16,8 @@ import tweepy
 config = ConfigParser()
 config.read("config.ini")
 URL = "https://log100days.lpld.io/log.md"
-TODAY = date.today() - timedelta(days=10)  # TODO: Remove delta
+# TODAY = date.today() - timedelta(days=11)  # TODO: Remove delta
+TODAY = date(2019, 12, 27)
 DATE_FORMAT = "%B %d, %Y"
 MAX_TWEET_LEN = 240
 
@@ -106,7 +107,7 @@ def get_first_link(today_heading: Tag) -> str:
         next_sibling = current_element.next_sibling
         if next_sibling.name == "h2":
             break
-        if next_sibling.name == "h3" and next_sibling.text == "Links(s)":
+        if next_sibling.name == "h3" and next_sibling.text == "Link(s)":
             link_heading = next_sibling
             break
         current_element = next_sibling
@@ -163,7 +164,6 @@ def get_tweet_message(today_heading: Tag, max_len: int) -> str:
     )
     if content_heading is None:
         raise LookupError("No content heading found for today!")
-
     # Loop over the next siblings until you find something
     # that is not a paragraph. Extract content from the paragraphs until
     # maximum tweet length is reached.
