@@ -5,9 +5,11 @@
 from datetime import date, datetime, timedelta
 import re
 import sys
+from typing import Optional, List
 
 import requests
 import bs4
+from bs4.element import Tag
 
 
 URL = "https://log100days.lpld.io/log.md"
@@ -43,25 +45,37 @@ def is_today(day_heading_text: str) -> bool:
     return date_obj == TODAY
 
 
-def get_today_heading(day_headings):
-    """Return today's heading element or None."""
+def get_today_heading(day_headings: List[Tag]) -> Optional[Tag]:
+    """
+    Return today's heading element or None.
+
+    Arguments:
+        day_headings (List[Tag]): List of heading elements for the
+            different day in the log.
+
+    Returns:
+        bs4.element.Tag: Heading element representing today.
+        None: If no heading element for today was found.
+
+    """
     for day in day_headings[::]:
         if is_today(day.text):
             return day
     return None
 
 
-def get_tweet_message(today_heading):
-    """Extract the tweet content from the paragraphs after today's heading."""
-    # Grab today's content heading
-    content_heading = today_heading.find_next_sibling(
-        "h3",
-        string="Today's Progress",
-    )
-    if content_heading is None:
-        print("No content found for today!")
-        sys.exit(1)
+def get_tweet_message(content_heading: Tag) -> str:
+    """
+    Extract the tweet content from the paragraphs after content heading.
 
+    Arguments:
+        content_heading (Tag): Heading tag element preceeding
+            the content paragraphs.
+
+    Returns:
+        str: Tweet message with a maximum length of MAX_TWEET_LEN
+
+    """
     # Loop over the next siblings until you find something
     # that is not a paragraph. Extract content from the paragraphs until
     # maximum tweet length is reached.
@@ -83,6 +97,8 @@ def get_tweet_message(today_heading):
             break
         tweet_message = possible_content
 
+    return tweet_message
+
 
 if __name__ == "__main__":
     response = requests.get(URL)
@@ -95,7 +111,17 @@ if __name__ == "__main__":
         print("No log for today found!")
         sys.exit(1)
 
-    tweet_message = get_tweet_message(today_heading)
+    # Grab today's content heading
+    content_heading = today_heading.find_next_sibling(
+        "h3",
+        string="Today's Progress",
+    )
+    if content_heading is None:
+        print("No content found for today!")
+        sys.exit(1)
+
+    # Get content
+    tweet_message = get_tweet_message(content_heading)
     print(tweet_message)
 
 
