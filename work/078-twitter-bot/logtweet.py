@@ -6,21 +6,18 @@ from configparser import ConfigParser
 from datetime import date, datetime, timedelta
 import re
 import sys
-from typing import Optional, List
 
-import bs4
+from bs4 import BeautifulSoup
 from bs4.element import Tag
 import requests
 import tweepy
 
 
+config = ConfigParser()
+config.read("config.ini")
 URL = "https://log100days.lpld.io/log.md"
-
-# TODO: Remove delta
-TODAY = date.today() - timedelta(days=15)
-
+TODAY = date.today() - timedelta(days=15)  # TODO: Remove delta
 DATE_FORMAT = "%B %d, %Y"
-
 MAX_TWEET_LEN = 240
 
 
@@ -47,23 +44,27 @@ def is_today(day_heading_text: str) -> bool:
     return date_obj == TODAY
 
 
-def get_today_heading(day_headings: List[Tag]) -> Optional[Tag]:
+def get_today_heading(soup: BeautifulSoup) -> Tag:
     """
     Return today's heading element or None.
 
     Arguments:
-        day_headings (List[Tag]): List of heading elements for the
-            different day in the log.
+        soup (BeautifulSoup): Soup object of log page parsed with
+            BeautifulSoup.
 
     Returns:
         bs4.element.Tag: Heading element representing today.
         None: If no heading element for today was found.
 
+    Raises:
+        LookupError: Raised if no heading element for today was found.
+
     """
+    day_headings = soup.find_all("h2")
     for day in day_headings[::]:
         if is_today(day.text):
             return day
-    return None
+    raise LookupError("No heading for found for today!")
 
 
 def build_preamble(today_heading: Tag) -> str:
@@ -85,7 +86,7 @@ def build_preamble(today_heading: Tag) -> str:
     return f"{day}/#100DaysOfLode"
 
 
-def shorten_link(long_link: str, bitly_api_key: str) -> str:
+def get_short_link(long_link: str, bitly_api_key: str) -> str:
     """
     Create short link using the Bit.ly service.
 
@@ -109,18 +110,29 @@ def shorten_link(long_link: str, bitly_api_key: str) -> str:
     return response.json()["link"]
 
 
-def get_tweet_message(content_heading: Tag) -> str:
+def get_tweet_message(today_heading: Tag) -> str:
     """
     Extract the tweet content from the paragraphs after content heading.
 
     Arguments:
-        content_heading (Tag): Heading tag element preceeding
-            the content paragraphs.
+        today_heading (Tag): Heading tag element for today.
 
     Returns:
         str: Tweet message with a maximum length of MAX_TWEET_LEN
 
+    Raises:
+        LookupError: This error is raised if no content heading is found or the
+            message is empty.
+
     """
+    # Grab today's content heading
+    content_heading = today_heading.find_next_sibling(
+        "h3",
+        string="Today's Progress",
+    )
+    if content_heading is None:
+        raise LookupError("No content heading found for today!")
+
     # Loop over the next siblings until you find something
     # that is not a paragraph. Extract content from the paragraphs until
     # maximum tweet length is reached.
@@ -138,10 +150,13 @@ def get_tweet_message(content_heading: Tag) -> str:
             existing_content=possible_content,
             new_content=current_element.text,
         ).strip()
+
         if len(possible_content) > MAX_TWEET_LEN:
             break
         tweet_message = possible_content
 
+    if not tweet_message:
+        raise LookupError("No message found that could be tweeted!")
     return tweet_message
 
 
@@ -170,49 +185,48 @@ def twitter_authenticate(config: ConfigParser) -> tweepy.API:
     return tweepy.API(auth)
 
 
-if __name__ == "__main__":
-    config = ConfigParser()
-    config.read("config.ini")
-    tweepy_api = twitter_authenticate(config)
+def send_tweet(tweet_content: str) -> None:
+    """
+    Send tweet with given content.
 
+    For this to work, the config needs to contain valid Twitter API key and
+    access token.
+
+    Arguments:
+        tweet_content (str): Content of the tweet.
+
+    """
+    # TODO: Log tweet and check log before sending tweet to prevent duplication.
+    # TODO: Reactivate sending of tweet
+    tweepy_api = twitter_authenticate(config)
+    print(tweet_content)
+    # tweepy_api.update_status(tweet_content)
+
+
+if __name__ == "__main__":
     response = requests.get(URL)
-    soup = bs4.BeautifulSoup(response.text, "html.parser")
-    day_headings = soup.find_all("h2")
+    soup = BeautifulSoup(response.text, "html.parser")
 
     # Get today's heading
-    today_heading = get_today_heading(day_headings)
-    if today_heading is None:
-        print("No log for today found!")
-        sys.exit(1)
-
-    # Grab today's content heading
-    content_heading = today_heading.find_next_sibling(
-        "h3",
-        string="Today's Progress",
-    )
-    if content_heading is None:
-        print("No content found for today!")
-        sys.exit(1)
+    today_heading = get_today_heading(soup)
 
     # Generate tweet preamble (E.g. 77/#100DaysOfCode)
     preamble = build_preamble(today_heading)
 
-    # TODO: Create shortened link to first link of the day.
-    short_link = get_short_link(link, config["Bitly"]["api_key"])
-
+    # TODO: Extract first link from list of links for the day.
+    link = get_first_link(today_heading)
+    # Create shortened link to first link of the day.
+    # short_link = get_short_link(link, config["Bitly"]["api_key"])
 
     # Get content
     # TODO: Calculate max message length. This needs to be the maximum tweet
     # length, reduced by the preamble and the link.
-    tweet_message = get_tweet_message(content_heading)
+    tweet_message = get_tweet_message(today_heading)
 
     # TODO: Build content from preamble, message and link
     tweet_content = f"{preamble} {tweet_message}"
 
-    # TODO: Log tweet and check log before sending tweet to prevent duplication.
-    # TODO: Reactivate sending of tweet
-    print(tweet_content)
-    # tweepy_api.update_status(tweet_content)
+    send_tweet(tweet_content)
 
 
 
