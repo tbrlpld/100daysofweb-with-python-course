@@ -2,14 +2,16 @@
 
 """Script to post tweet based on today's #100DaysOfCode log."""
 
+from configparser import ConfigParser
 from datetime import date, datetime, timedelta
 import re
 import sys
 from typing import Optional, List
 
-import requests
 import bs4
 from bs4.element import Tag
+import requests
+import tweepy
 
 
 URL = "https://log100days.lpld.io/log.md"
@@ -100,7 +102,36 @@ def get_tweet_message(content_heading: Tag) -> str:
     return tweet_message
 
 
+def twitter_authenticate(config: ConfigParser) -> tweepy.API:
+    """
+    Create authenticated Tweepy API.
+
+    Arguments:
+        config (ConfigParser): Config object containing the authentication
+            detail for a twitter app. Requires a "Twitter" section and
+            key-value-pairs for "api_key", "api_secret", "access_token" and
+            "access_secret".
+
+    Returns:
+        tweepy.API: Authenticated tweepy API object.
+
+    """
+    auth = tweepy.OAuthHandler(
+        config["Twitter"]["api_key"],
+        config["Twitter"]["api_secret"],
+    )
+    auth.set_access_token(
+        config["Twitter"]["access_token"],
+        config["Twitter"]["access_secret"],
+    )
+    return tweepy.API(auth)
+
+
 if __name__ == "__main__":
+    config = ConfigParser()
+    config.read("config.ini")
+    tweepy_api = twitter_authenticate(config)
+
     response = requests.get(URL)
     soup = bs4.BeautifulSoup(response.text, "html.parser")
     day_headings = soup.find_all("h2")
@@ -124,6 +155,7 @@ if __name__ == "__main__":
     tweet_message = get_tweet_message(content_heading)
     print(tweet_message)
 
+    tweepy_api.update_status(tweet_message)
 
 
 
