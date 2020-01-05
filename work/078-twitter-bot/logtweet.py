@@ -211,28 +211,29 @@ def get_tweet_message(today_heading: Tag, max_len: int) -> str:
     return tweet_message
 
 
-def twitter_authenticate(config: ConfigParser) -> tweepy.API:
+def twitter_authenticate(
+    api_key: str,
+    api_secret: str,
+    access_token: str,
+    access_secret: str,
+) -> tweepy.API:
     """
     Create authenticated Tweepy API.
 
+    Requires twitter API access information.
+
     Arguments:
-        config (ConfigParser): Config object containing the authentication
-            detail for a twitter app. Requires a "Twitter" section and
-            key-value-pairs for "api_key", "api_secret", "access_token" and
-            "access_secret".
+        api_key (str): Twitter API key
+        api_secret (str): Twitter API secret
+        access_token (str): Twitter API access token
+        access_secret (str): Twitter API access secret
 
     Returns:
         tweepy.API: Authenticated tweepy API object.
 
     """
-    auth = tweepy.OAuthHandler(
-        config["Twitter"]["api_key"],
-        config["Twitter"]["api_secret"],
-    )
-    auth.set_access_token(
-        config["Twitter"]["access_token"],
-        config["Twitter"]["access_secret"],
-    )
+    auth = tweepy.OAuthHandler(api_key, api_secret)
+    auth.set_access_token(access_token, access_secret)
     return tweepy.API(auth)
 
 
@@ -247,10 +248,15 @@ def send_tweet(tweet_content: str) -> None:
         tweet_content (str): Content of the tweet.
 
     """
+    tweepy_api = twitter_authenticate(
+        config["Twitter"]["api_key"],
+        config["Twitter"]["api_secret"],
+        config["Twitter"]["access_token"],
+        config["Twitter"]["access_secret"],
+    )
     # TODO: Log tweet and check log before sending tweet to prevent duplication.
-    # TODO: Reactivate sending of tweet
-    tweepy_api = twitter_authenticate(config)
     print(tweet_content)
+    # TODO: Reactivate sending of tweet
     # tweepy_api.update_status(tweet_content)
 
 
@@ -270,8 +276,7 @@ if __name__ == "__main__":
     if link:
         link = get_short_link(link, config["Bitly"]["api_key"])
 
-    # Get content
-    # TODO: Calculate max message length. This needs to be the maximum tweet
+    # Calculate max message length. This needs to be the maximum tweet
     # length, reduced by the preamble and the link.
     tweet_content_template = "{preamble} {tweet_message}\n\n{link}"
     tweet_length_wo_message = len(tweet_content_template.format(
@@ -280,9 +285,10 @@ if __name__ == "__main__":
         link=link,
     ))
     max_length = MAX_TWEET_LEN - tweet_length_wo_message
+    # Get content
     tweet_message = get_tweet_message(today_heading, max_len=max_length)
 
-    # TODO: Build content from preamble, message and link
+    # Build content from preamble, message and link
     tweet_content = tweet_content_template.format(
         preamble=preamble,
         tweet_message=tweet_message,
