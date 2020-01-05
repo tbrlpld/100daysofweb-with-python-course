@@ -66,6 +66,25 @@ def get_today_heading(day_headings: List[Tag]) -> Optional[Tag]:
     return None
 
 
+def build_preamble(today_heading: Tag) -> str:
+    """
+    Build preamble for tweet.
+
+    The preamble for e.g. day 77 would look like: "77/#100DaysOfCode".
+
+    Arguments:
+        today_heading (Tag): Today's log header from which the day can be
+            extracted.
+
+    Returns:
+        str: Preamble for the tweet message.
+
+    """
+    day = re.sub(r"(.*)(.[0-9])(:.*)", r"\2", today_heading.text)
+    # TODO: Use correct hashtag
+    return f"{day}/#100DaysOfLode"
+
+
 def get_tweet_message(content_heading: Tag) -> str:
     """
     Extract the tweet content from the paragraphs after content heading.
@@ -151,11 +170,23 @@ if __name__ == "__main__":
         print("No content found for today!")
         sys.exit(1)
 
-    # Get content
-    tweet_message = get_tweet_message(content_heading)
-    print(tweet_message)
+    # Generate tweet preamble (E.g. 77/#100DaysOfCode)
+    preamble = build_preamble(today_heading)
 
-    tweepy_api.update_status(tweet_message)
+    # TODO: Create shortened link to first link of the day.
+
+    # Get content
+    # TODO: Calculate max message length. This needs to be the maximum tweet
+    # length, reduced by the preamble and the link.
+    tweet_message = get_tweet_message(content_heading)
+
+    # TODO: Build content from preamble, message and link
+    tweet_content = f"{preamble} {tweet_message}"
+
+    # TODO: Log tweet and check log before sending tweet to prevent duplication.
+    # TODO: Reactivate sending of tweet
+    print(tweet_content)
+    # tweepy_api.update_status(tweet_content)
 
 
 
