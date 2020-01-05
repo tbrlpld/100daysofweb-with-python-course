@@ -86,6 +86,27 @@ def build_preamble(today_heading: Tag) -> str:
     return f"{day}/#100DaysOfLode"
 
 
+def get_first_link(today_heading: Tag) -> str:
+    """
+    Extract the first link  URL from the list of the day's links.
+
+    Arguments:
+        today_heading (Tag): Today's log header from which the day can be
+            extracted.
+
+    Returns:
+        str: First link found in the list of links or empty if no links found.
+
+    """
+    link_heading = today_heading.find_next_sibling(
+        "h3",
+        string="Link(s)",
+    )
+    if not link_heading:
+        return ""
+    return link_heading.find_next_sibling("ol").li.a["href"]
+
+
 def get_short_link(long_link: str, bitly_api_key: str) -> str:
     """
     Create short link using the Bit.ly service.
@@ -224,7 +245,7 @@ if __name__ == "__main__":
     tweet_message = get_tweet_message(today_heading)
 
     # TODO: Build content from preamble, message and link
-    tweet_content = f"{preamble} {tweet_message}"
+    tweet_content = f"{preamble} {tweet_message}\n\n{link}"
 
     send_tweet(tweet_content)
 
