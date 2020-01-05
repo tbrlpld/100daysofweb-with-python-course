@@ -43,21 +43,16 @@ def is_today(day_heading_text: str) -> bool:
     return date_obj == TODAY
 
 
-if __name__ == "__main__":
-    response = requests.get(URL)
-    soup = bs4.BeautifulSoup(response.text, "html.parser")
-    day_headings = soup.find_all("h2")
-
-    # Get today's heading
-    today_heading = None
+def get_today_heading(day_headings):
+    """Return today's heading element or None."""
     for day in day_headings[::]:
         if is_today(day.text):
-            today_heading = day
-            break
-    if today_heading is None:
-        print("No log for today found!")
-        sys.exit(1)
+            return day
+    return None
 
+
+def get_tweet_message(today_heading):
+    """Extract the tweet content from the paragraphs after today's heading."""
     # Grab today's content heading
     content_heading = today_heading.find_next_sibling(
         "h3",
@@ -88,6 +83,19 @@ if __name__ == "__main__":
             break
         tweet_message = possible_content
 
+
+if __name__ == "__main__":
+    response = requests.get(URL)
+    soup = bs4.BeautifulSoup(response.text, "html.parser")
+    day_headings = soup.find_all("h2")
+
+    # Get today's heading
+    today_heading = get_today_heading(day_headings)
+    if today_heading is None:
+        print("No log for today found!")
+        sys.exit(1)
+
+    tweet_message = get_tweet_message(today_heading)
     print(tweet_message)
 
 
