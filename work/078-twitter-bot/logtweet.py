@@ -6,6 +6,7 @@ from configparser import ConfigParser
 from datetime import date, datetime, timedelta
 import re
 import sys
+from typing import Optional
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -87,6 +88,18 @@ def build_preamble(today_heading: Tag) -> str:
     return f"{day}/#100DaysOfLode"
 
 
+def get_todays_subheading(today_heading: Tag, subheading_text: str) -> Optional[Tag]:
+    # Go over the next siblings until the next day heading is found
+    current_element = today_heading
+    while True:
+        next_sibling = current_element.next_sibling
+        if next_sibling.name == "h2":
+            break
+        if next_sibling.name == "h3" and next_sibling.text == subheading_text:
+            return next_sibling
+        current_element = next_sibling
+
+
 def get_first_link(today_heading: Tag) -> str:
     """
     Extract the first link  URL from the list of the day's links.
@@ -99,19 +112,7 @@ def get_first_link(today_heading: Tag) -> str:
         str: First link found in the list of links or empty if no links found.
 
     """
-    # Go over the next siblings until the next day heading is found
-
-    link_heading = None
-    current_element = today_heading
-    while True:
-        next_sibling = current_element.next_sibling
-        if next_sibling.name == "h2":
-            break
-        if next_sibling.name == "h3" and next_sibling.text == "Link(s)":
-            link_heading = next_sibling
-            break
-        current_element = next_sibling
-
+    link_heading = get_todays_subheading(today_heading, "Link(s)")
     if not link_heading:
         return ""
     return link_heading.find_next_sibling("ol").li.a["href"]
