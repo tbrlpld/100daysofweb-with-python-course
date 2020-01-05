@@ -88,7 +88,28 @@ def build_preamble(today_heading: Tag) -> str:
     return f"{day}/#100DaysOfLode"
 
 
-def get_todays_subheading(today_heading: Tag, subheading_text: str) -> Optional[Tag]:
+def get_todays_subheading(
+    today_heading: Tag,
+    subheading_text: str,
+) -> Optional[Tag]:
+    """
+    Retrieve the next subheader (h3) element with the given text.
+
+    This function only iterates over the following sibling's of the
+    ``today_heading`` until the next day heading level (h2) is found.
+
+    Arguments:
+        today_heading (Tag): Tag element of today's header. This is the
+            starting point to look for following sibling subheaders.
+        subheading_text (str): Content string for the searched subheader, which
+            can be retrieved from the subheader element with
+            ``subheader.text``.
+
+    Returns:
+        Tag: Found subheader element with given ``.text`` attribute.
+        None: If no subheader was found, None is returned.
+
+    """
     # Go over the next siblings until the next day heading is found
     current_element = today_heading
     while True:
@@ -98,6 +119,7 @@ def get_todays_subheading(today_heading: Tag, subheading_text: str) -> Optional[
         if next_sibling.name == "h3" and next_sibling.text == subheading_text:
             return next_sibling
         current_element = next_sibling
+    return None
 
 
 def get_first_link(today_heading: Tag) -> str:
@@ -124,8 +146,8 @@ def get_short_link(long_link: str, bitly_api_key: str) -> str:
 
     Arguments:
         long_link (str): Long link to shorten.
-        bitly_api_key (str): API key for the Bit.ly service.
-            See the `Bitly API documentation`_ on how to retrieve an API key.
+        bitly_api_key (str): API key for the Bit.ly service. See the
+            `Bitly API documentation`_ on how to retrieve an API key.
 
     Returns:
         str: Shortened link pointing to the same resource as the long link.
@@ -159,10 +181,7 @@ def get_tweet_message(today_heading: Tag, max_len: int) -> str:
 
     """
     # Grab today's content heading
-    content_heading = today_heading.find_next_sibling(
-        "h3",
-        string="Today's Progress",
-    )
+    content_heading = get_todays_subheading(today_heading, "Today's Progress")
     if content_heading is None:
         raise LookupError("No content heading found for today!")
     # Loop over the next siblings until you find something
