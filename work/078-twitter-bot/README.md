@@ -4,7 +4,7 @@ LogTweet
 Create a tweet based on the log message for today from [https://log100days.lpld.io/log.md](https://log100days.lpld.io/log.md).
 
 # Installation
-You can install the script with `pip install <zipfile>`.
+You can install the script with `pip install <targz-file>`.
 
 # Usage
 Just run the script with `logtweet` from the command line. 
