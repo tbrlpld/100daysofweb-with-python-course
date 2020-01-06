@@ -34,6 +34,49 @@ logging.basicConfig(
 )
 
 
+def main():
+    """Create a tweet based on today's log message."""
+    parser = create_arg_parser()
+    args = parser.parse_args()
+    offset = args.offset
+
+    response = requests.get(URL)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # Get today's heading
+    today_heading = get_today_heading(soup, offset)
+
+    # Generate tweet preamble (E.g. 77/#100DaysOfCode)
+    preamble = build_preamble(today_heading)
+
+    # Extract first link from list of links for the day.
+    link = get_first_link(today_heading)
+    # Create shortened link to first link of the day.
+    if link:
+        link = get_short_link(link, config["Bitly"]["api_key"])
+
+    # Calculate max message length. This needs to be the maximum tweet
+    # length, reduced by the preamble and the link.
+    tweet_content_template = "{preamble} {tweet_message}\n\n{link}"
+    tweet_length_wo_message = len(tweet_content_template.format(
+        preamble=preamble,
+        tweet_message="",
+        link=link,
+    ))
+    max_length = MAX_TWEET_LEN - tweet_length_wo_message
+    # Get content
+    tweet_message = get_tweet_message(today_heading, max_len=max_length)
+
+    # Build content from preamble, message and link
+    tweet_content = tweet_content_template.format(
+        preamble=preamble,
+        tweet_message=tweet_message,
+        link=link,
+    )
+
+    send_tweet(tweet_content)
+
+
 def create_arg_parser():
     parser = argparse.ArgumentParser(description="Tweet todays log message.")
     parser.add_argument(
@@ -285,7 +328,7 @@ def send_tweet(tweet_content: str) -> None:
         tweeted = any(log_tweet in line for line in f.readlines())
     if tweeted:
         warn_msg = "Tweet with this content already exists!"
-        logging.warn(warn_msg)
+        logging.warning(warn_msg)
         raise RuntimeError(warn_msg)
     tweepy_api = twitter_authenticate(
         config["Twitter"]["api_key"],
@@ -294,48 +337,10 @@ def send_tweet(tweet_content: str) -> None:
         config["Twitter"]["access_secret"],
     )
     # Send tweet
-    tweepy_api.update_status(tweet_content)
+    # tweepy_api.update_status(tweet_content)
     # Log tweet
     logging.info(log_tweet)
 
 
 if __name__ == "__main__":
-    parser = create_arg_parser()
-    args = parser.parse_args()
-    offset = args.offset
-
-    response = requests.get(URL)
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    # Get today's heading
-    today_heading = get_today_heading(soup, offset)
-
-    # Generate tweet preamble (E.g. 77/#100DaysOfCode)
-    preamble = build_preamble(today_heading)
-
-    # Extract first link from list of links for the day.
-    link = get_first_link(today_heading)
-    # Create shortened link to first link of the day.
-    if link:
-        link = get_short_link(link, config["Bitly"]["api_key"])
-
-    # Calculate max message length. This needs to be the maximum tweet
-    # length, reduced by the preamble and the link.
-    tweet_content_template = "{preamble} {tweet_message}\n\n{link}"
-    tweet_length_wo_message = len(tweet_content_template.format(
-        preamble=preamble,
-        tweet_message="",
-        link=link,
-    ))
-    max_length = MAX_TWEET_LEN - tweet_length_wo_message
-    # Get content
-    tweet_message = get_tweet_message(today_heading, max_len=max_length)
-
-    # Build content from preamble, message and link
-    tweet_content = tweet_content_template.format(
-        preamble=preamble,
-        tweet_message=tweet_message,
-        link=link,
-    )
-
-    send_tweet(tweet_content)
+    main()
