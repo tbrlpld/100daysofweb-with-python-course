@@ -336,6 +336,6 @@ def send_tweet(tweet_content: str) -> None:
         config["Twitter"]["access_secret"],
     )
     # Send tweet
-    # tweepy_api.update_status(tweet_content)
+    tweepy_api.update_status(tweet_content)
     # Log tweet
     logging.info(log_tweet)
