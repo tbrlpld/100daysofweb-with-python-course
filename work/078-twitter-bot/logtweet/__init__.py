@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""Script to post tweet based on today's #100DaysOfCode log."""
+"""Module to post tweet based on today's #100DaysOfCode log."""
 
 import argparse
 from configparser import ConfigParser
 from datetime import date, datetime, timedelta
 import logging
 import re
-import sys
 from typing import Optional
 
 from bs4 import BeautifulSoup
@@ -340,7 +339,3 @@ def send_tweet(tweet_content: str) -> None:
     # tweepy_api.update_status(tweet_content)
     # Log tweet
     logging.info(log_tweet)
-
-
-if __name__ == "__main__":
-    main()
