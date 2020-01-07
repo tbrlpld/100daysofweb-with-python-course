@@ -5,6 +5,7 @@
 import argparse
 from datetime import date, datetime, timedelta
 import logging
+import os
 import re
 from typing import Optional
 
@@ -23,7 +24,7 @@ TODAY = date.today()
 DATE_FORMAT = "%B %d, %Y"
 MAX_TWEET_LEN = 240
 LOG_FORMAT = "%(asctime)s %(name)-10.10s %(levelname)-4.4s %(message)s"
-LOG_FILE = "tweet.log"
+LOG_FILE = os.path.expanduser("~/.config/logtweet/tweet.log")
 
 logging.basicConfig(
     level=logging.INFO,
