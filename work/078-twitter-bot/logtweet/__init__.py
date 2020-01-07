@@ -3,7 +3,6 @@
 """Module to post tweet based on today's #100DaysOfCode log."""
 
 import argparse
-from configparser import ConfigParser
 from datetime import date, datetime, timedelta
 import logging
 import re
@@ -14,9 +13,10 @@ from bs4.element import Tag
 import requests
 import tweepy
 
+from logtweet.config import get_config
 
-config = ConfigParser()
-config.read("config.ini")
+
+config = get_config()
 
 URL = "https://log100days.lpld.io/log.md"
 TODAY = date.today()
