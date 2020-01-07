@@ -1,6 +1,6 @@
 # LogTweet
 
-Create a tweet based on a log message for today. 
+Create a tweet based on a #100DaysOfCode log message. 
 
 
 ## Usage
@@ -25,11 +25,15 @@ So to generate a tweet for yesterday use `-o -1`.
 If you want to suppress the actual tweeting and only see the message in the console, use the `--testmode` command line flag.
 
 ## Installation
-Download the latest source distribution form the [releases page on GitHub]().
+I recommend [`pipx`](https://pipxproject.github.io/pipx/) to install python scripts and other tools in isolated virtual environments. This keeps the you platform python clean and you don't have to worry about activating a particular virtual environment to use a tool/script. 
 
-You can install the script with `pip install <targz-file>`.
+```shell
+pipx install logtweet
+```
 
-I recommend `pipx` to install python scripts and other tools in isolated virtual environments. This keeps the you platform python clean and you don't have to worry about activating a particular virtual environment to use a tool/script. 
+This way you will have a clean environment and the tool still available on the command line.
+
+But if you want to, you should be able to install it with `pip install logtweet`.
 
 ## Configuration
 
@@ -40,3 +44,13 @@ Because I can not figure out how to define a "post-install hook" that is run by 
 You can find an example config on [GitHub](https://github.com/tbrlpld/100daysofweb-with-python-course/blob/master/work/078-twitter-bot/config.ini.example).
 
 In that config file you define the URL where your log can be found and the API keys and access tokens that are needed for Twitter and Bit.ly.
+
+
+## Development
+
+Install with 
+```shell
+python -m pip install -e ".[develop]"
+```
+
+This installs the app dependencies as well as tools to develop and distribute the package.
