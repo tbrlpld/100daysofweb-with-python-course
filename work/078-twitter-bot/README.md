@@ -25,7 +25,7 @@ So to generate a tweet for yesterday use `-o -1`.
 If you want to suppress the actual tweeting and only see the message in the console, use the `--testmode` command line flag.
 
 ## Installation
-Download the latest source distribution form GitHub.
+Download the latest source distribution form the [releases page on GitHub]().
 
 You can install the script with `pip install <targz-file>`.
 
@@ -36,6 +36,7 @@ I recommend `pipx` to install python scripts and other tools in isolated virtual
 You need a configuration file for the script to work. 
 The `config.ini` can either be in the current working directory or in `~/.config/logtweet/`. 
 
-The latter directory should be created during installation and an exmaple config file is added there. 
+Because I can not figure out how to define a "post-install hook" that is run by `pip` I can not generate an example config at the defined location. 
+You can find an example config on [GitHub](https://github.com/tbrlpld/100daysofweb-with-python-course/blob/master/work/078-twitter-bot/config.ini.example).
 
 In that config file you define the URL where your log can be found and the API keys and access tokens that are needed for Twitter and Bit.ly.
