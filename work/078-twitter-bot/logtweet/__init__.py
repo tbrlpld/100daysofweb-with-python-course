@@ -142,9 +142,10 @@ def get_today_heading(soup: BeautifulSoup, offset: int) -> Tag:
         soup (BeautifulSoup): Soup object of log page parsed with
             BeautifulSoup.
         offset (int): Number of days by which to offset the value of today.
+            E.g. yesterday is `offset = -1`.
 
     Returns:
-        bs4.element.Tag: Heading element representing today.
+        Tag: Heading element representing today.
         None: If no heading element for today was found.
 
     Raises:
