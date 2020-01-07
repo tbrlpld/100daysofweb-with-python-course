@@ -18,7 +18,7 @@ from logtweet.config import get_config
 
 config = get_config()
 
-URL = "https://log100days.lpld.io/log.md"
+URL = config["LogTweet"]["url"]
 TODAY = date.today()
 DATE_FORMAT = "%B %d, %Y"
 MAX_TWEET_LEN = 240
