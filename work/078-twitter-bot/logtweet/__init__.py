@@ -73,17 +73,35 @@ def main():
         link=link,
     )
 
-    send_tweet(tweet_content)
+    send_tweet(tweet_content, test_mode=args.testmode)
 
 
-def create_arg_parser():
+def create_arg_parser() -> argparse.ArgumentParser:
+    """
+    Create the created argument parser.
+
+    Returns:
+        argparse.ArgumentParser: Argument parser instance for this app.
+
+    """
     parser = argparse.ArgumentParser(description="Tweet todays log message.")
     parser.add_argument(
-        "-o", "--offset",
+        "-o",
+        "--offset",
         type=int,
         help=(
             "Days to offset the today value with."
-            " Can be positive or negative."
+            + " Can be positive or negative."
+        ),
+    )
+    parser.add_argument(
+        "-t",
+        "--testmode",
+        action="store_true",
+        help=(
+            "Run in test mode. Everything is run the same, but the tweet is"
+            + " only printed to stdout. No tweet is sent and no log message is"
+            + " created."
         ),
     )
     return parser
@@ -307,7 +325,7 @@ def twitter_authenticate(
     return tweepy.API(auth)
 
 
-def send_tweet(tweet_content: str) -> None:
+def send_tweet(tweet_content: str, test_mode=False) -> None:
     """
     Send tweet with given content.
 
@@ -335,7 +353,10 @@ def send_tweet(tweet_content: str) -> None:
         config["Twitter"]["access_token"],
         config["Twitter"]["access_secret"],
     )
-    # Send tweet
-    tweepy_api.update_status(tweet_content)
-    # Log tweet
-    logging.info(log_tweet)
+    if test_mode is False:
+        # Send tweet
+        tweepy_api.update_status(tweet_content)
+        # Log tweet
+        logging.info(log_tweet)
+    else:
+        print(tweet_content)
