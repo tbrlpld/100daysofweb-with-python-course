@@ -28,13 +28,13 @@ def lambda_handler(event, context):
 
     return {
         "statusCode": 200,
-        "body": json.dumps(output),
+        "body": output,
     }
 
 
-# if __name__ == '__main__':
-#     print("OK:")
-#     print(lambda_handler({"code": "print('something')"}, None))
-#     print("")
-#     print("NOK:")
-#     print(lambda_handler({"code": "  print('something')"}, None))
+if __name__ == '__main__':
+    print("OK:")
+    print(lambda_handler({"code": "print('something')"}, None))
+    print("")
+    print("NOK:")
+    print(lambda_handler({"code": "  print('something')"}, None))

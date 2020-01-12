@@ -1,5 +1,5 @@
-import os
 import json
+import os
 
 from flask import Flask, request, render_template, abort, Response
 import requests
