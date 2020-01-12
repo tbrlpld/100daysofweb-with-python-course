@@ -1,0 +1,44 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Check Your Code</title>
+  <style type="text/css">
+    body {
+      text-align: center;
+      color: #333,
+    }
+
+    pre {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>Check Your Python Code <small>Against PEP8</small></h1>
+      <form method="post">
+        <label for="code">Your code goes here ↓</label>
+        <br>
+        <textarea name="code" cols="80" rows="20">{{ code }}</textarea>
+        <br>
+        <br>
+        <input type="submit" name="submit" value="Check Code">
+      </form>
+    </section>
+    {% if code %}
+    <section>
+      {% if not peperrors %}
+        <h1>Looks great ✅</h1>
+      {% else %}
+        <h1>That could be better ❌</h1>
+        <p>Here is what PEP8 has to say:</p>
+        <pre>
+          {{ peperrors }}
+        </pre>
+      {% endif %}
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>
