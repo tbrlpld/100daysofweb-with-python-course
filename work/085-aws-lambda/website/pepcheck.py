@@ -21,6 +21,7 @@ def index():
             data=json.dumps({"code": code}),
         )
         response_data = response.json()
+
         err = response_data.get("errorType")
         if err:
             msg = response_data.get("errorMessage")
