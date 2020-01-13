@@ -6,6 +6,13 @@ from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 
 
+# This whole module could easily be refactored into a class
+# Than I would not need to keep passing the table from function to function.
+# TODO: Refactor into class
+
+# TODO: Write some docstrings on what the functions are doing.
+
+
 dynamodb = boto3.resource(
     "dynamodb",
     region_name="us-west2",
@@ -67,6 +74,7 @@ def create_table(name="urls"):
 
 
 def save_long_url(table, long_url):
+    # TODO: Check for duplicate before creation.
     item = {
         "short": random_string(),
         "long": long_url,
