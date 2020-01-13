@@ -1,3 +1,4 @@
 flask
 zappa
 python-dotenv
+boto3

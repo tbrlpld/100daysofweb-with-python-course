@@ -13,10 +13,7 @@ def hello():
 def exmple():
     return redirect("http://example.com")
 
+
 @app.route("/<shortlink>")
 def redirect_to_long(shortlink):
     return f"You requested the shortlink: {shortlink}"
-
-
-if __name__ == "__main__":
-    app.run()
