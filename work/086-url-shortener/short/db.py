@@ -1,8 +1,9 @@
 import random
 import string
+from typing import Dict, Optional
 
 import boto3
-from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
 
 
@@ -40,7 +41,7 @@ class DynamoTable(object):
                 "KeyType": "HASH",
             },
             {
-                "AttributeName": "long",
+                "AttributeName": "long_url",
                 "KeyType": "RANGE",
             },
         ]
@@ -51,7 +52,7 @@ class DynamoTable(object):
                 "AttributeType": "S",
             },
             {
-                "AttributeName": "long",
+                "AttributeName": "long_url",
                 "AttributeType": "S",
             },
         ]
@@ -103,7 +104,7 @@ class DynamoTable(object):
             ProvisionedThroughput=self.PROVISIONED_TRHOUGHPUT,
         )
 
-    def save_long_url(self, long_url):
+    def save_long_url(self, long_url: str) -> Dict[str, str]:
         """
         Save a given long URL under a randomly generated key in the DB.
 
@@ -121,7 +122,7 @@ class DynamoTable(object):
         # TODO: Check for duplicate before creation.
         item = {
             "short": random_string(),
-            "long": long_url,
+            "long_url": long_url,
         }
         response = self.table.put_item(Item=item)
 
@@ -129,7 +130,7 @@ class DynamoTable(object):
             raise RuntimeError
         return item
 
-    def get_long_from_short(self, short):
+    def get_long_from_short(self, short: str) -> Optional[str]:
         """
         Get long URL saved under a given `short` key.
 
@@ -147,7 +148,7 @@ class DynamoTable(object):
         if response["Count"] == 0:
             return None
         item = response["Items"][0]
-        return item.get("long")
+        return item.get("long_url")
 
 
 def random_string(length: int = 4) -> str:
