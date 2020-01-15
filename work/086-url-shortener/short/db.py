@@ -119,15 +119,16 @@ class DynamoTable(object):
                 different HTTP status than 200.
 
         """
-        # TODO: Check for duplicate before creation.
         item = {
-            "short": random_string(),
             "long_url": long_url,
         }
-        response = self.table.put_item(Item=item)
+        item["short"] = self.get_short_of_long(long_url)
 
-        if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
-            raise RuntimeError
+        if item["short"] is None:
+            item["short"] = random_string()
+            response = self.table.put_item(Item=item)
+            if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
+                raise RuntimeError
         return item
 
     def get_short_of_long(self, long_url: str) -> Optional[str]:
@@ -146,7 +147,7 @@ class DynamoTable(object):
         response = self.table.scan(FilterExpression=Attr("long_url").eq(long_url))
         if response["Count"] == 0:
             return None
-        return response["Itemsq"][0].get("short")
+        return response["Items"][0].get("short")
 
     def get_long_from_short(self, short: str) -> Optional[str]:
         """
