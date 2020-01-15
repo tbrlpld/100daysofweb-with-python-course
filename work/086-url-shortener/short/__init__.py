@@ -5,9 +5,10 @@ from short.db import DynamoTable
 app = Flask(__name__)
 
 
-# @app.route("/")
-# def hello():
-#     return "Hello from Lambda!"
+@app.route("/")
+def hello():
+    host = request.host
+    return f"Hello from Lambda! You requested me at: {host}"
 
 
 # @app.route("/x")
