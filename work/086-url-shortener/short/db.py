@@ -130,6 +130,24 @@ class DynamoTable(object):
             raise RuntimeError
         return item
 
+    def get_short_of_long(self, long_url: str) -> Optional[str]:
+        """
+        Get short key for given long URL.
+
+        Arguments:
+            long_url (str): Long URL to lookup in the database and for which
+                to return the short key.
+
+        Returns:
+            str: Short key for the given long URL.
+            None: If no short key was found, `None` is returned
+
+        """
+        response = self.table.scan(FilterExpression=Attr("long_url").eq(long_url))
+        if response["Count"] == 0:
+            return None
+        return response["Itemsq"][0].get("short")
+
     def get_long_from_short(self, short: str) -> Optional[str]:
         """
         Get long URL saved under a given `short` key.
