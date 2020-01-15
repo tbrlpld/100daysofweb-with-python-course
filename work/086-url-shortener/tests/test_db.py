@@ -44,6 +44,18 @@ class TestSaveMethod(object):
 
         assert short_1 == short_2
 
+    def test_saving_different_long_leads_to_different_shorts(
+        self,
+        table_connection,
+    ):
+        response_1 = table_connection.save_long_url("http://example.com")
+        short_1 = response_1["short"]
+
+        response_2 = table_connection.save_long_url("http://otherexample.com")
+        short_2 = response_2["short"]
+
+        assert short_1 != short_2
+
 
 class TestGetShortOfLongMethod(object):
     def test_finds_short_for_given_long_url(
