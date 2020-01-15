@@ -6,5 +6,13 @@
         "runtime": "python3.7",
         "s3_bucket": "zappa-lpld.io-urlshortener-west",
         "aws_region" : "us-west-1"
-    }
+    },
+    "production": {
+        "app_function": "short.app",
+        "profile_name": "default",
+        "project_name": "urlshortener",
+        "runtime": "python3.7",
+        "s3_bucket": "zappa-lpld.io-urlshortener-west",
+        "aws_region" : "us-west-1"
+    },
 }
