@@ -16,7 +16,8 @@ def get_form():
 
 @app.route("/", methods=["POST"])
 def post_form():
-    dbresponse = process_post_request(request)
+    long_url = request.form.get("long_url")
+    dbresponse = dbresponse_for_long_url(long_url)
     return render_template(
         "short_display.jinja2",
         **dbresponse,
@@ -36,14 +37,14 @@ def apidoc():
 
 @app.route("/create", methods=["POST"])
 def create():
-    dbresponse = process_post_request(request)
+    long_url = request.get_json().get("long_url")
+    dbresponse = dbresponse_for_long_url(long_url)
     return jsonify(dbresponse)
 
 
-def process_post_request(request):
+def dbresponse_for_long_url(long_url):
     """Convert post request into dbresponse."""
     table = DynamoTable()
-    long_url = request.form.get("long_url")
     if not long_url:
         abort(400)
     dbresponse = table.save_long_url(long_url)
