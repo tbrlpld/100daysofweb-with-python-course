@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+"""Module to abstract away the database setup and access code."""
+
 import random
 import string
 from typing import Dict, Optional
