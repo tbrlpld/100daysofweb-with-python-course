@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+"""Module to abstract away the database setup and access code."""
+
 import random
 import string
 from typing import Dict, Optional
@@ -16,7 +20,7 @@ class DynamoTable(object):
 
     """
 
-    def __init__(self, table_name="urls"):
+    def __init__(self, table_name: str = "urls", local: bool = False):
         """
         Initialize a connected DynamoDB table.
 
@@ -24,15 +28,22 @@ class DynamoTable(object):
             table_name (str): (Optional) Name of the table on the Dynamo
                 Database to connect to. If no name is provided `urls` is used
                 by default.
+            local (bool): Whether to use a local instance of DynamoDB. If True,
+                the DynamoDB should be reachable at "http://localhost:8000".
+                Default is False.
 
         """
         self.table_name = table_name
         self.table = None
 
+        endpoint_url = None
+        if local:
+            endpoint_url = "http://localhost:8000"
+
         self.dynamodb = boto3.resource(
             "dynamodb",
-            region_name="us-west2",
-            endpoint_url="http://localhost:8000",
+            region_name="us-west-1",
+            endpoint_url=endpoint_url,
         )
 
         self.KEY_SCHEMA = [
@@ -119,16 +130,35 @@ class DynamoTable(object):
                 different HTTP status than 200.
 
         """
-        # TODO: Check for duplicate before creation.
         item = {
-            "short": random_string(),
             "long_url": long_url,
         }
-        response = self.table.put_item(Item=item)
+        item["short"] = self.get_short_of_long(long_url)
 
-        if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
-            raise RuntimeError
+        if item["short"] is None:
+            item["short"] = random_string()
+            response = self.table.put_item(Item=item)
+            if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
+                raise RuntimeError
         return item
+
+    def get_short_of_long(self, long_url: str) -> Optional[str]:
+        """
+        Get short key for given long URL.
+
+        Arguments:
+            long_url (str): Long URL to lookup in the database and for which
+                to return the short key.
+
+        Returns:
+            str: Short key for the given long URL.
+            None: If no short key was found, `None` is returned
+
+        """
+        response = self.table.scan(FilterExpression=Attr("long_url").eq(long_url))
+        if response["Count"] == 0:
+            return None
+        return response["Items"][0].get("short")
 
     def get_long_from_short(self, short: str) -> Optional[str]:
         """
