@@ -1,18 +1,28 @@
-from flask import Flask, redirect, abort
+from flask import Flask, request, redirect, abort, jsonify
 
 from short.db import DynamoTable
 
 app = Flask(__name__)
 
 
-@app.route("/")
-def hello():
-    return "Hello from Lambda!"
+# @app.route("/")
+# def hello():
+#     return "Hello from Lambda!"
 
 
-@app.route("/x")
-def exmple():
-    return redirect("http://example.com")
+# @app.route("/x")
+# def exmple():
+#     return redirect("http://example.com")
+
+
+@app.route("/create", methods=["POST"])
+def create():
+    table = DynamoTable()
+    long_url = request.form.get("long_url")
+    if not long_url:
+        abort(400)
+    response = table.save_long_url(long_url)
+    return jsonify(response)
 
 
 @app.route("/<shortlink>")
