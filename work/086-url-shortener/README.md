@@ -39,3 +39,27 @@ Run the tests simply with
 ```shell
 pytest
 ```
+
+
+### Deployment
+
+This requires that AWS certificate for authentication and authorization is installed on the machine from which you are deploying. See this guide to setup AWS credential on your machine: https://aws.amazon.com/blogs/security/a-new-and-standardized-way-to-manage-credentials-in-the-aws-sdks/
+
+Once this is in place, the initial deployment can be done with Zappa like so:
+```shell
+$ zappa deploy production
+Deploying..
+Your application is now live at: https://7k6anj0k99.execute-api.us-east-1.amazonaws.com/production
+```
+
+For development deployment, use `dev` instead of `production`. 
+
+To an updated version of the Lambda function use:
+```shell
+$ zappa update production
+Updating..
+Your application is now live at: https://7k6anj0k99.execute-api.us-east-1.amazonaws.com/production
+```
+
+For more info, see the [Zappa README on GitHub](https://github.com/Miserlou/Zappa)
+
