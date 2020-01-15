@@ -11,7 +11,48 @@ def table_connection():
     table_connection_for_testing.table.delete()
 
 
-def test_saving_a_long_url_returns_dict(table_connection):
-    response = table_connection.save_long_url("http://example.com")
+@pytest.fixture
+def example_entry(table_connection):
+    return table_connection.save_long_url("http://example.com")
 
-    assert isinstance(response, dict)
+
+class TestSaveMethod(object):
+    def test_returns_dict(self, table_connection):
+        response = table_connection.save_long_url("http://example.com")
+
+        assert isinstance(response, dict)
+
+    def test_returned_dict_keys(self, table_connection):
+        response = table_connection.save_long_url("http://example.com")
+
+        assert "short" in response.keys()
+        assert "long_url" in response.keys()
+
+    def test_value_of_short(self, table_connection):
+        response = table_connection.save_long_url("http://example.com")
+
+        short_value = response["short"]
+        assert isinstance(short_value, str)
+        assert len(short_value) == 4
+
+
+class TestGetShortOfLongMethod(object):
+    def test_finds_short_for_given_long_url(
+        self,
+        table_connection,
+        example_entry,
+    ):
+        short = table_connection.get_short_of_long("http://example.com")
+
+        assert short == example_entry["short"]
+
+
+class TestGetLongFromShortMethod(object):
+    def test_finds_saved_long_from_given_short(
+        self,
+        table_connection,
+        example_entry,
+    ):
+        long_url = table_connection.get_long_from_short(example_entry["short"])
+
+        assert long_url == example_entry["long_url"]
