@@ -20,7 +20,7 @@ class DynamoTable(object):
 
     """
 
-    def __init__(self, table_name="urls"):
+    def __init__(self, table_name: str = "urls", local: bool = False):
         """
         Initialize a connected DynamoDB table.
 
@@ -28,15 +28,22 @@ class DynamoTable(object):
             table_name (str): (Optional) Name of the table on the Dynamo
                 Database to connect to. If no name is provided `urls` is used
                 by default.
+            local (bool): Whether to use a local instance of DynamoDB. If True,
+                the DynamoDB should be reachable at "http://localhost:8000".
+                Default is False.
 
         """
         self.table_name = table_name
         self.table = None
 
+        endpoint_url = None
+        if local:
+            endpoint_url = "http://localhost:8000"
+
         self.dynamodb = boto3.resource(
             "dynamodb",
             region_name="us-west2",
-            endpoint_url="http://localhost:8000",
+            endpoint_url=endpoint_url,
         )
 
         self.KEY_SCHEMA = [

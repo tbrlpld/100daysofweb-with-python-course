@@ -1,5 +1,6 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, abort
 
+from short.db import DynamoTable
 
 app = Flask(__name__)
 
@@ -16,4 +17,8 @@ def exmple():
 
 @app.route("/<shortlink>")
 def redirect_to_long(shortlink):
-    return f"You requested the shortlink: {shortlink}"
+    table = DynamoTable()
+    long_url = table.get_long_from_short(shortlink)
+    if not long_url:
+        abort(404)
+    return redirect(long_url)

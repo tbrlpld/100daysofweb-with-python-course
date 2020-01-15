@@ -4,7 +4,7 @@ import pytest
 @pytest.fixture
 def table_connection():
     from short.db import DynamoTable
-    table_connection_for_testing = DynamoTable("testing")
+    table_connection_for_testing = DynamoTable("testing", local=True)
 
     yield table_connection_for_testing
 
