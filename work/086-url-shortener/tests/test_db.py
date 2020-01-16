@@ -56,6 +56,14 @@ class TestSaveMethod(object):
 
         assert short_1 != short_2
 
+    def test_trailing_newlines_are_stipped_from_long_url(
+        self,
+        table_connection
+    ):
+        response = table_connection.save_long_url("http://example.com\n")
+
+        assert response["long_url"] == "http://example.com"
+
 
 class TestGetShortOfLongMethod(object):
     def test_finds_short_for_given_long_url(

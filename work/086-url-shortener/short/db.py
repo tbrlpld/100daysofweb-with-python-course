@@ -131,7 +131,7 @@ class DynamoTable(object):
 
         """
         item = {
-            "long_url": long_url,
+            "long_url": long_url.strip(),
         }
         item["short"] = self.get_short_of_long(long_url)
 
@@ -155,7 +155,9 @@ class DynamoTable(object):
             None: If no short key was found, `None` is returned
 
         """
-        response = self.table.scan(FilterExpression=Attr("long_url").eq(long_url))
+        response = self.table.scan(
+            FilterExpression=Attr("long_url").eq(long_url),
+        )
         if response["Count"] == 0:
             return None
         return response["Items"][0].get("short")
