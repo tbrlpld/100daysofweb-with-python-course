@@ -47,7 +47,7 @@ def dbresponse_for_long_url(long_url):
     table = DynamoTable()
     if not long_url:
         abort(400)
-    dbresponse = table.save_long_url(long_url)
+    dbresponse = table.save_long_url(long_url.strip())
     dbresponse["short"] = urljoin(request.host_url, dbresponse["short"])
     return dbresponse
 
@@ -58,4 +58,4 @@ def redirect_to_long(shortlink):
     long_url = table.get_long_from_short(shortlink)
     if not long_url:
         abort(404)
-    return redirect(long_url)
+    return redirect(long_url.strip())

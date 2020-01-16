@@ -15,7 +15,7 @@ with open("requirements-dev.txt") as f:
 
 setup(
     name='URL Shortener',
-    version='1.0',
+    version='1.1',
     description='Simple URL shortener to be hosted on AWS Lambda',
     author='Tibor Leupold',
     author_email='tibor@lpld.io',
