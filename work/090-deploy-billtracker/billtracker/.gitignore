@@ -1,21 +1,177 @@
-*.egg
-*.egg-info
-*.pyc
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 *$py.class
-*~
-.coverage
-coverage.xml
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
 build/
+develop-eggs/
 dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+config.py
+config/
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
 .tox/
+.coverage
+.coverage.*
+.cache
 nosetests.xml
-env*/
-tmp/
-Data.fs*
-*.sublime-project
-*.sublime-workspace
-.*.sw?
-.sw?
-.DS_Store
-coverage
-test
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+**.sqlite3
+**.sqlite
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+
+# PyCharm
+misc.xml
+modules.xml
+workspace.xml
+async_cityscape_api.iml
+days/033-036-sqlalchemy-orm/demo/hovershare_app_final/.idea/hovershare_app_final.iml
+days/033-036-sqlalchemy-orm/demo/hovershare_app_final/.idea/vcs.xml
+hovershare_app_starter.iml
+dataSources.local.xml
+days/033-036-sqlalchemy-orm/demo/hovershare_app_final/.idea/dataSources/2917fd74-e5af-4af5-8ce4-874420797c8c.xml
+days/033-036-sqlalchemy-orm/demo/hovershare_app_final/.idea/dataSources/2917fd74-e5af-4af5-8ce4-874420797c8c/storage_v2/_src_/schema/main.uQUzAA.meta
+hover_share.sqlite
+dataSources.xml
+days/021-024-quart-async/async_cityscape_api/.idea/inspectionProfiles/Project_Default.xml
+days/021-024-quart-async/cityscape_api/.idea/cityscape_api.iml
+days/021-024-quart-async/cityscape_api/.idea/vcs.xml
+days/021-024-quart-async/cityscape_api/.idea/inspectionProfiles/Project_Default.xml
+profiles_settings.xml
+days/037-40-pyramid-intro/demo/billtracker/.idea/billtracker.iml
+days/037-40-pyramid-intro/demo/billtracker/.idea/vcs.xml
+days/037-40-pyramid-intro/demo/billtracker/.idea/webResources.xml
+c5aeadf2-a8ba-4a9c-bf00-4b6a8af55f18.xml
+main.uQUzAA.meta
+bill_tracker.sqlite
+days/061-064-db-migrations/demo/billtracker/.idea/billtracker.iml
+days/061-064-db-migrations/demo/billtracker/.idea/encodings.xml
+days/061-064-db-migrations/demo/billtracker/.idea/vcs.xml
+days/061-064-db-migrations/demo/billtracker/.idea/webResources.xml
+days/061-064-db-migrations/demo/billtracker/.idea/dictionaries/screencaster.xml
+days/081-084-unit-testing/demo/billtracker/.idea/billtracker.iml
+days/081-084-unit-testing/demo/billtracker/.idea/encodings.xml
+days/081-084-unit-testing/demo/billtracker/.idea/webResources.xml
+days/081-084-unit-testing/your-turn/billtracker_with_viewmodels/billtracker/.idea/billtracker.iml
+days/081-084-unit-testing/your-turn/billtracker_with_viewmodels/billtracker/.idea/encodings.xml
+days/081-084-unit-testing/your-turn/billtracker_with_viewmodels/billtracker/.idea/vcs.xml
+days/081-084-unit-testing/your-turn/billtracker_with_viewmodels/billtracker/.idea/inspectionProfiles/Project_Default.xml
+Project_Default.xml
+days/089-092-deployment/demo/billtracker/.idea/billtracker.iml
+days/089-092-deployment/demo/billtracker/.idea/encodings.xml
+days/089-092-deployment/demo/billtracker/.idea/vcs.xml
+days/089-092-deployment/demo/billtracker/.idea/.name
+days/089-092-deployment/demo/billtracker/.idea/deploy billtracker.iml
+days/089-092-deployment/demo/billtracker/.idea/webResources.xml
+screencaster.xml
+days/050-responder/demo/movie_svc/.idea/encodings.xml
+days/050-responder/demo/movie_svc/.idea/movie_svc.iml
+days/050-responder/demo/movie_svc/.idea/vcs.xml
+vcs.xml
+days/093-096-vuejs/movie_exploder/.idea/encodings.xml
+days/093-096-vuejs/movie_exploder/.idea/movie_exploder.iml
+days/093-096-vuejs/movie_exploder/node_modules
+days/093-096-vuejs/movie_exploder/.idea/jsLibraryMappings.xml
+days/093-096-vuejs/movie_exploder/.idea/dictionaries/mkennedy.xml
+.idea/encodings.xml
+.idea/web100-demos.iml
+.idea/dictionaries/mkennedy.xml
+days/050-responder/demo/movie_svc/Pipfile
+days/050-responder/demo/movie_svc/Pipfile.lock
+days/050-responder/.idea/050-responder.iml
+days/050-responder/.idea/encodings.xml
+097-100-docker.iml
+days/097-100-docker/.idea/encodings.xml
+days/097-100-docker/.idea/webResources.xml
+yahoo_clone.iml
+signup.iml
+days/013-016-css-basics/demos/selectorville/.idea/encodings.xml
+days/013-016-css-basics/demos/selectorville/.idea/selectorville.iml
+**.DS_Store
+days/041-044-react/**node_modules

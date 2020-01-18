@@ -3,8 +3,8 @@ Description=uWSGI Bill Tracker server instance
 After=syslog.target
 
 [Service]
-ExecStart=/webapps/venv/bin/uwsgi -H /webapps/venv --ini-paste /webapps/app_repo/days/089-092-deployment/demo/billtracker/production.ini
-RuntimeDirectory=/webapps/app_repo/days/089-092-deployment/demo/billtracker/
+ExecStart=/srv/webapp/venv/bin/uwsgi -H /srv/webapp/venv --ini-paste /srv/webapp/billtracker-deploy/production.ini
+RuntimeDirectory=/srv/webapp/billtracker-deploy/
 Restart=always
 KillSignal=SIGQUIT
 Type=notify
