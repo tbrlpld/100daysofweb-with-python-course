@@ -2,7 +2,9 @@
 
 new Vue({
   el: "#app",
-  data:{
+  data: {
     search_text: null,
+    movies: dummy_movies.hits,
+    genres: dummy_genres,
   },
 })

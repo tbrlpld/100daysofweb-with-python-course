@@ -22,12 +22,21 @@
           v-model="search_text"
           >
         <div>{{ search_text }}</div>
+        <div class="subcontrols">
+          <a href="">Top 10</a>
+        </div>
+      </div>
+      <div class="movies">
+        <div class="movie" v-for="m in movies">
+          <div class="title">{{ m.title }}</div>
+        </div>
       </div>
     </main>
   </div>
   <script src="../node_modules/vue/dist/vue.min.js"></script>
   <!--jQuery: For the CSS dropdown only-->
   <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../js/dummy_data.js"></script>
   <script src="../js/site.js"></script>
 </body>
 
