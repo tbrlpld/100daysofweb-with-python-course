@@ -7,4 +7,10 @@ new Vue({
     movies: dummy_movies.hits,
     genres: dummy_genres,
   },
+  methods: {
+    search: function () {
+      const text = this.search_text
+      console.log("Seached for: " + text)
+    },
+  }
 })
