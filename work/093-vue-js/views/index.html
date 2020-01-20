@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Your Movie Exploder!</title>
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="../css/site.css">
 </head>
 
@@ -14,8 +14,15 @@
     <h1>Movie Exploder</h1>
     <!-- Add your code here -->
     <main>
-      <input type="text" name="search_text" v-model="search_text">
-      {{ search_text }}
+      <div class="controls">
+        <input
+          class="form-control"
+          type="text"
+          name="search_text"
+          v-model="search_text"
+          >
+        <div>{{ search_text }}</div>
+      </div>
     </main>
   </div>
   <script src="../node_modules/vue/dist/vue.min.js"></script>
