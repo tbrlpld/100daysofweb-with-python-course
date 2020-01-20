@@ -1,11 +1,12 @@
 module.exports = {
     "extends": "eslint:recommended",
+    "parserOptions": { "ecmaVersion": 6 },
     "rules": {
         // enable additional rules
         // "indent": ["error", 4],
         // "linebreak-style": ["error", "unix"],
         "quotes": ["error", "double"],
-        "semi": ["error", "always"],
+        "semi": ["error", "never"],
 
         // override default options for rules from base configurations
         "comma-dangle": ["error", "always"],
