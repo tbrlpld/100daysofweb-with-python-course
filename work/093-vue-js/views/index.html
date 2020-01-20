@@ -28,7 +28,17 @@
       </div>
       <div class="movies">
         <div class="movie" v-for="m in movies">
-          <div class="title">{{ m.title }}</div>
+          <div class="title">
+            {{ m.title }}
+          </div>
+          <div class="attributes">
+            <span class="year" v-if="m.year > 0">{{ m.year }},</span>
+            <span class="rating" v-if="m.rating">Rated {{ m.rating }},</span>
+            <span class="score" v-if="m.imdb_score">Score {{ m.imdb_score }}</span>
+          </div>
+          <div class="genres">
+            <span class="badge" v-for="genre in m.genres">{{ genre }}</span>
+          </div>
         </div>
       </div>
     </main>
