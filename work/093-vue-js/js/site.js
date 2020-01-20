@@ -18,5 +18,9 @@ new Vue({
     top10: function () {
       console.log("Show top 10.")
     },
+    select_genre: function () {
+      const genre = this.selected_genre
+      console.log("Selected genre: " + genre)
+    }
   },
 })

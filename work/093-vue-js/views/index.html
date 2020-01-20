@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Your Movie Exploder!</title>
   <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/dropdown.css">
   <link rel="stylesheet" href="../css/site.css">
 </head>
 
@@ -26,7 +27,7 @@
         <div class="subcontrols">
           <a class="top_10" @click="top10()">Top 10</a>
 
-          <select v-model="selected_genre">
+          <select v-model="selected_genre" @change="select_genre()">
             <option v-for="genre in genres">{{ genre }}</option>
           </select>
         </div>
