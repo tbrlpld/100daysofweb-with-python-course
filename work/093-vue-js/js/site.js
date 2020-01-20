@@ -1,11 +1,14 @@
 // Write your Vue JavaScript code here.
 
+genre_options = () => ["Select movie genre"].concat(dummy_genres)
+
 new Vue({
   el: "#app",
   data: {
     search_text: null,
     movies: dummy_movies.hits,
-    genres: dummy_genres,
+    genres: genre_options(),
+    selected_genre: genre_options()[0],
   },
   methods: {
     search: function () {

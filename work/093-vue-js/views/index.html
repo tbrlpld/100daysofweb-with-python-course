@@ -25,6 +25,10 @@
         <!-- <div>{{ search_text }}</div> -->
         <div class="subcontrols">
           <a class="top_10" @click="top10()">Top 10</a>
+
+          <select v-model="selected_genre">
+            <option v-for="genre in genres">{{ genre }}</option>
+          </select>
         </div>
       </div>
       <div class="movies">
