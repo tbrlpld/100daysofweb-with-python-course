@@ -22,9 +22,9 @@
           v-model="search_text"
           @keyup.enter="search()"
           >
-        <div>{{ search_text }}</div>
+        <!-- <div>{{ search_text }}</div> -->
         <div class="subcontrols">
-          <a href="">Top 10</a>
+          <a class="top_10" @click="top10()">Top 10</a>
         </div>
       </div>
       <div class="movies">

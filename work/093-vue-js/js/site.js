@@ -12,5 +12,8 @@ new Vue({
       const text = this.search_text
       console.log("Seached for: " + text)
     },
-  }
+    top10: function () {
+      console.log("Show top 10.")
+    },
+  },
 })
