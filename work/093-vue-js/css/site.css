@@ -1,13 +1,12 @@
 
 body {
     background-color: #6dacc2;
-    color: black;
+    color: #333;
 }
 
 .card {
     background-color: white;
     margin: 50px 100px;
-    font-size: 14px;
     padding: 20px 20px 100px;
 }
 

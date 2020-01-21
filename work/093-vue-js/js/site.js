@@ -8,7 +8,7 @@ app = new Vue({
   el: "#app",
   data: {
     search_text: null,
-    movies: dummy_movies.hits,
+    movies: [],
     genres: [SELECT_GENRE_TEXT],
     selected_genre: SELECT_GENRE_TEXT,
   },
@@ -17,6 +17,7 @@ app = new Vue({
       console.log("initilizing")
       this.load_all_genres()
       this.selected_genre = SELECT_GENRE_TEXT
+      this.top10()
     },
     search: function () {
       const text = this.search_text
