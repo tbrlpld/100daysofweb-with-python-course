@@ -1,7 +1,7 @@
 /* https://freefrontend.com/css-select-boxes/ */
 
 .typo, .list a {
-    font-size: 60px;
+    /*font-size: 60px;*/
     font-weight: 700;
     font-family: 'Source Sans Pro', sans-serif;
     color: #585858;
@@ -9,7 +9,7 @@
 }
 
 .typo option, .list a option {
-    font-size: 30px;
+    /*font-size: 30px;*/
 }
 
 .transition {
@@ -20,7 +20,7 @@
 .wrapper {
     padding-top: 150px;
     height: 100vh;
-    font-size: 60px;
+    /*font-size: 60px;*/
 }
 
 .list {
@@ -90,7 +90,7 @@ select {
     color: #666666;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-    font-size: 25px;
+    /*font-size: 25px;*/
     text-align: center;
 }
 
