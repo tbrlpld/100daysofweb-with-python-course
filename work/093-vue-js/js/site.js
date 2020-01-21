@@ -21,7 +21,7 @@ app = new Vue({
     },
     search: function () {
       const text = this.search_text
-      // console.log("Seached for: " + text)
+      this.resetGenre()
       this.load_movies("search/" + text)
     },
     top10: function () {
