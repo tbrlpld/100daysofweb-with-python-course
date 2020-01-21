@@ -19,7 +19,8 @@ new Vue({
       this.load_movies("search/" + text)
     },
     top10: function () {
-      console.log("Show top 10.")
+      // console.log("Show top 10.")
+      this.load_movies("movie/top")
     },
     select_genre: function () {
       const genre = this.selected_genre
