@@ -5,7 +5,6 @@ module.exports = {
         // enable additional rules
         // "indent": ["error", 4],
         // "linebreak-style": ["error", "unix"],
-        "quotes": ["error", "double"],
         "semi": ["error", "never"],
 
         // override default options for rules from base configurations
