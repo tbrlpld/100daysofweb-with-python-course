@@ -26,6 +26,7 @@ app = new Vue({
     top10: function () {
       // console.log("Show top 10.")
       this.clearInput()
+      this.resetGenre()
       this.load_movies("movie/top")
     },
     load_movies: function (endpoint) {
@@ -52,11 +53,14 @@ app = new Vue({
         })
     },
     select_genre: function () {
-      const genre = this.selected_genre
-      console.log("Selected genre: " + genre)
+      this.clearInput()
+      this.load_movies("movie/genre/" + this.selected_genre )
     },
     clearInput: function () {
       this.search_text = null
+    },
+    resetGenre: function () {
+     this.selected_genre = SELECT_GENRE_TEXT
     },
   },
 })
