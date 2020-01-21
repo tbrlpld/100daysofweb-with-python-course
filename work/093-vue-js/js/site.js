@@ -2,17 +2,22 @@
 
 
 const API_BASE_URL = "http://movie_service.talkpython.fm/api/"
-const genre_options = () => ["Select movie genre",].concat(dummy_genres)
+const SELECT_GENRE_TEXT = "Top movies by genre"
 
-new Vue({
+app = new Vue({
   el: "#app",
   data: {
     search_text: null,
     movies: dummy_movies.hits,
-    genres: genre_options(),
-    selected_genre: genre_options()[0],
+    genres: [SELECT_GENRE_TEXT],
+    selected_genre: SELECT_GENRE_TEXT,
   },
   methods: {
+    init: function () {
+      console.log("initilizing")
+      this.load_all_genres()
+      this.selected_genre = SELECT_GENRE_TEXT
+    },
     search: function () {
       const text = this.search_text
       // console.log("Seached for: " + text)
@@ -22,10 +27,6 @@ new Vue({
       // console.log("Show top 10.")
       this.clearInput()
       this.load_movies("movie/top")
-    },
-    select_genre: function () {
-      const genre = this.selected_genre
-      console.log("Selected genre: " + genre)
     },
     load_movies: function (endpoint) {
       const app_obj = this
@@ -38,8 +39,26 @@ new Vue({
           console.log("ERROR: " + error)
         })
     },
+    load_all_genres: function () {
+      const app_obj = this
+      axios.get(API_BASE_URL + "movie/genre/all")
+        .then(function (response) {
+          let genres = response.data
+          genres.unshift(SELECT_GENRE_TEXT)
+          app_obj.genres = genres
+        })
+        .catch(function (error) {
+          console.log("ERROR: " + error)
+        })
+    },
+    select_genre: function () {
+      const genre = this.selected_genre
+      console.log("Selected genre: " + genre)
+    },
     clearInput: function () {
       this.search_text = null
     },
   },
 })
+
+app.init()
