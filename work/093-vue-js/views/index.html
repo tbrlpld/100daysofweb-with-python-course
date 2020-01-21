@@ -44,8 +44,9 @@
           </div>
           <div class="genres">
             <span
-              class="badge badge-info"
+              class="badge"
               v-for="genre in m.genres"
+              :class="[genre === selected_genre ? 'badge-success' : 'badge-info']"
               @click="selected_genre = genre; getGenreMovies()"
               >{{ genre }}</span>
           </div>
