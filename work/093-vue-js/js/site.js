@@ -52,9 +52,9 @@ app = new Vue({
           console.log("ERROR: " + error)
         })
     },
-    select_genre: function () {
+    getGenreMovies: function () {
       this.clearInput()
-      this.load_movies("movie/genre/" + this.selected_genre )
+      this.load_movies("movie/genre/" + this.selected_genre)
     },
     clearInput: function () {
       this.search_text = null

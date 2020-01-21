@@ -27,7 +27,7 @@
         <div class="subcontrols">
           <a class="top_10" @click="top10()">Top 10</a>
 
-          <select v-model="selected_genre" @change="select_genre()">
+          <select v-model="selected_genre" @change="getGenreMovies()">
             <option v-for="genre in genres">{{ genre }}</option>
           </select>
         </div>
@@ -43,7 +43,11 @@
             <span class="score" v-if="m.imdb_score">Score {{ m.imdb_score }}</span>
           </div>
           <div class="genres">
-            <span class="badge badge-info" v-for="genre in m.genres">{{ genre }}</span>
+            <span
+              class="badge badge-info"
+              v-for="genre in m.genres"
+              @click="selected_genre = genre; getGenreMovies()"
+              >{{ genre }}</span>
           </div>
         </div>
       </div>
