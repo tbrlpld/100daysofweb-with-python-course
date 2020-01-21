@@ -40,6 +40,7 @@ input.form-control {
 }
 .controls .subcontrols a:hover {
     text-decoration: none;
+    cursor: pointer;
 }
 
 .controls > * {
