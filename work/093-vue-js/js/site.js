@@ -20,6 +20,7 @@ new Vue({
     },
     top10: function () {
       // console.log("Show top 10.")
+      this.clearInput()
       this.load_movies("movie/top")
     },
     select_genre: function () {
@@ -36,6 +37,9 @@ new Vue({
         .catch(function (error) {
           console.log("ERROR: " + error)
         })
+    },
+    clearInput: function () {
+      this.search_text = null
     },
   },
 })
