@@ -81,17 +81,20 @@
 select {
     display: inline;
     border: 0;
+    border-radius: 0;
     width: auto;
     margin-left: 10px;
     outline: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    border-bottom: 2px solid #555;
-    color: #666666;
+    /*border-bottom: 2px solid #555;*/
+    color: inherit;
+    background-color: inherit; 
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-    /*font-size: 25px;*/
     text-align: center;
+    text-align-last: center; /* To center the selected option in the field (in chrome) */
+    padding: 0;
 }
 
 select:hover {
