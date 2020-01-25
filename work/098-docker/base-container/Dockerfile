@@ -6,6 +6,7 @@ RUN aptitude update -y && aptitude upgrade -y
 RUN aptitude install -y -q sudo 
 RUN aptitude install -y -q httpie 
 RUN aptitude install -y -q fail2ban
+RUN aptitude install -y -q nano
 
 # Create a new user. This is the user with which the container is started by default.
 # This user should be used for all application setup etc. 
