@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Your Movie Exploder!</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/dropdown.css">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+
+<body class="container">
+  <!-- This is the root of your app -->
+  <div class="card" id="app">
+    <h1 class="mb-3">Movie Exploder</h1>
+    <!-- Add your code here -->
+    <main>
+      <div class="controls">
+        <input
+          class="form-control"
+          type="text"
+          name="search_text"
+          v-model="search_text"
+          @keyup.enter="search()"
+          >
+        <!-- <div>{{ search_text }}</div> -->
+        <div class="subcontrols mt-2">
+          <a class="top_10" @click="top10()">Top 10</a>
+
+          <select v-model="selected_genre" @change="getGenreMovies()">
+            <option v-for="genre in genres">{{ genre }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="movies">
+        <div class="movie" v-for="m in movies">
+          <h2>
+            {{ m.title }}
+          </h2>
+          <div class="attributes">
+            <span class="year" v-if="m.year > 0">{{ m.year }},</span>
+            <span class="rating" v-if="m.rating">Rated {{ m.rating }},</span>
+            <span class="score" v-if="m.imdb_score">Score {{ m.imdb_score }}</span>
+          </div>
+          <div class="genres">
+            <span
+              class="mr-1 badge"
+              v-for="genre in m.genres"
+              :class="[genre === selected_genre ? 'badge-success' : 'badge-info']"
+              @click="selected_genre = genre; getGenreMovies()"
+              >{{ genre }}</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../node_modules/vue/dist/vue.min.js"></script>
+  <script src="../node_modules/axios/dist/axios.min.js"></script>
+  <!--jQuery: For the CSS dropdown only-->
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+
+</html>
