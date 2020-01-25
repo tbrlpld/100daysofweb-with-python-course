@@ -1,0 +1,18 @@
+{
+  "name": "your_movie_exploder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.1",
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {},
+  "description": ""
+}
