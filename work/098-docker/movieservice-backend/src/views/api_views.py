@@ -40,6 +40,30 @@ def search_director(_, resp, director_name: str):
     resp.media = {'keyword': director_name, 'hits': movies_dicts, 'truncated_results': limited}
 
 
+@api.route("/api/movie/top")
+def top_movies(_, resp: Response):
+    hits = db.movies_by_popularity()
+
+    limited = len(hits) > response_count_max
+    if limited:
+        hits = hits[:response_count_max]
+
+    hits_dicts = [
+        db.movie_to_dict(m)
+        for m in hits
+    ]
+
+    keyword = "top_{}".format(response_count_max)
+
+    resp.media = {'keyword': keyword, 'hits': hits_dicts, 'truncated_results': limited}
+
+
+@api.route("/api/movie/genre/all")
+def all_genres(_, resp: Response):
+    resp.media = db.all_genres()
+
+
+
 @api.route("/api/movie/genre/{genre}")
 def movies_by_genre(_, resp: Response, genre: str):
     hits = db.movies_by_genre(genre)
@@ -64,25 +88,3 @@ def search_imdb(_, resp, imdb_number: str):
 
     resp.media = db.movie_to_dict(movie)
 
-
-@api.route("/api/movie/top")
-def top_movies(_, resp: Response):
-    hits = db.movies_by_popularity()
-
-    limited = len(hits) > response_count_max
-    if limited:
-        hits = hits[:response_count_max]
-
-    hits_dicts = [
-        db.movie_to_dict(m)
-        for m in hits
-    ]
-
-    keyword = "top_{}".format(response_count_max)
-
-    resp.media = {'keyword': keyword, 'hits': hits_dicts, 'truncated_results': limited}
-
-
-@api.route("/api/movie/genre/all")
-def all_genres(_, resp: Response):
-    resp.media = db.all_genres()
