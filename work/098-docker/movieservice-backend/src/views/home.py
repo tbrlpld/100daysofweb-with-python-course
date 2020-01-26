@@ -1,12 +1,6 @@
-# -*- coding: utf-8 -*-
-
-"""Define landing page views."""
-
-import responder
-
-from api import api
+from app_instance import api
 
 
 @api.route("/")
-def index(_, response: responder.Response) -> None:
-    response.html = api.template("/index.html", recreator="Tibor")
+def index(req, resp):
+    resp.content = api.template('home/index.html')

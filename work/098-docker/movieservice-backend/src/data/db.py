@@ -4,6 +4,8 @@ import collections
 from typing import List
 
 __movie_data = dict()
+__genres = collections.defaultdict(list)
+__top_movies = list()
 
 Movie = collections.namedtuple(
     'Movie',
@@ -30,7 +32,7 @@ def movie_to_dict(m: Movie):
     return d
 
 
-def find_by_imdb(imdb_code: str) -> Movie:
+def find_by_imdb(imdb_code: str) -> List[Movie]:
     global __movie_data
     movie = __movie_data.get(imdb_code)
     return movie
@@ -86,8 +88,35 @@ def search_director(director: str) -> List[Movie]:
     return hits
 
 
+def all_genres() -> List[str]:
+    global __genres
+
+    genre_names = [key for key in __genres]
+    genre_names.sort(key=lambda n: n)
+
+    return genre_names
+
+
+def movies_by_genre(genre: str) -> List[Movie]:
+    global __genres
+
+    if not genre:
+        return []
+
+    genre = genre.lower().strip()
+    return __genres.get(genre, [])
+
+
+def movies_by_popularity() -> List[Movie]:
+    return list(__top_movies)
+
+
 def global_init():
     global __movie_data
+
+    if __movie_data:
+        return
+
     folder = os.path.dirname(__file__)
     file = os.path.join(folder, 'movies.csv')
 
@@ -110,6 +139,35 @@ def global_init():
             year=__make_numerical(row.get('title_year', 0))
         )
         __movie_data[m.imdb_code] = m
+
+    __build_genres()
+    __build_top_movies()
+
+
+def __build_top_movies():
+    global __movie_data, __top_movies
+    if __top_movies:
+        return
+
+    # Sort by score so top ranked movies appear first.
+    __top_movies = list(__movie_data.values())
+    __top_movies.sort(key=lambda mv: mv.imdb_score, reverse=True)
+
+
+def __build_genres():
+    global __movie_data, __genres
+    if __genres:
+        return
+
+    m: Movie = None
+    for m in __movie_data.values():
+        for g in m.genres:
+            __genres[g.lower().strip()].append(m)
+
+    # Sort by score so we can easily get top 10 of any category.
+    for _, movies in __genres.items():
+        movies.sort(key=lambda mv: mv.imdb_score, reverse=True)
+        # print(genre, [m.imdb_score for m in movies])
 
 
 def __make_numerical(text):

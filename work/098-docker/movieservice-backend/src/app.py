@@ -1,17 +1,9 @@
-# -*- coding: utf-8 -*-
-
-"""Simple responder app for an API with a landing page."""
-
-from api import api
+# noinspection PyUnresolvedReferences
+from app_instance import api
+from routes import *
 from data import db
-from views.home import *
-from views.endpoints import *
+
+db.global_init()
 
 
-def main():
-    db.global_init()
-    api.run()
-
-
-if __name__ == "__main__":
-    main()
+api.run(port=7007, address="0.0.0.0")
