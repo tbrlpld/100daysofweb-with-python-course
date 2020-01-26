@@ -17,9 +17,10 @@ RUN chown -R docker:docker /venv
 # From here on nothing needs root privileges anymore
 USER docker
 WORKDIR /app
-COPY ./src/ /app
 RUN python3 -m venv /venv
 RUN /venv/bin/python -m pip install -U pip setuptools
 RUN /venv/bin/python -m pip install -r requirements.txt
+
+COPY ./src/ /app
 
 ENTRYPOINT /venv/bin/python app.py
