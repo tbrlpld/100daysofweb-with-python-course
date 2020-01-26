@@ -1,7 +1,8 @@
 // Write your Vue JavaScript code here.
 
 
-const API_BASE_URL = "http://movie_service.talkpython.fm/api/"
+// const API_BASE_URL = "http://movie_service.talkpython.fm/api/"
+const API_BASE_URL = "http://localhost:7007/api/"
 const SELECT_GENRE_TEXT = "Top movies by genre"
 
 app = new Vue({

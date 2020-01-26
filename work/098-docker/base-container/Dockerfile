@@ -12,5 +12,5 @@ RUN aptitude install -y -q nano
 # This user should be used for all application setup etc. 
 # If you need root access, you can start the container with -U root. 
 # Or for following installations/admin actions switch back to root before and back after. 
-RUN useradd -s /bin/bash docker
+RUN useradd -m -s /bin/bash docker
 USER docker

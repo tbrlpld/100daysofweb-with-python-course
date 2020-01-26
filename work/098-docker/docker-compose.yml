@@ -1,0 +1,21 @@
+version: "3"
+services:
+    base:
+        build: ./base-container/
+        image: tbrlpld/ubuntu:latest
+    frontend:
+        build: ./movieservice-frontend/
+        image: movieservice/frontend:latest
+        depends_on:
+            - base
+            - backend
+        ports: 
+            - "80:8080"
+    backend:
+        build: ./movieservice-backend/
+        image: movieservice/backend:latest
+        command: /venv/bin/python app.py 1> app.log 2> app.err
+        depends_on:
+            - base
+        ports: 
+            - "7007:7007"   
