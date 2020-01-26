@@ -30,7 +30,7 @@ body {
     text-align: center;
 }
 
-.controls .subcontrols * {
+.controls .subcontrols > * {
     border-bottom: 2px solid #555;    
     display: inline-block;
 }
