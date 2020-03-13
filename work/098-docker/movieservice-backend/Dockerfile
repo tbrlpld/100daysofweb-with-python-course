@@ -19,8 +19,11 @@ USER docker
 WORKDIR /app
 RUN python3 -m venv /venv
 RUN /venv/bin/python -m pip install -U pip setuptools
+# The requirements need to be available before the whole source is copied, because the source will change frequently, while the requirements might stay the same for longer periods during development.
+COPY ./src/requirements.txt /app  
 RUN /venv/bin/python -m pip install -r requirements.txt
 
 COPY ./src/ /app
 
 ENTRYPOINT /venv/bin/python app.py
+EXPOSE 7007

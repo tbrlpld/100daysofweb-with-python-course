@@ -25,3 +25,4 @@ WORKDIR /app
 USER www-data
 
 ENTRYPOINT /usr/sbin/nginx -g "daemon off;"
+EXPOSE 8080
