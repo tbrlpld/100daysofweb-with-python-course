@@ -1,7 +1,7 @@
 version: "3"
 services:
     base:
-        build: ./base-container/
+        # build: /Users/tibor/2-Areas/Dev/docker/tbrlpld/ubuntu/
         image: tbrlpld/ubuntu:latest
     frontend:
         build: ./movieservice-frontend/
@@ -18,4 +18,6 @@ services:
         depends_on:
             - base
         ports: 
-            - "7007:7007"   
+            - "7007:7007"
+        volumes:
+            - ./movieservice-backend/src/:/app
