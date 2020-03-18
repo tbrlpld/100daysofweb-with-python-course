@@ -1,0 +1,15 @@
+certifi==2019.9.11
+chardet==3.0.4
+Click==7.0
+Flask==1.1.1
+gunicorn==19.9.0
+idna==2.8
+itsdangerous==1.1.0
+Jinja2==2.10.3
+-e git+git@github.com:tbrlpld/100daysofweb-with-python-course.git@31354019290b55a7b5192c446e74d880438a865d#egg=log100days&subdirectory=work/003-flask-from-scratch
+markdown2==2.3.8
+MarkupSafe==1.1.1
+python-dotenv==0.10.3
+requests==2.22.0
+urllib3==1.25.6
+Werkzeug==0.16.0
