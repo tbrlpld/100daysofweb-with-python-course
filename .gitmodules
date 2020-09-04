@@ -4,3 +4,6 @@
 [submodule "work/024-log100days-quart"]
 	path = work/024-log100days-quart
 	url = https://github.com/tbrlpld/log100days
+[submodule "work/086-url-shortener"]
+	path = work/086-url-shortener
+	url = https://github.com/tbrlpld/short
