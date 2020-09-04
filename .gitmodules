@@ -1,3 +1,6 @@
 [submodule "work/029-static-site/blog.lpld.io"]
 	path = work/029-static-site/blog.lpld.io
 	url = git@github.com:tbrlpld/blog.lpld.io.git
+[submodule "work/024-log100days-quart"]
+	path = work/024-log100days-quart
+	url = https://github.com/tbrlpld/log100days
