@@ -1,1 +1,0 @@
-Project moved to separate repo: https://github.com/tbrlpld/logtweet
