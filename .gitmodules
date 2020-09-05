@@ -7,3 +7,6 @@
 [submodule "work/086-url-shortener"]
 	path = work/086-url-shortener
 	url = https://github.com/tbrlpld/short
+[submodule "work/078-twitter-bot"]
+	path = work/078-twitter-bot
+	url = https://github.com/tbrlpld/logtweet
