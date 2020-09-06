@@ -10,3 +10,6 @@
 [submodule "work/078-twitter-bot"]
 	path = work/078-twitter-bot
 	url = https://github.com/tbrlpld/logtweet
+[submodule "work/044-react-tictactoe"]
+	path = work/044-react-tictactoe
+	url = git@github.com:tbrlpld/tictactoe.git
