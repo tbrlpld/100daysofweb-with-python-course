@@ -13,3 +13,6 @@
 [submodule "work/044-react-tictactoe"]
 	path = work/044-react-tictactoe
 	url = git@github.com:tbrlpld/tictactoe.git
+[submodule "work/029-static-blog"]
+	path = work/029-static-blog
+	url = git@github.com:tbrlpld/blog.git
